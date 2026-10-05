@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for coding agents.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Talos">
+<meta property="og:description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for coding agents.">
+<meta property="og:url" content="https://talos-ai.org/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Talos</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..600&amp;display=swap">
+<style>
+/* Layout: a quiet spec sheet. Small labels in a narrow left column, content on the right, hairlines between sections.
+   The first screen sits on slow-moving columns of task files and agent logs, faded toward the text. One typeface; bronze only in the mark and links. */
+:root {
+  color-scheme: dark;
+  --ink: #0E0F11;        /* page ground */
+  --rule: #26292E;       /* hairlines */
+  --paper: #F3F2EE;      /* headings, mark, button */
+  --white: #FFFFFF;      /* button hover */
+  --text: #BDBBB4;       /* body copy */
+  --muted: #8E8C86;      /* labels, footer, background code */
+  --bronze: #B0713A;     /* mark core, link underline, code keywords */
+  --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --code: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --gutter: clamp(16px, 5vw, 64px);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--ink); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  padding-inline: var(--gutter);
+  padding-block: 0;
+}
+img, svg { max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: var(--paper); text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; border-radius: 2px; }
+.wrap { max-width: 1120px; margin-inline: auto; }
+
+/* first screen: full-bleed band with moving task files behind the header and hero */
+.first { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+.code-bg {
+  position: absolute; inset: 0; z-index: -2;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;
+  padding-inline: var(--gutter);
+  opacity: 0.55; pointer-events: none; user-select: none;
+}
+.code-col { min-width: 0; overflow: hidden; }
+.track {
+  margin: 0; color: var(--muted); font: 12.5px/1.8 var(--code); white-space: pre;
+  animation: scroll-up 120s linear infinite; will-change: transform;
+}
+.track.down { animation-name: scroll-down; }
+.c2 { animation-duration: 150s; }
+.c3 { animation-duration: 100s; }
+.c4 { animation-duration: 135s; }
+.track .k { color: var(--bronze); }
+.track .a { color: var(--paper); }
+@keyframes scroll-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes scroll-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.first::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--ink) 0%, transparent 24%, transparent 64%, var(--ink) 100%),
+    linear-gradient(to right, var(--ink) 0%, color-mix(in srgb, var(--ink) 80%, transparent) 40%, color-mix(in srgb, var(--ink) 15%, transparent) 100%);
+}
+@media (prefers-reduced-motion: reduce) { .track { animation: none; } }
+
+.site { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; }
+.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--paper); text-decoration: none; }
+.brand svg { width: 24px; height: 24px; flex: none; }
+.brand span { font-size: 15px; font-weight: 600; font-stretch: 125%; letter-spacing: 0.1em; line-height: 1; }
+.site nav { display: flex; gap: 28px; font-size: 14px; }
+.site nav a { color: var(--muted); text-decoration: none; padding-block: 10px; }
+.site nav a:hover { color: var(--paper); }
+
+.arc { fill: none; stroke: var(--paper); stroke-width: 6; stroke-linecap: round; }
+.core { fill: var(--bronze); }
+
+.hero { padding-block: clamp(72px, 13vw, 168px) clamp(80px, 11vw, 144px); }
+h1 {
+  margin: 0;
+  max-width: 15em;
+  color: var(--paper);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 600;
+  font-stretch: 110%;
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+.lead { margin: 28px 0 0; max-width: 36em; font-size: clamp(17px, 1.4vw, 19px); }
+.btn {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 36px; padding: 0 22px;
+  border-radius: 3px; background: var(--paper); color: var(--ink);
+  font-size: 15px; font-weight: 600; text-decoration: none;
+}
+.btn:hover { background: var(--white); color: var(--ink); }
+
+.sec {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  gap: 16px 48px;
+  padding-block: clamp(48px, 7vw, 88px);
+  border-top: 1px solid var(--rule);
+}
+.label { margin: 0; color: var(--muted); font-size: 14px; font-weight: 400; letter-spacing: 0.02em; }
+.content { min-width: 0; }
+.content > p { margin: 0; max-width: 40em; }
+.content > p + p { margin-top: 16px; }
+
+.offer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin: 0; }
+.offer div { min-width: 0; }
+.offer dt { color: var(--paper); font-size: 18px; font-weight: 600; font-stretch: 105%; }
+.offer dd { margin: 8px 0 0; }
+
+.email { font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; font-stretch: 105%; overflow-wrap: anywhere; }
+
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 32px 48px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+.foot a { color: var(--muted); text-decoration: none; }
+.foot a:hover { color: var(--paper); }
+
+@media (max-width: 900px) {
+  .offer { grid-template-columns: minmax(0, 1fr); max-width: 40em; }
+}
+@media (max-width: 760px) {
+  .sec { grid-template-columns: minmax(0, 1fr); }
+  .code-bg { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; opacity: 0.4; }
+  .code-col:nth-child(n+3) { display: none; }
+  .track { font-size: 11px; }
+  .first::before {
+    background: linear-gradient(to bottom, var(--ink) 0%, color-mix(in srgb, var(--ink) 55%, transparent) 28%, color-mix(in srgb, var(--ink) 55%, transparent) 68%, var(--ink) 100%);
+  }
+}
+</style>
+</head>
+<body>
+<header class="first" id="top">
+<div class="code-bg" aria-hidden="true">
+<div class="code-col"><pre class="track"># tasks/feature-1182/task.toml
+schema_version = "1.3"
+artifacts = ["/logs/artifacts/model.patch"]
+
+<span class="k">[task]</span>
+name = "talos/swe/feature-1182"
+keywords = ["python", "feature"]
+
+<span class="k">[metadata]</span>
+language = "python"
+category = "feature"
+base_commit_hash = "4be1c0d27a9f6e3b8c51d0a2f7e94c6b13d8a5e2"
+
+<span class="k">[agent]</span>
+network_mode = "no-network"
+timeout_sec = 5400.0
+
+<span class="k">[environment]</span>
+os = "linux"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+
+<span class="k">[verifier]</span>
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 1800.0
+
+<span class="k">[[verifier.collect]]</span>
+command = "git diff --binary BASE_COMMIT HEAD &gt; /logs/artifacts/model.patch"
+
+# tests/
+#   fail_to_pass.txt
+#   pass_to_pass.txt
+#   test_files_manifest.txt
+#   test_run.sh
+# solution/
+#   code.patch
+#   solve.sh
+
+</pre></div>
+<div class="code-col"><pre class="track down c2"># tests/test.sh
+#!/usr/bin/env bash
+set -euo pipefail
+mkdir -p /logs/verifier /tmp/run
+cd /testbed
+
+# copy the hidden tests into the repository
+while IFS= read -r relpath; do
+  [ -n "$relpath" ] || continue
+  case "$relpath" in
+    /*|*..*) echo "unsafe test overlay path" &gt;&amp;2; exit 2 ;;
+  esac
+  mkdir -p "$(dirname "$relpath")"
+  cp "/tests/test_files/$relpath" "$relpath"
+done &lt; /tests/test_files_manifest.txt
+
+mapfile -t TARGETS &lt; /tests/test_targets.txt
+bash /tests/test_run.sh "${TARGETS[@]}" \
+  &gt; /logs/verifier/test_output.txt 2&gt;&amp;1
+python /tests/_compute_reward.py
+
+# tests/_compute_reward.py
+fail_to_pass = read_manifest("fail_to_pass.txt")
+pass_to_pass = read_manifest("pass_to_pass.txt")
+targets = fail_to_pass + pass_to_pass
+statuses = parse_results()
+passed = {t for t in targets if statuses.get(t) == "PASSED"}
+<span class="k">reward = 1.0 if len(passed) == len(targets) else 0.0</span>
+
+</pre></div>
+<div class="code-col"><pre class="track c3"># tasks/system-identification-07/task.toml
+schema_version = "1.4"
+
+<span class="k">[task]</span>
+name = "talos/science/system-identification-07"
+description = "Identify an unknown generator from budgeted simulated measurements."
+keywords = ["physics", "system-identification", "experimental-design"]
+
+<span class="k">[metadata]</span>
+category = "physics"
+research_mode = "computational-with-simulated-measurements"
+
+<span class="k">[agent]</span>
+user = "agent"
+timeout_sec = 3600
+
+<span class="k">[environment]</span>
+cpus = 2
+memory_mb = 4096
+
+<span class="k">[verifier]</span>
+timeout_sec = 300
+environment_mode = "separate"
+
+<span class="k">[verifier.environment]</span>
+network_mode = "no-network"
+
+<span class="k">[[artifacts]]</span>
+source = "/evidence"
+service = "instrument"
+
+# grade.py replays /evidence/events.jsonl
+#   sequence numbers are consecutive
+#   instance and spec digests match
+#   measurement budget is respected
+#   final answer matches its recorded digest
+
+</pre></div>
+<div class="code-col"><pre class="track down c4">$ git status
+$ ls src tests
+$ grep -rn "def load_config" src/
+$ sed -n '40,120p' src/app/config.py
+$ grep -rn "ConfigError" src/ tests/
+$ python -m pytest tests/test_config.py -q
+1 failed, 26 passed in 2.41s
+$ sed -n '1,60p' tests/test_config.py
+$ python -m pytest tests/ -q
+312 passed in 41.87s
+$ git diff --stat
+ src/app/config.py |  48 +++++++---
+ src/app/loader.py |  22 ++++
+ 2 files changed, 61 insertions(+), 9 deletions(-)
+$ submit
+verifier  fail_to_pass 12/12  pass_to_pass 31/31
+<span class="k">reward 1.0</span>
+
+$ python -c "from lab_client import LabClient; print(LabClient().status())"
+{"rows_used": 0, "rows_left": 480, "time_left_us": 180.0}
+$ python design.py --rows 448 --time-budget 160
+$ python infer.py rows.jsonl
+max_abs_error 0.031   relative_l2 0.044
+$ python submit.py final.json
+verifier  evidence replayed, digests match
+<span class="k">reward 1.0</span>
+
+</pre></div>
+</div>
+
+<div class="wrap">
+  <div class="site">
+    <a class="brand" href="#top" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#careers">Careers</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <h1>Data and environments for training coding agents.</h1>
+    <p class="lead">Talos builds reinforcement-learning environments, trajectories and evaluations for teams training frontier agents. Tasks come from real open-source pull requests and from computational science, and every one is graded by tests the agent never sees.</p>
+    <a class="btn" href="#contact">Contact us</a>
+  </div>
+</div>
+</header>
+
+<div class="wrap">
+<main>
+<section class="sec" aria-labelledby="build-h">
+  <h2 class="label" id="build-h">What we build</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Software engineering</dt>
+        <dd>Features and fixes rebuilt from real pull requests in open-source Python and Go projects, graded by fail-to-pass and pass-to-pass tests.</dd>
+      </div>
+      <div>
+        <dt>Scientific computing</dt>
+        <dd>Research problems with simulated instruments and measurement budgets, from Hamiltonian learning to quantum error correction, scored against a private ground truth.</dd>
+      </div>
+      <div>
+        <dt>Trajectories</dt>
+        <dd>Complete agent runs on every task, from the first command to the final patch, with the verifier's result attached.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="quality-h">
+  <h2 class="label" id="quality-h">Quality</h2>
+  <div class="content">
+    <p>Every task pins its environment and runs its verifier in a separate container without network access. Software tasks must fail on the base commit and pass with the reference patch, and existing tests must keep passing. Science tasks are scored from evidence the verifier checks itself, such as instrument logs, measurement budgets and certified numerical bounds, never from the agent's own report.</p>
+    <p>Tasks ship in the Harbor format, with a task.toml, environment, tests and a reference solution for each one, and trajectories as JSON.</p>
+  </div>
+</section>
+
+<section class="sec" id="careers" aria-labelledby="careers-h">
+  <h2 class="label" id="careers-h">Careers</h2>
+  <div class="content">
+    <p>We work with senior software engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:hello@talos-ai.org?subject=Careers">hello@talos-ai.org</a>.</p>
+  </div>
+</section>
+
+<section class="sec" id="contact" aria-labelledby="contact-h">
+  <h2 class="label" id="contact-h">Contact</h2>
+  <div class="content">
+    <a class="email" href="mailto:hello@talos-ai.org">hello@talos-ai.org</a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="#top">talos-ai.org</a>
+</footer>
+</div>
+
+<script>
+// Each column scrolls by half its height, so it holds two identical halves.
+// A half repeats the snippet until it is taller than the first screen, so no column ever runs out of code.
+const band = document.querySelector('.first');
+document.querySelectorAll('.track').forEach((track) => {
+  const snippet = track.innerHTML;
+  let half = snippet;
+  // Hidden columns (phone layout) measure 0 and skip the loop; the cap guards against odd layouts.
+  for (let i = 0; i < 8 && track.offsetHeight > 0 && track.offsetHeight < band.offsetHeight + 40; i++) {
+    half += snippet;
+    track.innerHTML = half;
+  }
+  track.innerHTML = half + half;
+});
+</script>
+</body>
+</html>
