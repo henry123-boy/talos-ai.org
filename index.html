@@ -16,8 +16,16 @@
 <meta property="og:image" content="https://talos-ai.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>Talos</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..600&amp;display=swap">
+<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
 <style>
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 100% 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-variable.ttf") format("truetype");
+}
 /* Layout: a quiet spec sheet. Small labels in a narrow left column, content on the right, hairlines between sections.
    The first screen sits on slow-moving columns of task files and agent logs, faded toward the text. One typeface; bronze only in the mark and links. */
 :root {
@@ -349,14 +357,14 @@ verifier  evidence replayed, digests match
 <section class="sec" id="careers" aria-labelledby="careers-h">
   <h2 class="label" id="careers-h">Careers</h2>
   <div class="content">
-    <p>We work with senior software engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:hello@talos-ai.org?subject=Careers">hello@talos-ai.org</a>.</p>
+    <p>We work with senior software engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:career@talos-ai.org?subject=Careers">career@talos-ai.org</a>.</p>
   </div>
 </section>
 
 <section class="sec" id="contact" aria-labelledby="contact-h">
   <h2 class="label" id="contact-h">Contact</h2>
   <div class="content">
-    <a class="email" href="mailto:hello@talos-ai.org">hello@talos-ai.org</a>
+    <a class="email" href="mailto:sales@talos-ai.org">sales@talos-ai.org</a>
   </div>
 </section>
 </main>
