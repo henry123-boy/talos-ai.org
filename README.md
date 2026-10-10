@@ -4,8 +4,9 @@ Talos 官网，单页静态网站，部署在自己的服务器上，由 nginx �
 
 ## 上线前先核对这几处
 - **联系邮箱**：Contact 使用 `sales@talos-ai.org`，Careers 使用 `career@talos-ai.org`。这两个地址要先在 Workspace 里建好：Admin 控制台 → 用户 → 你的账号 → 添加备用邮箱；也可以建群组让多人同时收到。地址在 `index.html` 里修改。
-- **文案是根据我们的样题写的**：两类任务（来自开源 PR 的 Python/Go 软件工程题、带模拟仪器的计算科学题）、完整的 agent 轨迹、独立且断网的评分环境、fail-to-pass / pass-to-pass、证据回放评分，以及 Harbor 交付格式。如果以后业务范围变了，记得同步修改。
+- **文案是根据我们的样题写的**：三类任务（来自开源 PR 的 Python/Go 软件工程题、带模拟仪器的计算科学题、Blender/MuJoCo 物理仿真题）、完整的 agent 轨迹、独立且断网的评分环境、fail-to-pass / pass-to-pass、证据回放评分，以及 Harbor 交付格式。如果以后业务范围变了，记得同步修改。
 - 首屏背景滚动的是 `task.toml`、测试脚本、reward 计算和 agent 日志，字段和流程跟样题一致，但名字和数值都换成了中性内容。网页上没有放任何一道真实题目的原文、隐藏测试或答案。
+- **Platform 板块**介绍 talos-sky（连接 Data、Models、Benchmarks、Sandboxes 和云算力的那一层）。图和代码都是在 `index.html` 里手写的 SVG 和 HTML；代码块标注了 "in development"，SDK 上线后记得去掉，并换成真实可运行的例子。
 - 页面里故意没放客户 logo、投资方和数据指标。等有了真实的、可以公开的信息再加。
 
 ## 部署到自己的服务器

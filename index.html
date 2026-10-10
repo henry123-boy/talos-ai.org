@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for coding agents.">
+<meta name="description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for agents in code, science and the physical world.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#0E0F11">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Talos">
-<meta property="og:description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for coding agents.">
+<meta property="og:description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for agents in code, science and the physical world.">
 <meta property="og:url" content="https://talos-ai.org/">
 <meta property="og:image" content="https://talos-ai.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -132,10 +132,53 @@ h1 {
 .content > p { margin: 0; max-width: 40em; }
 .content > p + p { margin-top: 16px; }
 
-.offer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; margin: 0; }
+.offer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; margin: 0; }
 .offer div { min-width: 0; }
 .offer dt { color: var(--paper); font-size: 18px; font-weight: 600; font-stretch: 105%; }
 .offer dd { margin: 8px 0 0; }
+
+/* platform: the talos-sky layer, as four steps and a stack of layers */
+.claim { margin: 0; max-width: 18em; color: var(--paper); font-size: clamp(24px, 2.6vw, 32px); font-weight: 600; font-stretch: 108%; line-height: 1.2; }
+.content > .claim + p { margin-top: 20px; }
+.flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 32px; margin: 48px 0 0; padding: 0; list-style: none; }
+.flow li { min-width: 0; padding-top: 16px; border-top: 1px solid var(--rule); }
+.flow .n { display: block; color: var(--bronze); font: 12.5px/1 var(--code); letter-spacing: 0.04em; }
+.flow b { display: block; margin-top: 12px; color: var(--paper); font-size: 18px; font-weight: 600; font-stretch: 105%; }
+.flow span:last-child { display: block; margin-top: 6px; font-size: 15.5px; line-height: 1.6; }
+.wide { grid-column: 1 / -1; min-width: 0; }
+.diagram { margin: 56px 0 0; }
+.diagram svg { display: block; width: 100%; height: auto; overflow: visible; }
+.diagram .m { display: none; }
+.d-box { fill: #15171A; stroke: var(--rule); }
+.d-hub { fill: var(--ink); stroke: var(--bronze); stroke-width: 1.5; }
+.d-chip { fill: #15171A; stroke: var(--rule); }
+.d-line { fill: none; stroke: #3A3E45; stroke-width: 1.5; }
+.d-dot { fill: var(--bronze); }
+.d-t { fill: var(--paper); font: 600 15px var(--sans); }
+.d-big { fill: var(--paper); font: 600 18px var(--code); }
+.d-s { fill: var(--muted); font: 12px var(--code); }
+.d-step { fill: var(--paper); font: 13px var(--code); letter-spacing: 0.04em; }
+.d-step tspan { fill: var(--bronze); }
+.d-list { fill: var(--muted); font: 12.5px var(--code); }
+.d-ico { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.d-node .d-box, .d-node .d-ico { transition: stroke 0.4s; }
+.d-node.on .d-box { stroke: var(--bronze); }
+.d-node.on .d-ico { stroke: var(--paper); }
+.d-link .d-line { transition: stroke 0.4s; }
+.d-link .d-dot { opacity: 0; transition: opacity 0.3s; }
+.d-link.on .d-line { stroke: color-mix(in srgb, var(--bronze) 70%, transparent); }
+.d-link.on .d-dot { opacity: 1; }
+.snippet { margin: 48px 0 0; border: 1px solid var(--rule); border-radius: 8px; background: #121417; overflow: hidden; }
+.snippet figcaption { padding: 12px 20px; border-bottom: 1px solid var(--rule); color: var(--muted); font: 12.5px var(--code); letter-spacing: 0.02em; }
+.snippet pre { margin: 0; padding: 18px 0; overflow-x: auto; }
+.snippet code { display: block; min-width: max-content; color: var(--text); font: 14px/1.8 var(--code); }
+.snippet .ln { display: block; padding: 0 20px; border-left: 2px solid transparent; transition: background-color 0.4s, border-color 0.4s; white-space: pre; }
+.snippet .ln.on { background: color-mix(in srgb, var(--bronze) 10%, transparent); border-left-color: var(--bronze); }
+.snippet .k { color: var(--bronze); }
+.snippet .m { color: var(--paper); }
+.snippet .s { color: #D8C3A0; }
+.snippet .c { color: var(--muted); }
+.d-step { transition: opacity 0.4s; }
 
 .email { font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; font-stretch: 105%; overflow-wrap: anywhere; }
 
@@ -151,6 +194,9 @@ h1 {
   .code-bg { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; opacity: 0.4; }
   .code-col:nth-child(n+3) { display: none; }
   .track { font-size: 11px; }
+  .snippet code { font-size: 12.5px; }
+  .diagram .d { display: none; }
+  .diagram .m { display: block; }
   .first::before {
     background: linear-gradient(to bottom, var(--ink) 0%, color-mix(in srgb, var(--ink) 55%, transparent) 28%, color-mix(in srgb, var(--ink) 55%, transparent) 68%, var(--ink) 100%);
   }
@@ -199,6 +245,32 @@ command = "git diff --binary BASE_COMMIT HEAD &gt; /logs/artifacts/model.patch"
 # solution/
 #   code.patch
 #   solve.sh
+
+# tasks/rigid-body-drop-03/task.toml
+schema_version = "1.4"
+
+<span class="k">[task]</span>
+name = "talos/sim/rigid-body-drop-03"
+description = "Reproduce a reference clip: a ball dropped onto a ramp, simulated and rendered in Blender."
+keywords = ["blender", "rigid-body", "rendering"]
+
+<span class="k">[metadata]</span>
+category = "simulation"
+engine = "blender-4.5"
+
+<span class="k">[environment]</span>
+cpus = 4
+memory_mb = 16384
+gpus = 1
+
+<span class="k">[verifier]</span>
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 900
+
+# grade.py re-runs /submission/scene.py in a clean container
+#   trajectory error against the reference simulation
+#   frame similarity against the reference renders
 
 </pre></div>
 <div class="code-col"><pre class="track down c2"># tests/test.sh
@@ -296,6 +368,14 @@ $ python submit.py final.json
 verifier  evidence replayed, digests match
 <span class="k">reward 1.0</span>
 
+$ blender -b -P scene.py -- --frames 1-120
+Fra:120 Mem:412.8M | Time:00:41.27 | Rendering 64 / 64 samples
+$ python check_trajectory.py out/trajectory.json
+bounce_heights 1.82 1.21 0.80   ref 1.80 1.20 0.79
+$ submit
+verifier  trajectory_rmse 0.012   frame_psnr 34.6 dB
+<span class="k">reward 0.94</span>
+
 </pre></div>
 </div>
 
@@ -311,14 +391,15 @@ verifier  evidence replayed, digests match
       <span>TALOS</span>
     </a>
     <nav aria-label="Sections">
+      <a href="#platform">Platform</a>
       <a href="#careers">Careers</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
 
   <div class="hero">
-    <h1>Data and environments for training coding agents.</h1>
-    <p class="lead">Talos builds reinforcement-learning environments, trajectories and evaluations for teams training frontier agents. Tasks come from real open-source pull requests and from computational science, and every one is graded by tests the agent never sees.</p>
+    <h1>Data and environments for training agents.</h1>
+    <p class="lead">Talos builds reinforcement-learning environments, trajectories and evaluations for teams training frontier agents. Tasks come from real open-source pull requests, computational science and physical simulation, and every one is graded by tests the agent never sees.</p>
     <a class="btn" href="#contact">Contact us</a>
   </div>
 </div>
@@ -339,6 +420,10 @@ verifier  evidence replayed, digests match
         <dd>Research problems with simulated instruments and measurement budgets, from Hamiltonian learning to quantum error correction, scored against a private ground truth.</dd>
       </div>
       <div>
+        <dt>Physical simulation</dt>
+        <dd>Tasks where agents write simulation and rendering code in Blender and MuJoCo, from rigid bodies to cloth, scored by comparing the result with reference physics and video.</dd>
+      </div>
+      <div>
         <dt>Trajectories</dt>
         <dd>Complete agent runs on every task, from the first command to the final patch, with the verifier's result attached.</dd>
       </div>
@@ -346,10 +431,22 @@ verifier  evidence replayed, digests match
   </div>
 </section>
 
+<section class="sec" id="platform" aria-labelledby="platform-h">
+  <h2 class="label" id="platform-h">Platform</h2>
+  <div class="content">
+    <p class="claim">Make everyone an AI trainer.</p>
+    <p>We are building talos-sky, the layer that links four things: data, models, benchmarks and sandboxes. Annotators and researchers submit work from their own agent, such as Claude Code or Codex. talos-sky runs it in a sandbox with the engines already installed, checks it by training models on it and scoring them on benchmarks, and ships only what passes.</p>
+  </div>
+  <div class="wide">
+    <div class="diagram"><svg class="d anim" viewBox="0 0 1000 476" role="img" aria-labelledby="dg-title"><title id="dg-title">talos-sky launches GPU sandboxes on hyperscalers, neoclouds, serverless GPUs and on-prem clusters. Annotators, researchers, 3D artists and domain experts submit work from their own agents; talos-sky links data, models, benchmarks and sandboxes, and ships verified data to labs.</title><g class="d-link" data-link="compute"><path class="d-line" d="M500 216 V76"/><circle class="d-dot" r="3.5"><animateMotion dur="1.6s" repeatCount="indefinite" path="M500 216 V76"/></circle></g><path class="d-line" d="M230 162 H310 V276 H390"/><path class="d-line" d="M230 238 H310 V276 H390"/><path class="d-line" d="M230 314 H310 V276 H390"/><path class="d-line" d="M230 390 H310 V276 H390"/><g class="d-link" data-link="data"><path class="d-line" d="M610 276 H665 V162 H720"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M610 276 H665 V162 H720"/></circle></g><g class="d-link" data-link="models"><path class="d-line" d="M610 276 H665 V238 H720"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M610 276 H665 V238 H720"/></circle></g><g class="d-link" data-link="benchmarks"><path class="d-line" d="M610 276 H665 V314 H720"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M610 276 H665 V314 H720"/></circle></g><g class="d-link" data-link="sandboxes"><path class="d-line" d="M610 276 H665 V390 H720"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M610 276 H665 V390 H720"/></circle></g><g class="d-link" data-link="out"><path class="d-line" d="M500 336 V404"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M500 336 V404"/></circle></g><g class="d-node" data-node="compute"><rect class="d-box" x="10" y="16" width="980" height="60" rx="8"/><path class="d-ico" d="M32 54h14a5 5 0 0 0 0-10a7 7 0 0 0-13-2a5 5 0 0 0-1 12z"/><text class="d-t" x="62" y="52">Cloud layer</text></g><defs><linearGradient id="cd-g"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.08" stop-color="#fff"/><stop offset="0.92" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="cd-m"><rect x="200" y="32" width="774" height="28" fill="url(#cd-g)"/></mask><clipPath id="cd-c"><rect x="200" y="32" width="774" height="28"/></clipPath></defs><g clip-path="url(#cd-c)" mask="url(#cd-m)"><g transform="translate(200 32)"><g><rect class="d-chip" x="0" y="0" width="79" height="28" rx="14"/><text class="d-list" x="39.5" y="18.5" text-anchor="middle">Vast.ai</text><rect class="d-chip" x="89" y="0" width="72" height="28" rx="14"/><text class="d-list" x="125.0" y="18.5" text-anchor="middle">Nebius</text><rect class="d-chip" x="171" y="0" width="64" height="28" rx="14"/><text class="d-list" x="203.0" y="18.5" text-anchor="middle">Modal</text><rect class="d-chip" x="245" y="0" width="72" height="28" rx="14"/><text class="d-list" x="281.0" y="18.5" text-anchor="middle">Lambda</text><rect class="d-chip" x="327" y="0" width="72" height="28" rx="14"/><text class="d-list" x="363.0" y="18.5" text-anchor="middle">RunPod</text><rect class="d-chip" x="409" y="0" width="94" height="28" rx="14"/><text class="d-list" x="456.0" y="18.5" text-anchor="middle">CoreWeave</text><rect class="d-chip" x="513" y="0" width="49" height="28" rx="14"/><text class="d-list" x="537.5" y="18.5" text-anchor="middle">AWS</text><rect class="d-chip" x="572" y="0" width="117" height="28" rx="14"/><text class="d-list" x="630.5" y="18.5" text-anchor="middle">Google Cloud</text><rect class="d-chip" x="699" y="0" width="64" height="28" rx="14"/><text class="d-list" x="731.0" y="18.5" text-anchor="middle">Azure</text><rect class="d-chip" x="773" y="0" width="102" height="28" rx="14"/><text class="d-list" x="824.0" y="18.5" text-anchor="middle">Kubernetes</text><rect class="d-chip" x="885" y="0" width="64" height="28" rx="14"/><text class="d-list" x="917.0" y="18.5" text-anchor="middle">Slurm</text><rect class="d-chip" x="959" y="0" width="117" height="28" rx="14"/><text class="d-list" x="1017.5" y="18.5" text-anchor="middle">Your servers</text><rect class="d-chip" x="1086" y="0" width="79" height="28" rx="14"/><text class="d-list" x="1125.5" y="18.5" text-anchor="middle">Vast.ai</text><rect class="d-chip" x="1175" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1211.0" y="18.5" text-anchor="middle">Nebius</text><rect class="d-chip" x="1257" y="0" width="64" height="28" rx="14"/><text class="d-list" x="1289.0" y="18.5" text-anchor="middle">Modal</text><rect class="d-chip" x="1331" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1367.0" y="18.5" text-anchor="middle">Lambda</text><rect class="d-chip" x="1413" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1449.0" y="18.5" text-anchor="middle">RunPod</text><rect class="d-chip" x="1495" y="0" width="94" height="28" rx="14"/><text class="d-list" x="1542.0" y="18.5" text-anchor="middle">CoreWeave</text><rect class="d-chip" x="1599" y="0" width="49" height="28" rx="14"/><text class="d-list" x="1623.5" y="18.5" text-anchor="middle">AWS</text><rect class="d-chip" x="1658" y="0" width="117" height="28" rx="14"/><text class="d-list" x="1716.5" y="18.5" text-anchor="middle">Google Cloud</text><rect class="d-chip" x="1785" y="0" width="64" height="28" rx="14"/><text class="d-list" x="1817.0" y="18.5" text-anchor="middle">Azure</text><rect class="d-chip" x="1859" y="0" width="102" height="28" rx="14"/><text class="d-list" x="1910.0" y="18.5" text-anchor="middle">Kubernetes</text><rect class="d-chip" x="1971" y="0" width="64" height="28" rx="14"/><text class="d-list" x="2003.0" y="18.5" text-anchor="middle">Slurm</text><rect class="d-chip" x="2045" y="0" width="117" height="28" rx="14"/><text class="d-list" x="2103.5" y="18.5" text-anchor="middle">Your servers</text><animateTransform attributeName="transform" type="translate" from="0 0" to="-1086.0 0" dur="27.1s" repeatCount="indefinite"/></g></g></g><rect class="d-box" x="10" y="134" width="220" height="56" rx="6"/><circle class="d-ico" cx="34" cy="157" r="5"/><path class="d-ico" d="M25 173a9 8 0 0 1 18 0"/><text class="d-t" x="56" y="159">Annotator</text><text class="d-s" x="56" y="177">Claude Code</text><rect class="d-box" x="10" y="210" width="220" height="56" rx="6"/><circle class="d-ico" cx="34" cy="233" r="5"/><path class="d-ico" d="M25 249a9 8 0 0 1 18 0"/><text class="d-t" x="56" y="235">Researcher</text><text class="d-s" x="56" y="253">Codex</text><rect class="d-box" x="10" y="286" width="220" height="56" rx="6"/><circle class="d-ico" cx="34" cy="309" r="5"/><path class="d-ico" d="M25 325a9 8 0 0 1 18 0"/><text class="d-t" x="56" y="311">3D artist</text><text class="d-s" x="56" y="329">Cursor</text><rect class="d-box" x="10" y="362" width="220" height="56" rx="6"/><circle class="d-ico" cx="34" cy="385" r="5"/><path class="d-ico" d="M25 401a9 8 0 0 1 18 0"/><text class="d-t" x="56" y="387">Domain expert</text><text class="d-s" x="56" y="405">any MCP client</text><g class="d-node" data-node="data"><rect class="d-box" x="720" y="134" width="270" height="56" rx="6"/><ellipse class="d-ico" cx="745" cy="155" rx="9" ry="3.5"/><path class="d-ico" d="M736 155v12a9 3.5 0 0 0 18 0v-12M736 162a9 3.5 0 0 0 18 0"/><text class="d-t" x="768" y="159">Data</text><text class="d-s" x="768" y="177">tasks · scenes · trajectories</text></g><g class="d-node" data-node="models"><rect class="d-box" x="720" y="210" width="270" height="56" rx="6"/><circle class="d-ico" cx="736" cy="238" r="2.5"/><circle class="d-ico" cx="752" cy="231" r="2.5"/><circle class="d-ico" cx="752" cy="245" r="2.5"/><path class="d-ico" d="M738.5 238L749.5 231M738.5 238L749.5 245"/><text class="d-t" x="768" y="235">Models</text><text class="d-s" x="768" y="253">checkpoints · robot policies</text></g><g class="d-node" data-node="benchmarks"><rect class="d-box" x="720" y="286" width="270" height="56" rx="6"/><path class="d-ico" d="M736 322h18M739 322v-6M745 322v-12M751 322v-17"/><text class="d-t" x="768" y="311">Benchmarks</text><text class="d-s" x="768" y="329">4DCodeBench · hidden verifiers</text></g><g class="d-node" data-node="sandboxes"><rect class="d-box" x="720" y="362" width="270" height="56" rx="6"/><path class="d-ico" d="M745 380l9 5v10l-9 5l-9-5v-10zM736 385l9 5l9-5M745 390v10"/><text class="d-t" x="768" y="387">Sandboxes</text><text class="d-s" x="768" y="405">blender · mujoco · lerobot</text></g><rect class="d-hub" x="390" y="216" width="220" height="120" rx="8"/><g transform="translate(414 232) scale(0.26)"><path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"/><path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"/><path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"/><circle class="core" cx="50" cy="50" r="9"/></g><text class="d-big" x="450" y="255">talos-sky</text><rect class="d-chip" x="406" y="276" width="188" height="42" rx="5"/><text class="d-step" x="500" y="302" text-anchor="middle" opacity="1" data-step><tspan>01</tspan>  Submit</text><text class="d-step" x="500" y="302" text-anchor="middle" opacity="0" data-step><tspan>02</tspan>  Run</text><text class="d-step" x="500" y="302" text-anchor="middle" opacity="0" data-step><tspan>03</tspan>  Verify</text><text class="d-step" x="500" y="302" text-anchor="middle" opacity="0" data-step><tspan>04</tspan>  Ship</text><g class="d-node" data-node="out"><rect class="d-box" x="380" y="404" width="240" height="62" rx="6"/><text class="d-t" x="500" y="431" text-anchor="middle">Verified data</text><text class="d-s" x="500" y="450" text-anchor="middle">scores · trajectories → labs</text></g><circle class="d-dot" r="3.5"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" path="M230 162 H310 V276 H390"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.4s" begin="-0.6s" repeatCount="indefinite" path="M230 238 H310 V276 H390"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite" path="M230 314 H310 V276 H390"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.4s" begin="-1.7999999999999998s" repeatCount="indefinite" path="M230 390 H310 V276 H390"/></circle></svg><svg class="m anim" viewBox="0 0 360 940" role="img" aria-labelledby="dg-title-m"><title id="dg-title-m">Contributors submit work to talos-sky, which launches sandboxes on any compute, links data, models, benchmarks and sandboxes, and ships verified data to labs.</title><g class="d-link" data-link="compute"><path class="d-line" d="M180 438 V362"/><circle class="d-dot" r="3.5"><animateMotion dur="1.2s" repeatCount="indefinite" path="M180 438 V362"/></circle></g><path class="d-line" d="M40 38 H18 V498 H60"/><path class="d-line" d="M40 100 H18 V498 H60"/><path class="d-line" d="M40 162 H18 V498 H60"/><path class="d-line" d="M40 224 H18 V498 H60"/><g class="d-link" data-link="data"><path class="d-line" d="M300 498 H342 V616 H320"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M300 498 H342 V616 H320"/></circle></g><g class="d-link" data-link="models"><path class="d-line" d="M300 498 H342 V682 H320"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M300 498 H342 V682 H320"/></circle></g><g class="d-link" data-link="benchmarks"><path class="d-line" d="M300 498 H342 V748 H320"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M300 498 H342 V748 H320"/></circle></g><g class="d-link" data-link="sandboxes"><path class="d-line" d="M300 498 H342 V814 H320"/><circle class="d-dot" r="3.5"><animateMotion dur="1.4s" repeatCount="indefinite" path="M300 498 H342 V814 H320"/></circle></g><g class="d-link" data-link="out"><path class="d-line" d="M300 498 H342 V899 H300"/><circle class="d-dot" r="3.5"><animateMotion dur="1.8s" repeatCount="indefinite" path="M300 498 H342 V899 H300"/></circle></g><g class="d-node" data-node="compute"><rect class="d-box" x="40" y="276" width="310" height="86" rx="8"/><path class="d-ico" d="M56 306h14a5 5 0 0 0 0-10a7 7 0 0 0-13-2a5 5 0 0 0-1 12z"/><text class="d-t" x="86" y="304">Cloud layer</text></g><defs><linearGradient id="cm-g"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.08" stop-color="#fff"/><stop offset="0.92" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="cm-m"><rect x="56" y="320" width="278" height="28" fill="url(#cm-g)"/></mask><clipPath id="cm-c"><rect x="56" y="320" width="278" height="28"/></clipPath></defs><g clip-path="url(#cm-c)" mask="url(#cm-m)"><g transform="translate(56 320)"><g><rect class="d-chip" x="0" y="0" width="79" height="28" rx="14"/><text class="d-list" x="39.5" y="18.5" text-anchor="middle">Vast.ai</text><rect class="d-chip" x="89" y="0" width="72" height="28" rx="14"/><text class="d-list" x="125.0" y="18.5" text-anchor="middle">Nebius</text><rect class="d-chip" x="171" y="0" width="64" height="28" rx="14"/><text class="d-list" x="203.0" y="18.5" text-anchor="middle">Modal</text><rect class="d-chip" x="245" y="0" width="72" height="28" rx="14"/><text class="d-list" x="281.0" y="18.5" text-anchor="middle">Lambda</text><rect class="d-chip" x="327" y="0" width="72" height="28" rx="14"/><text class="d-list" x="363.0" y="18.5" text-anchor="middle">RunPod</text><rect class="d-chip" x="409" y="0" width="94" height="28" rx="14"/><text class="d-list" x="456.0" y="18.5" text-anchor="middle">CoreWeave</text><rect class="d-chip" x="513" y="0" width="49" height="28" rx="14"/><text class="d-list" x="537.5" y="18.5" text-anchor="middle">AWS</text><rect class="d-chip" x="572" y="0" width="117" height="28" rx="14"/><text class="d-list" x="630.5" y="18.5" text-anchor="middle">Google Cloud</text><rect class="d-chip" x="699" y="0" width="64" height="28" rx="14"/><text class="d-list" x="731.0" y="18.5" text-anchor="middle">Azure</text><rect class="d-chip" x="773" y="0" width="102" height="28" rx="14"/><text class="d-list" x="824.0" y="18.5" text-anchor="middle">Kubernetes</text><rect class="d-chip" x="885" y="0" width="64" height="28" rx="14"/><text class="d-list" x="917.0" y="18.5" text-anchor="middle">Slurm</text><rect class="d-chip" x="959" y="0" width="117" height="28" rx="14"/><text class="d-list" x="1017.5" y="18.5" text-anchor="middle">Your servers</text><rect class="d-chip" x="1086" y="0" width="79" height="28" rx="14"/><text class="d-list" x="1125.5" y="18.5" text-anchor="middle">Vast.ai</text><rect class="d-chip" x="1175" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1211.0" y="18.5" text-anchor="middle">Nebius</text><rect class="d-chip" x="1257" y="0" width="64" height="28" rx="14"/><text class="d-list" x="1289.0" y="18.5" text-anchor="middle">Modal</text><rect class="d-chip" x="1331" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1367.0" y="18.5" text-anchor="middle">Lambda</text><rect class="d-chip" x="1413" y="0" width="72" height="28" rx="14"/><text class="d-list" x="1449.0" y="18.5" text-anchor="middle">RunPod</text><rect class="d-chip" x="1495" y="0" width="94" height="28" rx="14"/><text class="d-list" x="1542.0" y="18.5" text-anchor="middle">CoreWeave</text><rect class="d-chip" x="1599" y="0" width="49" height="28" rx="14"/><text class="d-list" x="1623.5" y="18.5" text-anchor="middle">AWS</text><rect class="d-chip" x="1658" y="0" width="117" height="28" rx="14"/><text class="d-list" x="1716.5" y="18.5" text-anchor="middle">Google Cloud</text><rect class="d-chip" x="1785" y="0" width="64" height="28" rx="14"/><text class="d-list" x="1817.0" y="18.5" text-anchor="middle">Azure</text><rect class="d-chip" x="1859" y="0" width="102" height="28" rx="14"/><text class="d-list" x="1910.0" y="18.5" text-anchor="middle">Kubernetes</text><rect class="d-chip" x="1971" y="0" width="64" height="28" rx="14"/><text class="d-list" x="2003.0" y="18.5" text-anchor="middle">Slurm</text><rect class="d-chip" x="2045" y="0" width="117" height="28" rx="14"/><text class="d-list" x="2103.5" y="18.5" text-anchor="middle">Your servers</text><animateTransform attributeName="transform" type="translate" from="0 0" to="-1086.0 0" dur="31.9s" repeatCount="indefinite"/></g></g></g><rect class="d-box" x="40" y="10" width="310" height="56" rx="6"/><circle class="d-ico" cx="64" cy="33" r="5"/><path class="d-ico" d="M55 49a9 8 0 0 1 18 0"/><text class="d-t" x="86" y="35">Annotator</text><text class="d-s" x="86" y="53">Claude Code</text><rect class="d-box" x="40" y="72" width="310" height="56" rx="6"/><circle class="d-ico" cx="64" cy="95" r="5"/><path class="d-ico" d="M55 111a9 8 0 0 1 18 0"/><text class="d-t" x="86" y="97">Researcher</text><text class="d-s" x="86" y="115">Codex</text><rect class="d-box" x="40" y="134" width="310" height="56" rx="6"/><circle class="d-ico" cx="64" cy="157" r="5"/><path class="d-ico" d="M55 173a9 8 0 0 1 18 0"/><text class="d-t" x="86" y="159">3D artist</text><text class="d-s" x="86" y="177">Cursor</text><rect class="d-box" x="40" y="196" width="310" height="56" rx="6"/><circle class="d-ico" cx="64" cy="219" r="5"/><path class="d-ico" d="M55 235a9 8 0 0 1 18 0"/><text class="d-t" x="86" y="221">Domain expert</text><text class="d-s" x="86" y="239">any MCP client</text><g class="d-node" data-node="data"><rect class="d-box" x="40" y="588" width="280" height="56" rx="6"/><ellipse class="d-ico" cx="65" cy="609" rx="9" ry="3.5"/><path class="d-ico" d="M56 609v12a9 3.5 0 0 0 18 0v-12M56 616a9 3.5 0 0 0 18 0"/><text class="d-t" x="88" y="613">Data</text><text class="d-s" x="88" y="631">tasks · scenes · trajectories</text></g><g class="d-node" data-node="models"><rect class="d-box" x="40" y="654" width="280" height="56" rx="6"/><circle class="d-ico" cx="56" cy="682" r="2.5"/><circle class="d-ico" cx="72" cy="675" r="2.5"/><circle class="d-ico" cx="72" cy="689" r="2.5"/><path class="d-ico" d="M58.5 682L69.5 675M58.5 682L69.5 689"/><text class="d-t" x="88" y="679">Models</text><text class="d-s" x="88" y="697">checkpoints · robot policies</text></g><g class="d-node" data-node="benchmarks"><rect class="d-box" x="40" y="720" width="280" height="56" rx="6"/><path class="d-ico" d="M56 756h18M59 756v-6M65 756v-12M71 756v-17"/><text class="d-t" x="88" y="745">Benchmarks</text><text class="d-s" x="88" y="763">4DCodeBench · hidden verifiers</text></g><g class="d-node" data-node="sandboxes"><rect class="d-box" x="40" y="786" width="280" height="56" rx="6"/><path class="d-ico" d="M65 804l9 5v10l-9 5l-9-5v-10zM56 809l9 5l9-5M65 814v10"/><text class="d-t" x="88" y="811">Sandboxes</text><text class="d-s" x="88" y="829">blender · mujoco · lerobot</text></g><rect class="d-hub" x="60" y="438" width="220" height="120" rx="8"/><g transform="translate(84 454) scale(0.26)"><path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"/><path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"/><path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"/><circle class="core" cx="50" cy="50" r="9"/></g><text class="d-big" x="120" y="477">talos-sky</text><rect class="d-chip" x="76" y="498" width="188" height="42" rx="5"/><text class="d-step" x="170" y="524" text-anchor="middle" opacity="1" data-step><tspan>01</tspan>  Submit</text><text class="d-step" x="170" y="524" text-anchor="middle" opacity="0" data-step><tspan>02</tspan>  Run</text><text class="d-step" x="170" y="524" text-anchor="middle" opacity="0" data-step><tspan>03</tspan>  Verify</text><text class="d-step" x="170" y="524" text-anchor="middle" opacity="0" data-step><tspan>04</tspan>  Ship</text><g class="d-node" data-node="out"><rect class="d-box" x="60" y="868" width="240" height="62" rx="6"/><text class="d-t" x="180" y="895" text-anchor="middle">Verified data</text><text class="d-s" x="180" y="914" text-anchor="middle">scores · trajectories → labs</text></g><circle class="d-dot" r="3.5"><animateMotion dur="2.8s" begin="0s" repeatCount="indefinite" path="M40 38 H18 V498 H60"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.8s" begin="-0.6s" repeatCount="indefinite" path="M40 100 H18 V498 H60"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.8s" begin="-1.2s" repeatCount="indefinite" path="M40 162 H18 V498 H60"/></circle><circle class="d-dot" r="3.5"><animateMotion dur="2.8s" begin="-1.7999999999999998s" repeatCount="indefinite" path="M40 224 H18 V498 H60"/></circle></svg></div>
+    <figure class="snippet"><figcaption>talos-sky Python API · in development</figcaption><pre><code><span class="ln"><span class="k">import</span> <span class="m">tsky</span></span><span class="ln"> </span><span class="ln" data-code="0"><span class="m">tsky</span>.submit(<span class="s">&quot;my_scene/&quot;</span>, to=<span class="s">&quot;talos/blender-physics&quot;</span>)     <span class="c"># accepted only if it passes the check below</span></span><span class="ln"> </span><span class="ln" data-code="0">data  = <span class="m">tsky</span>.data(<span class="s">&quot;talos/blender-physics&quot;</span>, split=<span class="s">&quot;rl&quot;</span>)   <span class="c"># tasks, scenes, trajectories</span></span><span class="ln" data-code="2">model = <span class="m">tsky</span>.model(<span class="s">&quot;qwen3-4b&quot;</span>, trainer=<span class="s">&quot;tinker&quot;</span>)         <span class="c"># any checkpoint, any trainer</span></span><span class="ln" data-code="2">bench = <span class="m">tsky</span>.bench(<span class="s">&quot;4dcodebench&quot;</span>)                        <span class="c"># hidden verifiers</span></span><span class="ln" data-code="1">boxes = <span class="m">tsky</span>.sandbox(<span class="s">&quot;blender&quot;</span>, gpu=<span class="s">&quot;L40S&quot;</span>, n=64)        <span class="c"># engines on any cloud</span></span><span class="ln"> </span><span class="ln" data-code="2">before = <span class="m">tsky</span>.evaluate(model, bench, on=boxes)</span><span class="ln" data-code="2">tuned  = model.train(data, on=boxes)                     <span class="c"># rollouts run in the sandboxes</span></span><span class="ln" data-code="2">after  = <span class="m">tsky</span>.evaluate(tuned, bench, on=boxes)</span><span class="ln"> </span><span class="ln" data-code="3"><span class="k">print</span>(after - before)                                    <span class="c"># data is worth what it moves on the benchmark</span></span></code></pre></figure>
+  </div>
+</section>
+
 <section class="sec" aria-labelledby="quality-h">
   <h2 class="label" id="quality-h">Quality</h2>
   <div class="content">
-    <p>Every task pins its environment and runs its verifier in a separate container without network access. Software tasks must fail on the base commit and pass with the reference patch, and existing tests must keep passing. Science tasks are scored from evidence the verifier checks itself, such as instrument logs, measurement budgets and certified numerical bounds, never from the agent's own report.</p>
+    <p>Every task pins its environment and runs its verifier in a separate container without network access. Software tasks must fail on the base commit and pass with the reference patch, and existing tests must keep passing. Science tasks are scored from evidence the verifier checks itself, such as instrument logs, measurement budgets and certified numerical bounds, never from the agent's own report. Simulation tasks are scored by re-running the agent's scene in a clean container and measuring it against reference trajectories and renders.</p>
     <p>Tasks ship in the Harbor format, with a task.toml, environment, tests and a reference solution for each one, and trajectories as JSON.</p>
   </div>
 </section>
@@ -376,6 +473,26 @@ verifier  evidence replayed, digests match
 </div>
 
 <script>
+// Diagrams animate with SVG; hold them still for people who ask for less motion.
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('svg.anim').forEach((svg) => svg.pauseAnimations());
+}
+// The hub's step label and the step list below it move together, one step every 2 s.
+const stepLists = [...document.querySelectorAll('.diagram svg')].map((svg) => [...svg.querySelectorAll('[data-step]')]);
+const STEPS = 4;
+let step = 0;
+const stepUses = [['data'], ['sandboxes', 'compute'], ['models', 'benchmarks'], ['out']];
+function showStep() {
+  stepLists.forEach((labels) => labels.forEach((el, i) => el.setAttribute('opacity', i === step ? 1 : 0)));
+  document.querySelectorAll('[data-code]').forEach((ln) => ln.classList.toggle('on', Number(ln.dataset.code) === step));
+  document.querySelectorAll('[data-node], [data-link]').forEach((el) => {
+    el.classList.toggle('on', stepUses[step].includes(el.dataset.node || el.dataset.link));
+  });
+}
+showStep();
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setInterval(() => { step = (step + 1) % STEPS; showStep(); }, 2500);
+}
 // Each column scrolls by half its height, so it holds two identical halves.
 // A half repeats the snippet until it is taller than the first screen, so no column ever runs out of code.
 const band = document.querySelector('.first');
