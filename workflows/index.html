@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="How Talos builds with coding agents: one agent conversation as the brain, claude_x workers on cheaper models, talos-sky outposts on remote GPUs, and easy_harbor for handing a session to a teammate.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Workflows · Talos">
+<meta property="og:description" content="How Talos builds with coding agents, and the three tools behind it: claude_x, talos-sky and easy_harbor.">
+<meta property="og:url" content="https://talos-ai.org/workflows/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Workflows · Talos</title>
+<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/workflows/workflows.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="/workflows/workflows.js" defer></script>
+</head>
+<body>
+<header class="wrap" id="top">
+  <div class="site">
+    <a class="brand" href="/" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="/#platform">Platform</a>
+      <a href="/workflows/" aria-current="page">Workflows</a>
+      <a href="/#careers">Careers</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<nav class="tabs" aria-label="Workflows">
+  <div class="wrap">
+    <a href="/workflows/" aria-current="page">Overview<span class="ind"></span></a>
+    <a href="/workflows/claude-x/">claude_x</a>
+    <a href="/workflows/talos-sky/">talos-sky</a>
+    <a href="/workflows/easy-harbor/">easy_harbor</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<main>
+<div class="hero">
+  <p class="kicker">Workflows</p>
+  <h1>How we build with coding agents.</h1>
+  <p class="lead">Each of us works in one agent conversation. The agent on the laptop plans and decides, cheaper models take the work that can be checked, outposts run the heavy jobs on remote GPUs, and a session can be handed to a teammate who carries on where it stopped. Below is the loop, then one page for each tool we built for it.</p>
+</div>
+
+<section class="sec rv" aria-labelledby="loop-h">
+  <h2 class="label" id="loop-h">The loop</h2>
+  <div class="content">
+    <p class="claim">One conversation is the brain. Everything else is a worker or an outpost.</p>
+    <p>The main agent runs on Claude, on the laptop of whoever is driving. It reads the code, writes the plan and reviews every result. Cheaper models only take tasks with a clear check, and remote machines only execute. Choose a step to see where it happens.</p>
+  </div>
+  <div class="wide">
+    <figure class="sch st" data-stepper aria-labelledby="loop-cap">
+      <figcaption id="loop-cap">The loop, step by step. One conversation on the laptop; each step reaches out from it.</figcaption>
+      <div class="g ov">
+        <div class="bd" style="--c:1;--r:1 / 6" aria-hidden="true"></div>
+        <span class="zt" style="--c:1;--r:1">Your laptop</span>
+        <div class="box in" data-id="cc" style="--c:1;--r:2"><b>Claude Code</b><span>main agent on Claude · plans, decides, reviews</span></div>
+        <div class="wire two" data-id="w-you" style="--c:2;--r:2"><span>plan.md</span><i><em></em></i><span>approve · review</span></div>
+        <div class="box" data-id="you" style="--c:3;--r:2"><b>You</b><span>approve the plan · review what comes back</span></div>
+
+        <div class="box in gap" data-id="cx" style="--c:1;--r:3"><b>claude_x</b><span>launcher + local gateway</span></div>
+        <div class="wire two" data-id="w-cx" style="--c:2;--r:3"><span>every model call</span><i><em></em></i><span>routed by model</span></div>
+        <div class="box" data-id="prov" style="--c:3;--r:3"><b>Model providers</b><span>Anthropic for the main agent · a cheaper model for workers</span></div>
+
+        <div class="box in gap" data-id="sky" style="--c:1;--r:4"><b>talos-sky</b><span>tsky CLI + MCP server</span></div>
+        <div class="wire two" data-id="w-sky" style="--c:2;--r:4"><span>ssh</span><i><em></em></i><span>jobs · events · previews</span></div>
+        <div class="box" data-id="mach" style="--c:3;--r:4"><b>Your machines</b><span>rented GPUs · cloud VMs · lab servers, each with an outpost</span></div>
+
+        <div class="box in end gap soon" data-id="eh" style="--c:1;--r:5"><b>easy_harbor</b><span>in design</span></div>
+        <div class="wire" data-id="w-eh" style="--c:2;--r:5"><span>bundle</span><i><em></em></i><span>one file</span></div>
+        <div class="box soon" data-id="mate" style="--c:3;--r:5"><b>A teammate</b><span>reads, replays or continues the session in their own Claude Code</span></div>
+      </div>
+      <div class="st-pane">
+        <ol class="st-steps" style="--k:4">
+          <li data-on="cc w-you you"><button type="button"><span class="n">01</span><span class="t">Plan</span><i class="bar"></i></button>
+            <div class="st-d"><p>The main agent reads the code and writes one plan file, then keeps it current as work lands. A person approves the plan before anything runs, and reviews every result that comes back.</p></div></li>
+          <li data-on="cc cx w-cx prov"><button type="button"><span class="n">02</span><span class="t">Delegate</span><i class="bar"></i></button>
+            <div class="st-d"><p>Mechanical work with a clear check goes to workers on a cheaper model, through claude_x. They run as ordinary Claude Code subagents, and the main agent reviews what they return. <a href="/workflows/claude-x/">How claude_x works</a></p></div></li>
+          <li data-on="cc sky w-sky mach"><button type="button"><span class="n">03</span><span class="t">Run remote</span><i class="bar"></i></button>
+            <div class="st-d"><p>Training, rendering and simulation run on GPU machines through talos-sky outposts. Job ends, log alerts, renders and metrics come back into the same conversation. <a href="/workflows/talos-sky/">How talos-sky works</a></p></div></li>
+          <li data-on="cc eh w-eh mate"><button type="button"><span class="n">04</span><span class="t">Hand off</span><i class="bar"></i></button>
+            <div class="st-d"><p>When a teammate should carry on, the session becomes one bundle they can read, replay or continue in their own Claude Code. <a href="/workflows/easy-harbor/">The easy_harbor design</a></p></div></li>
+        </ol>
+        <div class="st-row">
+          <div class="st-say"></div>
+          <div class="st-ctl">
+            <button type="button" class="st-prev" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+            <button type="button" class="st-play" aria-label="Pause the tour"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6"/><rect x="9.4" y="3" width="2.6" height="10" rx="0.6"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8.5-5z"/></svg></button>
+            <button type="button" class="st-next" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="tools-h">
+  <h2 class="label" id="tools-h">The tools</h2>
+  <div class="content">
+    <p>One tool for each step that leaves the laptop. Each has its own page: what it does, a step-by-step diagram of how it works, and where it is going.</p>
+  </div>
+  <div class="wide">
+    <ul class="cards">
+      <li><a class="card" href="/workflows/claude-x/">
+        <span class="card-top"><span class="n">02 · Delegate</span><span class="tag">v0.1 · private preview</span></span>
+        <svg class="glyph anim" viewBox="0 0 240 76" aria-hidden="true">
+          <path class="d-line" d="M66 38 H112 V17 H174"/><path class="d-line" d="M112 38 V59 H174"/>
+          <circle class="d-dot" r="3"><animateMotion dur="2.4s" repeatCount="indefinite" path="M66 38 H112 V17 H174"/></circle>
+          <circle class="d-dot" r="3"><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite" path="M66 38 H112 V59 H174"/></circle>
+          <rect class="d-box" x="1" y="24" width="65" height="28" rx="5"/><text class="g-t" x="33.5" y="42" text-anchor="middle">agent</text>
+          <circle class="g-hub" cx="112" cy="38" r="5"/>
+          <rect class="d-box" x="174" y="4" width="65" height="26" rx="5"/><text class="g-t" x="206.5" y="21" text-anchor="middle">Claude</text>
+          <rect class="d-box on" x="174" y="46" width="65" height="26" rx="5"/><text class="g-t" x="206.5" y="63" text-anchor="middle">worker</text>
+        </svg>
+        <b class="card-name">claude_x</b>
+        <span class="card-claim">Cheaper models as native Claude Code subagents.</span>
+        <ul class="card-facts">
+          <li>Workers appear in the agent panel, with Claude Code's own tools and permissions.</li>
+          <li>A local gateway routes each request by model name.</li>
+          <li>Account identifiers are removed before anything leaves.</li>
+        </ul>
+        <span class="card-go">How it works <i>→</i></span>
+      </a></li>
+      <li><a class="card" href="/workflows/talos-sky/">
+        <span class="card-top"><span class="n">03 · Run remote</span><span class="tag">v0.5 · private preview</span></span>
+        <svg class="glyph anim" viewBox="0 0 240 76" aria-hidden="true">
+          <path class="d-line" d="M72 31 H168"/><path class="d-line" d="M72 45 H168"/>
+          <circle class="d-dot" r="3"><animateMotion dur="1.8s" repeatCount="indefinite" path="M72 31 H168"/></circle>
+          <circle class="d-dot" r="3"><animateMotion dur="1.8s" begin="-0.9s" repeatCount="indefinite" path="M168 45 H72"/></circle>
+          <text class="g-s" x="120" y="22" text-anchor="middle">jobs</text><text class="g-s" x="120" y="62" text-anchor="middle">events</text>
+          <rect class="d-box" x="1" y="18" width="71" height="40" rx="5"/><text class="g-t" x="36.5" y="42" text-anchor="middle">laptop</text>
+          <rect class="d-box on" x="168" y="18" width="71" height="40" rx="5"/><text class="g-t" x="203.5" y="42" text-anchor="middle">outpost</text>
+        </svg>
+        <b class="card-name">talos-sky</b>
+        <span class="card-claim">Outposts for your coding agent.</span>
+        <ul class="card-facts">
+          <li>Jobs, files, log watches and previews on any machine you can reach over SSH.</li>
+          <li>No model and no keys on the host.</li>
+          <li>Events reach the conversation, even after the laptop sleeps.</li>
+        </ul>
+        <span class="card-go">How it works <i>→</i></span>
+      </a></li>
+      <li><a class="card" href="/workflows/easy-harbor/">
+        <span class="card-top"><span class="n">04 · Hand off</span><span class="tag next">in design</span></span>
+        <svg class="glyph anim" viewBox="0 0 240 76" aria-hidden="true">
+          <path class="d-line" d="M63 38 H177"/>
+          <circle class="d-dot" r="3"><animateMotion dur="2.6s" repeatCount="indefinite" path="M63 38 H177"/></circle>
+          <rect class="d-box" x="1" y="24" width="62" height="28" rx="5"/><text class="g-t" x="32" y="42" text-anchor="middle">session</text>
+          <rect class="d-box on" x="89" y="18" width="62" height="40" rx="5"/><text class="g-t" x="120" y="42" text-anchor="middle">.harbor</text>
+          <rect class="d-box" x="177" y="24" width="62" height="28" rx="5"/><text class="g-t" x="208" y="42" text-anchor="middle">teammate</text>
+        </svg>
+        <b class="card-name">easy_harbor</b>
+        <span class="card-claim">Hand a Claude Code session to a teammate.</span>
+        <ul class="card-facts">
+          <li>Any Claude Code session as one redacted, readable bundle.</li>
+          <li>Replicate the run, or continue it in your own checkout.</li>
+          <li>Trajectories in ATIF, the Harbor format.</li>
+        </ul>
+        <span class="card-go">Read the design <i>→</i></span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="work-h">
+  <h2 class="label" id="work-h">How we work</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Plan first</dt>
+        <dd>Every task starts as one plan file that the agent keeps current. A person approves it before work starts and reads it again before anything ships.</dd>
+      </div>
+      <div>
+        <dt>Parallel, then review</dt>
+        <dd>Independent changes run as subagents in separate git worktrees. The main agent reviews each one and merges them in a fixed order. talos-sky 0.4 shipped this way.</dd>
+      </div>
+      <div>
+        <dt>Cheap work, checked</dt>
+        <dd>Workers get well-specified tasks with a clear done check, such as tests that must pass or citations to spot-check. Claude reviews what comes back before anyone relies on it.</dd>
+      </div>
+      <div>
+        <dt>Rent small, return fast</dt>
+        <dd>The cheapest GPU that fits the job, rented only after a person confirms the offer, and destroyed when the job is done.</dd>
+      </div>
+      <div>
+        <dt>Ask before it leaves</dt>
+        <dd>Pushes, deploys, rentals and anything sent outside the machine are confirmed by a person, every time.</dd>
+      </div>
+      <div>
+        <dt>Tools for people too</dt>
+        <dd>Every command has help and examples, every error says what to do next, and every agent action has a terminal equivalent.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="/">talos-ai.org</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="claude_x runs cheaper third-party models as native Claude Code subagents, through a small gateway on your machine that routes every request by model name.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="claude_x · Talos">
+<meta property="og:description" content="Cheaper models as native Claude Code subagents.">
+<meta property="og:url" content="https://talos-ai.org/workflows/claude-x/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>claude_x · Workflows · Talos</title>
+<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/workflows/workflows.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="/workflows/workflows.js" defer></script>
+</head>
+<body>
+<header class="wrap" id="top">
+  <div class="site">
+    <a class="brand" href="/" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="/#platform">Platform</a>
+      <a href="/workflows/" aria-current="true">Workflows</a>
+      <a href="/#careers">Careers</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<nav class="tabs" aria-label="Workflows">
+  <div class="wrap">
+    <a href="/workflows/">Overview</a>
+    <a href="/workflows/claude-x/" aria-current="page">claude_x<span class="ind"></span></a>
+    <a href="/workflows/talos-sky/">talos-sky</a>
+    <a href="/workflows/easy-harbor/">easy_harbor</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<main>
+<div class="hero sub">
+  <p class="kicker"><a href="/workflows/">Workflows</a> / <b>02</b> Delegate</p>
+  <h1>claude_x</h1>
+  <p class="claim">Cheaper models as native Claude Code subagents.</p>
+  <p class="lead">claude_x is a drop-in launcher for Claude Code. It registers workers that run on a third-party model, DeepSeek today, as ordinary subagents. They appear in the agent panel, use Claude Code's own tools, permissions and hooks, and can be steered mid-run like any other subagent. The main agent stays on Claude.</p>
+  <ul class="tags"><li class="tag">v0.1</li><li class="tag">private preview</li></ul>
+  <dl class="facts">
+    <div><dt>Claude Code, unmodified</dt><dd>The official CLI, started with its own flags.</dd></div>
+    <div><dt>Main agent on Claude</dt><dd>Only the work you delegate goes to the cheaper model.</dd></div>
+    <div><dt>Standard library only</dt><dd>One small Python package, nothing hosted.</dd></div>
+    <div><dt>Nothing left behind</dt><dd>No files in ~/.claude. Run plain claude to stop.</dd></div>
+  </dl>
+</div>
+
+<section class="sec rv" aria-labelledby="how-h">
+  <h2 class="label" id="how-h">How it works</h2>
+  <div class="content">
+    <p>claude_x starts a small gateway on your machine, then launches the official Claude Code pointed at it. Every model request passes through the gateway, which routes it by model name. Below is one delegation, end to end.</p>
+  </div>
+  <div class="wide">
+    <figure class="sch st" data-stepper aria-labelledby="cx-cap">
+      <figcaption id="cx-cap">One delegation: the main agent hands a task to a worker; the gateway sends each request to the right provider.</figcaption>
+      <div class="g cx">
+        <div class="zone" style="--c:1;--r:1 / 3">
+          <span class="zt">Claude Code · official, unmodified</span>
+          <div class="box" data-id="main"><b>Main agent</b><span>Claude · plans and reviews</span></div>
+          <div class="box" data-id="worker"><b>ds-flash · ds-pro</b><span>workers, registered as native subagents</span></div>
+          <div class="box" data-id="tools"><b>Tools</b><span>Read · Edit · Bash · Grep run here, on your machine</span></div>
+        </div>
+        <div class="wire two" data-id="w-in" style="--c:2;--r:1 / 3"><span>model requests</span><i><em></em></i><span>streamed replies</span></div>
+        <div class="box tall" data-id="gw" style="--c:3;--r:1 / 3"><b>Gateway</b><span>127.0.0.1 · per-session token</span><span>routes on the request's model name · logs worker cost</span></div>
+        <div class="wire two" data-id="w-anth" style="--c:4;--r:1"><span>claude-*</span><i><em></em></i><span>byte for byte</span></div>
+        <div class="box" data-id="anth" style="--c:5;--r:1"><b>Anthropic</b><span>main agent, your own plan or key</span></div>
+        <div class="wire two" data-id="w-prov" style="--c:4;--r:2"><span>worker model</span><i><em></em></i><span>identifiers removed, checked</span></div>
+        <div class="box" data-id="prov" style="--c:5;--r:2"><b>Third-party provider</b><span>any Anthropic-compatible endpoint · DeepSeek today</span></div>
+      </div>
+      <div class="st-pane">
+        <ol class="st-steps" style="--k:6">
+          <li data-on="main w-in gw w-anth anth"><button type="button"><span class="n">01</span><span class="t">Ask</span><i class="bar"></i></button>
+            <div class="st-d"><p>You talk to the main agent as usual. Its model calls pass through the gateway to Anthropic byte for byte, on your own plan or key.</p></div></li>
+          <li data-on="main worker"><button type="button"><span class="n">02</span><span class="t">Delegate</span><i class="bar"></i></button>
+            <div class="st-d"><p>The main agent hands a well-specified task to ds-flash. Workers are registered for this session through Claude Code's own agent definitions, so they appear in the agent panel like any subagent.</p></div></li>
+          <li data-on="worker w-in gw"><button type="button"><span class="n">03</span><span class="t">Route</span><i class="bar"></i></button>
+            <div class="st-d"><p>The worker's request names a non-Claude model. The gateway sees that name and takes the third-party lane. Claude model names can never be rerouted.</p></div></li>
+          <li data-on="gw w-prov prov"><button type="button"><span class="n">04</span><span class="t">Clean</span><i class="bar"></i></button>
+            <div class="st-d"><p>Account identifiers, billing tags and the memory index are removed, and a final scan refuses the request if any survive. Then it goes out with the provider's own key.</p></div></li>
+          <li data-on="<w-prov gw <w-in worker tools"><button type="button"><span class="n">05</span><span class="t">Act locally</span><i class="bar"></i></button>
+            <div class="st-d"><p>The reply streams back. The worker model only chooses the next tool call; Claude Code runs Read, Edit and Bash on your machine, under your permission rules.</p></div></li>
+          <li data-on="worker main gw"><button type="button"><span class="n">06</span><span class="t">Report</span><i class="bar"></i></button>
+            <div class="st-d"><p>The worker reports back and the main agent reviews the result before relying on it. The gateway logs the worker's tokens and cost at the provider's real prices.</p></div></li>
+        </ol>
+        <div class="st-row">
+          <div class="st-say"></div>
+          <div class="st-ctl">
+            <button type="button" class="st-prev" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+            <button type="button" class="st-play" aria-label="Pause the tour"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6"/><rect x="9.4" y="3" width="2.6" height="10" rx="0.6"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8.5-5z"/></svg></button>
+            <button type="button" class="st-next" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="what-h">
+  <h2 class="label" id="what-h">What it does</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Native subagents</dt>
+        <dd>Workers come in through Claude Code's own agent definitions, not an MCP server, so permissions, hooks, the agent panel and steering mid-run all work as usual.</dd>
+      </div>
+      <div>
+        <dt>Private by default</dt>
+        <dd>Only a short list of headers is forwarded to the third party. Account identifiers and the memory index are removed, and a final scan refuses any request where one survives.</dd>
+      </div>
+      <div>
+        <dt>Workers stay workers</dt>
+        <dd>Workers cannot start subagents of their own, so a delegated task cannot fan out into more Claude work. Provider errors come back clearly marked and fail fast instead of retrying.</dd>
+      </div>
+      <div>
+        <dt>Real costs</dt>
+        <dd>Each worker request is written to a local ledger with its tokens and cost at the provider's prices, including cache reads and peak hours.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="use-h">
+  <h2 class="label" id="use-h">Use it</h2>
+  <div class="content">
+    <figure class="snippet"><figcaption>Use it like claude</figcaption><pre><code><span class="ln"><span class="m">claude_x</span>             <span class="c"># same flags as claude, plus the workers</span></span><span class="ln"><span class="k">&gt;</span> <span class="s">@ds-flash</span> add type hints in src/utils and run the tests</span><span class="ln"> </span><span class="ln"><span class="m">claude_x</span> --x-usage   <span class="c"># what the workers cost today and this week</span></span><span class="ln"><span class="m">claude</span>               <span class="c"># plain claude, nothing left behind</span></span></code></pre></figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="safe-h">
+  <h2 class="label" id="safe-h">Guarantees</h2>
+  <div class="content">
+    <ul class="points">
+      <li>The gateway listens on 127.0.0.1 only and answers only requests that carry this session's random token.</li>
+      <li>Claude model names cannot be rerouted. They always go to Anthropic, unchanged.</li>
+      <li>The provider key is read per request, never written by claude_x, and sent only to its own provider.</li>
+      <li>A worker request in which any account identifier survives is refused and never sent.</li>
+      <li>Tools run on your machine, under Claude Code's own permission rules.</li>
+      <li>Nothing is installed into ~/.claude, and plain claude is untouched.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="next-h">
+  <h2 class="label" id="next-h">Limits and next</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Limits today</dt>
+        <dd>Only Anthropic-compatible endpoints, and DeepSeek is the only provider tested. Claude Code's own cost display prices workers as a Claude model; <code>claude_x --x-usage</code> shows the real spend. Workers are reachable from the main session only.</dd>
+      </div>
+      <div>
+        <dt>Next</dt>
+        <dd>More providers behind the same gateway.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Workflows pages">
+  <a class="prev" href="/workflows/">← Back<b>Overview</b></a>
+  <a class="next" href="/workflows/talos-sky/">Next · 03 Run remote<b>talos-sky →</b></a>
+</nav>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="/">talos-ai.org</a>
+</footer>
+</div>
+</body>
+</html>

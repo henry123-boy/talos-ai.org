@@ -11,8 +11,11 @@ WEBROOT="/var/www/talos-ai.org"
 AVAILABLE="/etc/nginx/sites-available/talos-ai.org.conf"
 ENABLED="/etc/nginx/sites-enabled/talos-ai.org.conf"
 
-install -d -o root -g root -m 0755 "$WEBROOT" "$WEBROOT/fonts"
-for item in index.html favicon.ico favicon.svg apple-touch-icon.png icon-192.png icon-512.png og-image.png site.webmanifest; do
+install -d -o root -g root -m 0755 "$WEBROOT" "$WEBROOT/fonts" "$WEBROOT/workflows" \
+  "$WEBROOT/workflows/claude-x" "$WEBROOT/workflows/talos-sky" "$WEBROOT/workflows/easy-harbor"
+for item in index.html workflows/index.html workflows/workflows.css workflows/workflows.js \
+  workflows/claude-x/index.html workflows/talos-sky/index.html workflows/easy-harbor/index.html \
+  favicon.ico favicon.svg apple-touch-icon.png icon-192.png icon-512.png og-image.png site.webmanifest; do
   install -o root -g root -m 0644 "$SITE_DIR/$item" "$WEBROOT/$item"
 done
 install -o root -g root -m 0644 "$SITE_DIR/fonts/archivo-variable.ttf" "$WEBROOT/fonts/archivo-variable.ttf"

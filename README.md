@@ -21,7 +21,8 @@ Talos 官网，单页静态网站，部署在自己的服务器上，由 nginx �
 4. 服务器如果在中国大陆，网站必须先做 ICP 备案才能用 80/443 端口访问。选香港或海外的服务器就不需要备案。
 
 ## 文件说明
-- `index.html`：整个页面，样式和脚本都写在里面
+- `index.html`：首页，样式和脚本都写在里面
+- `workflows/`：Workflows 子页（/workflows/），介绍我们的开发流程和三个工具。`index.html` 是总览，`claude-x/`、`talos-sky/`、`easy-harbor/` 各是一个工具的子页；四个页面共用 `workflows.css` 和 `workflows.js`（分步动画图）。新增页面或文件时，记得同时加进 `deploy/deploy.sh` 的文件清单
 - `favicon.*`、`apple-touch-icon.png`、`icon-*.png`、`site.webmanifest`：网站图标，来自 `talos-brand/web/`
 - `og-image.png`：在微信、Slack、X 里分享链接时显示的预览图
 - `fonts/`：Archivo 字体（自托管，不依赖 Google Fonts）及其 OFL 许可

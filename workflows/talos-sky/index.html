@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="talos-sky gives the coding agent on your laptop an outpost on every machine you can reach over SSH: jobs, files, log watches and previews, with no model and no keys on the host.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="talos-sky · Talos">
+<meta property="og:description" content="Outposts for your coding agent.">
+<meta property="og:url" content="https://talos-ai.org/workflows/talos-sky/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>talos-sky · Workflows · Talos</title>
+<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/workflows/workflows.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="/workflows/workflows.js" defer></script>
+</head>
+<body>
+<header class="wrap" id="top">
+  <div class="site">
+    <a class="brand" href="/" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="/#platform">Platform</a>
+      <a href="/workflows/" aria-current="true">Workflows</a>
+      <a href="/#careers">Careers</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<nav class="tabs" aria-label="Workflows">
+  <div class="wrap">
+    <a href="/workflows/">Overview</a>
+    <a href="/workflows/claude-x/">claude_x</a>
+    <a href="/workflows/talos-sky/" aria-current="page">talos-sky<span class="ind"></span></a>
+    <a href="/workflows/easy-harbor/">easy_harbor</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<main>
+<div class="hero sub">
+  <p class="kicker"><a href="/workflows/">Workflows</a> / <b>03</b> Run remote</p>
+  <h1>talos-sky</h1>
+  <p class="claim">Outposts for your coding agent.</p>
+  <p class="lead">talos-sky gives the agent on your laptop, Claude Code or Codex, an outpost on every machine you can reach over SSH: a rented GPU, a cloud VM, a lab server. Through it the agent runs commands and long jobs, copies files both ways, has cheap rules watch the logs, and sees renders, videos, 3D models and metrics as they are made.</p>
+  <ul class="tags"><li class="tag">v0.5</li><li class="tag">private preview</li></ul>
+  <dl class="facts">
+    <div><dt>No keys on hosts</dt><dd>The outpost runs no model. Model calls leave from your laptop, with your agent's own login.</dd></div>
+    <div><dt>python3 is enough</dt><dd>No pip, no network and no repository access needed on the host.</dd></div>
+    <div><dt>Agent and terminal</dt><dd>Ten MCP tools, and a tsky command for each of them.</dd></div>
+    <div><dt>Survives sleep</dt><dd>Events from while the laptop was away arrive when it comes back.</dd></div>
+  </dl>
+</div>
+
+<section class="sec rv" aria-labelledby="how-h">
+  <h2 class="label" id="how-h">How it works</h2>
+  <div class="content">
+    <p>The laptop opens every connection. On the host, the outpost keeps jobs, watches and an event log, and listens only on a private socket reached through SSH. Below is one background job, end to end.</p>
+  </div>
+  <div class="wide">
+    <figure class="sch st" data-stepper aria-labelledby="sky-cap">
+      <figcaption id="sky-cap">One background job: start it, watch it, hear about it, look at what it made.</figcaption>
+      <div class="g sky">
+        <div class="zone" style="--c:1;--r:1">
+          <span class="zt">Laptop</span>
+          <div class="box" data-id="agent"><b>Claude Code · Codex</b><span>main agent, plus an outpost subagent on a small model for multi-step remote work</span></div>
+          <div class="box" data-id="mcp"><b>tsky mcp</b><span>one live link per host · pushes events into the session</span></div>
+          <div class="box" data-id="view"><b>tsky view · forward</b><span>preview board and tunnels, on 127.0.0.1 only</span></div>
+        </div>
+        <div class="wire two" data-id="w" style="--c:2;--r:1"><span>exec · put · get · watch</span><i><em></em></i><span>job ends · alerts · previews</span></div>
+        <div class="zone" style="--c:3;--r:1">
+          <span class="zt">Host · any ssh-able machine</span>
+          <div class="box" data-id="outpost"><b>Outpost</b><span>no model · no API keys · needs only python3</span></div>
+          <div class="box" data-id="jobs"><b>Jobs</b><span>own process group · survive restarts and upgrades</span></div>
+          <div class="box" data-id="watches"><b>Watches</b><span>log patterns · disk · memory · each hit with a GPU snapshot</span></div>
+          <div class="box" data-id="events"><b>Event log</b><span>numbered · written before delivery · replayed after sleep</span></div>
+          <div class="box" data-id="preview"><b>preview/</b><span>png · mp4 · glb · ply · metrics</span></div>
+        </div>
+      </div>
+      <div class="st-pane">
+        <ol class="st-steps" style="--k:6">
+          <li data-on="mcp w outpost"><button type="button"><span class="n">01</span><span class="t">Add a host</span><i class="bar"></i></button>
+            <div class="st-d"><p><code>tsky add</code> copies the outpost over SSH and starts it. Upgrades swap atomically and roll back if the outpost does not come back.</p></div></li>
+          <li data-on="agent mcp w outpost jobs"><button type="button"><span class="n">02</span><span class="t">Start a job</span><i class="bar"></i></button>
+            <div class="st-d"><p>The agent calls <code>exec</code> in the background. The outpost starts the job under its own supervisor and hands back a job id at once; the job keeps running if the outpost restarts.</p></div></li>
+          <li data-on="agent w jobs watches"><button type="button"><span class="n">03</span><span class="t">Watch</span><i class="bar"></i></button>
+            <div class="st-d"><p>The agent asks the outpost to follow <code>train.log</code> for <code>nan|Traceback</code>. Disk and memory are watched from the start. The rules run on the host, without a model.</p></div></li>
+          <li data-on="jobs watches events"><button type="button"><span class="n">04</span><span class="t">Something happens</span><i class="bar"></i></button>
+            <div class="st-d"><p>The loss goes NaN. The watch hit is written to the numbered event log first, with a snapshot of load, memory, disk and GPU.</p></div></li>
+          <li data-on="events <w mcp agent"><button type="button"><span class="n">05</span><span class="t">Back in the session</span><i class="bar"></i></button>
+            <div class="st-d"><p>The event is pushed into the live conversation and the agent decides what to do. Events from while the laptop slept are replayed when it reconnects.</p></div></li>
+          <li data-on="preview <w view agent"><button type="button"><span class="n">06</span><span class="t">See the result</span><i class="bar"></i></button>
+            <div class="st-d"><p>Renders, video, 3D models and metrics the job writes to <code>preview/</code> come back for the agent to look at. TensorBoard, Rerun or viser come through a localhost tunnel.</p></div></li>
+        </ol>
+        <div class="st-row">
+          <div class="st-say"></div>
+          <div class="st-ctl">
+            <button type="button" class="st-prev" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+            <button type="button" class="st-play" aria-label="Pause the tour"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6"/><rect x="9.4" y="3" width="2.6" height="10" rx="0.6"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8.5-5z"/></svg></button>
+            <button type="button" class="st-next" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="what-h">
+  <h2 class="label" id="what-h">What it does</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Jobs</dt>
+        <dd>Run a command, or start a long one in the background and get a job id. Kill it, tail it, or let it finish while you are away.</dd>
+      </div>
+      <div>
+        <dt>Files</dt>
+        <dd>Copy files and folders both ways over one shared SSH connection per host. Nothing is overwritten unless asked.</dd>
+      </div>
+      <div>
+        <dt>Watches</dt>
+        <dd>Cheap rules on the host: a log line matching a pattern, a full disk, low memory. Each hit arrives with load, memory and GPU state.</dd>
+      </div>
+      <div>
+        <dt>Previews</dt>
+        <dd>Anything a job writes to <code>preview/</code> reaches the agent: images, video, 3D models drawn from four sides, metrics as curves.</dd>
+      </div>
+      <div>
+        <dt>Remote viewers</dt>
+        <dd>Bring TensorBoard, Jupyter, Rerun, viser or a simulator page to a localhost URL through a tunnel that reconnects by itself.</dd>
+      </div>
+      <div>
+        <dt>Two modes</dt>
+        <dd>Operate, gated by your agent's permission prompts, or read-only: allowlisted inspection commands, no shell, no uploads.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="use-h">
+  <h2 class="label" id="use-h">Use it</h2>
+  <div class="content">
+    <figure class="snippet"><figcaption>Everything the agent does through MCP, a person can do from the terminal</figcaption><pre><code><span class="ln"><span class="m">tsky</span> add gpu-1 --ssh ubuntu@gpu-1.example.com   <span class="c"># installs and starts the outpost</span></span><span class="ln"><span class="m">tsky</span> exec gpu-1 -b -- python train.py           <span class="c"># a long job, with a job id</span></span><span class="ln"><span class="m">tsky</span> watch gpu-1 --file train.log --pattern <span class="s">"nan|Traceback"</span></span><span class="ln"><span class="m">tsky</span> peek gpu-1 --label render                  <span class="c"># the latest render, inline</span></span><span class="ln"><span class="m">tsky</span> forward gpu-1 6006                         <span class="c"># TensorBoard on localhost</span></span></code></pre></figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="safe-h">
+  <h2 class="label" id="safe-h">Safety</h2>
+  <div class="content">
+    <ul class="points">
+      <li>The outpost runs no model, and tsky stores no credentials on either side.</li>
+      <li>Everything a host sends is treated as untrusted: capped, cleaned, and never able to approve a tool call.</li>
+      <li>The laptop opens every connection. The outpost listens only on a private Unix socket reached through SSH.</li>
+      <li>The preview board and tunnels listen on 127.0.0.1 only.</li>
+      <li>Copies unpack only regular files inside the target, and overwrite nothing unless asked.</li>
+      <li>Read-only mode is a guard rail, not a sandbox: rented machines get a low-privilege user and no long-lived credentials.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="next-h">
+  <h2 class="label" id="next-h">Limits and next</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Limits today</dt>
+        <dd>Events reach Claude Code live through its research-preview channels; other agents read them with the events tool. Previews over 32 MiB are not fetched. Renting a GPU goes through your own provider CLI, after you confirm the offer.</dd>
+      </div>
+      <div>
+        <dt>Next</dt>
+        <dd>3D previews you can turn around, a shared preview board for a team, hosts straight from a scheduler, sandboxes from ready images such as Blender and MuJoCo, and storage that outlives a host.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Workflows pages">
+  <a class="prev" href="/workflows/claude-x/">← 02 Delegate<b>claude_x</b></a>
+  <a class="next" href="/workflows/easy-harbor/">Next · 04 Hand off<b>easy_harbor →</b></a>
+</nav>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="/">talos-ai.org</a>
+</footer>
+</div>
+</body>
+</html>

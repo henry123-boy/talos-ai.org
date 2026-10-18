@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="easy_harbor, in design: turn any Claude Code session into one redacted, readable bundle that a teammate can replicate or continue in their own Claude Code.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="easy_harbor · Talos">
+<meta property="og:description" content="Hand a Claude Code session to a teammate.">
+<meta property="og:url" content="https://talos-ai.org/workflows/easy-harbor/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>easy_harbor · Workflows · Talos</title>
+<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/workflows/workflows.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="/workflows/workflows.js" defer></script>
+</head>
+<body>
+<header class="wrap" id="top">
+  <div class="site">
+    <a class="brand" href="/" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="/#platform">Platform</a>
+      <a href="/workflows/" aria-current="true">Workflows</a>
+      <a href="/#careers">Careers</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<nav class="tabs" aria-label="Workflows">
+  <div class="wrap">
+    <a href="/workflows/">Overview</a>
+    <a href="/workflows/claude-x/">claude_x</a>
+    <a href="/workflows/talos-sky/">talos-sky</a>
+    <a href="/workflows/easy-harbor/" aria-current="page">easy_harbor<span class="ind"></span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+<main>
+<div class="hero sub">
+  <p class="kicker"><a href="/workflows/">Workflows</a> / <b>04</b> Hand off</p>
+  <h1>easy_harbor</h1>
+  <p class="claim">Hand a Claude Code session to a teammate.</p>
+  <p class="lead">A long agent session holds more than its final diff: the plan, the decisions, the dead ends, the commands that worked. easy_harbor turns any Claude Code session into one standard bundle that another person can read in a browser, reproduce from the same repo state, or continue in their own Claude Code.</p>
+  <ul class="tags"><li class="tag next">in design</li></ul>
+  <dl class="facts">
+    <div><dt>One file per session</dt><dd>Trajectory, summary, viewer, repo patch and the original log.</dd></div>
+    <div><dt>Two modes</dt><dd>Replicate what happened, or continue where it stopped.</dd></div>
+    <div><dt>ATIF inside</dt><dd>The trajectory format of the Harbor framework.</dd></div>
+    <div><dt>Reviewed before it leaves</dt><dd>Nothing is packed until the sender approves the redaction.</dd></div>
+  </dl>
+</div>
+
+<section class="sec rv" aria-labelledby="how-h">
+  <h2 class="label" id="how-h">How it works</h2>
+  <div class="content">
+    <p>The trajectory inside is ATIF, the format of the Harbor framework we already use to deliver agent runs on our tasks. Harbor can already convert and hand off the sessions it runs itself in a sandbox. easy_harbor does the same for everyday sessions on a laptop, with real repos, long histories, subagents and secrets.</p>
+  </div>
+  <div class="wide">
+    <figure class="sch st" data-stepper aria-labelledby="eh-cap">
+      <figcaption id="eh-cap">From one person's session to another person's checkout. Redaction happens, and is reviewed, before anything leaves the machine.</figcaption>
+      <div class="g eh">
+        <div class="zone" style="--c:1;--r:1">
+          <span class="zt">Your session</span>
+          <div class="box" data-id="log"><b>Session log</b><span>messages · tool calls · results · subagent logs · compactions</span></div>
+          <div class="box" data-id="ctx"><b>Context</b><span>plan · tasks · project notes, opt-in</span></div>
+          <div class="box" data-id="repo"><b>Repo</b><span>start and end commit · uncommitted diff</span></div>
+        </div>
+        <div class="wire" data-id="w-pack" style="--c:2;--r:1"><span>pack</span><i><em></em></i><span>&nbsp;</span></div>
+        <div class="zone" style="--c:3;--r:1">
+          <span class="zt">easy_harbor</span>
+          <div class="box" data-id="redact"><b><span class="n">01</span>Redact</b><span>keys · tokens · emails · home paths</span></div>
+          <div class="box" data-id="norm"><b><span class="n">02</span>Normalise</b><span>one ATIF step per action, subagents nested</span></div>
+          <div class="box" data-id="sum"><b><span class="n">03</span>Summarise</b><span>summary + continuation brief</span></div>
+          <div class="box" data-id="render"><b><span class="n">04</span>Render</b><span>a viewer that opens offline</span></div>
+        </div>
+        <div class="wire" data-id="w-send" style="--c:4;--r:1"><span>send</span><i><em></em></i><span>&nbsp;</span></div>
+        <div class="zone" style="--c:5;--r:1">
+          <span class="zt">fix-loader.harbor</span>
+          <div class="box" data-id="bundle"><b>One file</b><span>trajectory · summary · brief · viewer · repo patch · redacted original log · redaction report</span></div>
+        </div>
+        <div class="wire" data-id="w-inspect" style="--c:6;--r:1"><span>inspect</span><i><em></em></i><span>&nbsp;</span></div>
+        <div class="zone" style="--c:7;--r:1">
+          <span class="zt">A teammate</span>
+          <div class="box" data-id="rep"><b>Replicate</b><span>same repo state · step through the run</span></div>
+          <div class="box" data-id="cont"><b>Continue</b><span>resume in their own checkout, or start from the brief</span></div>
+        </div>
+      </div>
+      <div class="st-pane">
+        <ol class="st-steps" style="--k:7">
+          <li data-on="log ctx repo"><button type="button"><span class="n">01</span><span class="t">Collect</span><i class="bar"></i></button>
+            <div class="st-d"><p>easy_harbor reads one session: the log with its subagents and compactions, the plan and notes you opt in, and the repo's start and end commits with the uncommitted diff.</p></div></li>
+          <li data-on="w-pack redact"><button type="button"><span class="n">02</span><span class="t">Redact</span><i class="bar"></i></button>
+            <div class="st-d"><p>Keys, tokens, emails and home paths become typed placeholders such as <code>${HOME}</code>, which the receiver fills back in. The sender reviews the report; nothing is packed before that.</p></div></li>
+          <li data-on="norm"><button type="button"><span class="n">03</span><span class="t">Normalise</span><i class="bar"></i></button>
+            <div class="st-d"><p>Every action becomes one ATIF step, with tool definitions, compactions and nested subagents. The redacted original log is kept as well, for an exact resume.</p></div></li>
+          <li data-on="sum"><button type="button"><span class="n">04</span><span class="t">Summarise</span><i class="bar"></i></button>
+            <div class="st-d"><p>A summary for the person picking it up and a continuation brief for their agent. Files, diffs and cost come from code; the narrative cites the steps it draws on.</p></div></li>
+          <li data-on="render w-send bundle"><button type="button"><span class="n">05</span><span class="t">Pack</span><i class="bar"></i></button>
+            <div class="st-d"><p>An offline viewer is rendered, and everything goes into one <code>.harbor</code> file that can be sent like any other file.</p></div></li>
+          <li data-on="bundle w-inspect"><button type="button"><span class="n">06</span><span class="t">Inspect</span><i class="bar"></i></button>
+            <div class="st-d"><p>On the receiver's machine, <code>inspect</code> checks the Claude Code version, tools and MCP servers, the commits, and what resuming would cost, before anything is changed.</p></div></li>
+          <li data-on="rep cont"><button type="button"><span class="n">07</span><span class="t">Replicate or continue</span><i class="bar"></i></button>
+            <div class="st-d"><p>Replicate rebuilds the repo state and steps through the run. Continue resumes the session in their own checkout under a fresh id, or starts a new one from the brief.</p></div></li>
+        </ol>
+        <div class="st-row">
+          <div class="st-say"></div>
+          <div class="st-ctl">
+            <button type="button" class="st-prev" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+            <button type="button" class="st-play" aria-label="Pause the tour"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6"/><rect x="9.4" y="3" width="2.6" height="10" rx="0.6"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8.5-5z"/></svg></button>
+            <button type="button" class="st-next" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="ch" d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="modes-h">
+  <h2 class="label" id="modes-h">What you get</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Replicate</dt>
+        <dd>Rebuild the repo at the session's starting commit, apply the end state and check it against recorded file hashes, then step through every message, tool call and diff in the viewer. A session can also be emitted as a Harbor task and re-run by an agent.</dd>
+      </div>
+      <div>
+        <dt>Continue</dt>
+        <dd>After checking the receiver's setup, easy_harbor picks the best of three: an exact resume with paths rewritten to their checkout, a trimmed resume, or a new session that starts from the continuation brief.</dd>
+      </div>
+      <div>
+        <dt>Redacted first</dt>
+        <dd>Secrets become typed placeholders and paths become <code>${PROJECT_ROOT}</code> or <code>${HOME}</code>. Thinking blocks are dropped, never edited. The bundle carries a report of everything removed.</dd>
+      </div>
+      <div>
+        <dt>Readable by people</dt>
+        <dd>A summary for whoever picks it up: the goal, what was decided and why, the current state, open work and how to test it. The raw log stays the source of truth.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="bundle-h">
+  <h2 class="label" id="bundle-h">The bundle</h2>
+  <div class="content">
+    <figure class="snippet"><figcaption>Bundle layout and commands · draft</figcaption><pre><code><span class="ln"><span class="d">fix-loader.harbor/</span></span><span class="ln">  manifest.json       <span class="c"># source, versions, repo, commits, placeholders, requirements</span></span><span class="ln">  trajectory.json     <span class="c"># ATIF: steps, tool definitions, compactions, subagents</span></span><span class="ln">  summary.md          <span class="c"># goal, decisions, current state, open work, how to test</span></span><span class="ln">  brief.md            <span class="c"># a continuation brief, ready to start a new session</span></span><span class="ln">  native/             <span class="c"># the redacted original session, for an exact resume</span></span><span class="ln">  repo/               <span class="c"># commits, end.patch, hashes of touched files</span></span><span class="ln">  viewer/index.html   <span class="c"># timeline, tool calls, diffs, subagent tree</span></span><span class="ln">  redaction/          <span class="c"># what was removed, and why</span></span><span class="ln"> </span><span class="ln"><span class="m">easy_harbor</span> pack --current -o fix-loader.harbor   <span class="c"># redact, summarise, render</span></span><span class="ln"><span class="m">easy_harbor</span> view fix-loader.harbor                <span class="c"># open the viewer</span></span><span class="ln"><span class="m">easy_harbor</span> inspect fix-loader.harbor             <span class="c"># versions, tools, cost to resume</span></span><span class="ln"><span class="m">easy_harbor</span> continue fix-loader.harbor            <span class="c"># resume, or start from the brief</span></span><span class="ln"><span class="m">easy_harbor</span> replicate fix-loader.harbor           <span class="c"># rebuild the repo, step through</span></span></code></pre></figure>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="open-h">
+  <h2 class="label" id="open-h">Open questions</h2>
+  <div class="content">
+    <ul class="points">
+      <li>Claude Code's session format is internal and changes between versions, so the reader is versioned per release and passes unknown records through untouched.</li>
+      <li>Exact resume across accounts is not yet verified. Thinking blocks are dropped rather than edited, and the brief is always there as a fallback.</li>
+      <li>Redaction is best-effort, which is why a person reviews every report before a bundle is packed.</li>
+      <li>Changes outside the repo, such as databases or cloud resources, cannot be replicated. The bundle lists them instead of hiding them.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec rv" aria-labelledby="next-h">
+  <h2 class="label" id="next-h">Plan</h2>
+  <div class="content">
+    <ol class="points">
+      <li>First: pack, redact and view a session.</li>
+      <li>Then: summaries and continuation briefs.</li>
+      <li>Then: exact resume on another person's machine.</li>
+    </ol>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Workflows pages">
+  <a class="prev" href="/workflows/talos-sky/">← 03 Run remote<b>talos-sky</b></a>
+  <a class="next" href="/workflows/">Back to the loop<b>Overview →</b></a>
+</nav>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="/">talos-ai.org</a>
+</footer>
+</div>
+</body>
+</html>

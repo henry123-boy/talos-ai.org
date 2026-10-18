@@ -189,6 +189,10 @@ h1 {
 @media (max-width: 900px) {
   .offer { grid-template-columns: minmax(0, 1fr); max-width: 40em; }
 }
+@media (max-width: 520px) {
+  .site { flex-wrap: wrap; row-gap: 6px; padding-bottom: 12px; }
+  .site nav { width: 100%; gap: 22px; }
+}
 @media (max-width: 760px) {
   .sec { grid-template-columns: minmax(0, 1fr); }
   .code-bg { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; opacity: 0.4; }
@@ -392,6 +396,7 @@ verifier  trajectory_rmse 0.012   frame_psnr 34.6 dB
     </a>
     <nav aria-label="Sections">
       <a href="#platform">Platform</a>
+      <a href="/workflows/">Workflows</a>
       <a href="#careers">Careers</a>
       <a href="#contact">Contact</a>
     </nav>
