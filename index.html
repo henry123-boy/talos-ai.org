@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Talos builds RL environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.">
+<meta name="description" content="RL environments, trajectories and evals for agents that design, build and test, graded by solvers and by our own factory.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#0E0F11">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Talos · RL environments for the physical world">
-<meta property="og:description" content="Talos builds RL environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.">
+<meta property="og:description" content="RL environments, trajectories and evals for agents that design, build and test, graded by solvers and by our own factory.">
 <meta property="og:url" content="https://talos-ai.org/">
 <meta property="og:image" content="https://talos-ai.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -154,12 +154,12 @@ h1 {
 }
 .stage-head {
   display: flex; justify-content: space-between; gap: 16px; padding: 11px 16px; border-bottom: 1px solid var(--rule);
-  font: 11.5px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--hot);
+  font: 12.5px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--hot);
 }
 .stage-head .id { color: var(--line); text-transform: none; letter-spacing: 0.02em; }
 .view { position: relative; flex: 1; min-height: 0; }
 .view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.spec { position: absolute; left: 16px; top: 12px; max-width: 44%; font: 11.5px/1.6 var(--mono); color: var(--muted); pointer-events: none; }
+.spec { position: absolute; left: 16px; top: 12px; max-width: 44%; font: 12.5px/1.6 var(--mono); color: var(--muted); pointer-events: none; }
 .spec p { margin: 0; }
 .spec .brief { color: var(--text); margin-bottom: 8px; }
 .spec .k { display: inline-block; width: 6.5em; }
@@ -167,8 +167,8 @@ h1 {
 
 /* the instrument: a drawing, a plot or a program, one per stage, in the column under the brief */
 .inst { position: absolute; left: 16px; top: 104px; width: 42%; height: 240px; overflow: visible; pointer-events: none; }
-.inst text { font: 10px var(--mono); fill: var(--muted); letter-spacing: 0.04em; }
-.inst .it { font-size: 10.5px; letter-spacing: 0.07em; }
+.inst text { font: 11px var(--mono); fill: var(--muted); letter-spacing: 0.04em; }
+.inst .it { font-size: 11.5px; letter-spacing: 0.07em; }
 .inst .ink { fill: none; stroke: var(--line); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
 .inst .thick { fill: none; stroke: var(--line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .inst .thin { fill: none; stroke: var(--muted); stroke-width: 0.8; stroke-linecap: round; }
@@ -181,7 +181,7 @@ h1 {
 .inst .lbl { fill: var(--text); }
 .inst .hl { fill: var(--hot); }
 .inst .pen { fill: var(--hot); }
-.inst .prog text { font-size: 10px; }
+.inst .prog text { font-size: 10.5px; }
 .inst .prog .cur { fill: var(--hot); }
 .inst .prog .done { fill: var(--muted); opacity: 0.55; }
 .inst .prog .todo { fill: var(--text); }
@@ -192,7 +192,7 @@ h1 {
   position: absolute; left: 16px; bottom: 14px; width: 42%; margin: 0;
   padding: 12px 14px 11px; border: 1px solid var(--rule); border-radius: 3px;
   background: color-mix(in srgb, var(--bg) 86%, transparent);
-  font: 10.5px/1.45 var(--mono); letter-spacing: 0.05em; color: var(--muted);
+  font: 11.5px/1.45 var(--mono); letter-spacing: 0.05em; color: var(--muted);
   opacity: 0; pointer-events: none;
 }
 .chart .ct { color: var(--line); text-transform: uppercase; }
@@ -201,7 +201,7 @@ h1 {
 .chart .pred { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; }
 .chart .meas { fill: none; stroke: var(--hot); stroke-width: 1.6; }
 .chart .dot { fill: var(--hot); }
-.chart text { fill: var(--muted); font: 9px var(--mono); letter-spacing: 0.04em; }
+.chart text { fill: var(--muted); font: 10px var(--mono); letter-spacing: 0.04em; }
 .chart .legend { display: flex; gap: 14px; text-transform: uppercase; }
 .chart .legend b { display: inline-block; width: 14px; height: 0; margin-right: 6px; vertical-align: middle; border-top: 1.6px solid var(--hot); }
 .chart .legend .p b { border-top: 1.2px dashed var(--muted); }
@@ -212,10 +212,10 @@ h1 {
   padding: 12px 16px 14px; border-top: 1px solid var(--rule);
   font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
 }
-.loop .label { display: block; margin-bottom: 10px; font-size: 10.5px; color: var(--muted); }
+.loop .label { display: block; margin-bottom: 10px; font-size: 11.5px; color: var(--muted); }
 .loop .real .label { color: var(--hot); }
 .loop ol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.loop li, .loop .back { position: relative; padding-bottom: 9px; font-size: 12px; color: var(--muted); transition: color 0.3s; }
+.loop li, .loop .back { position: relative; padding-bottom: 9px; font-size: 13px; color: var(--muted); transition: color 0.3s; }
 .loop li b, .loop .back b { font-weight: 400; opacity: 0.55; margin-right: 7px; }
 .loop li::after, .loop .back::after {
   content: ""; position: absolute; left: 0; bottom: 0; height: 1px;
@@ -294,7 +294,7 @@ h1 {
   <section class="hero">
     <div class="copy">
       <h1>RL environments<br>for the physical world.</h1>
-      <p class="sub">Talos builds environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.</p>
+      <p class="sub">Environments, trajectories and evals for agents that design, build and test, graded by solvers and by our own factory.</p>
       <div class="actions">
         <a class="btn" href="mailto:sales@talos-ai.org?subject=Data%20sample"><span>Get a sample</span><span class="arr" aria-hidden="true">→</span></a>
         <!-- swap the mailto for a booking link (Cal.com, Calendly) once there is one -->
@@ -369,37 +369,51 @@ h1 {
   <div class="content">
     <dl class="offer">
       <div>
-        <dt>Software engineering</dt>
-        <dd>Features and fixes rebuilt from real pull requests in open-source Python and Go projects, graded by fail-to-pass and pass-to-pass tests.</dd>
+        <dt>Engineering</dt>
+        <dd>CAD and CAE tasks from real briefs: model the part, mesh it, run the solver, report the numbers or change the design. Graded by running the solver on what the agent submits and checking every requirement.</dd>
       </div>
       <div>
-        <dt>Scientific computing</dt>
+        <dt>Manufacturing</dt>
+        <dd>Tasks where the agent's design is built in our factory, printed, machined or assembled, then measured on a test rig. The measurement is the reward.</dd>
+      </div>
+      <div>
+        <dt>Science</dt>
         <dd>Research problems with simulated instruments and measurement budgets, from Hamiltonian learning to quantum error correction, scored against a private ground truth.</dd>
       </div>
       <div>
-        <dt>Physical simulation</dt>
-        <dd>Tasks where agents write simulation and rendering code in Blender and MuJoCo, from rigid bodies to cloth, scored by comparing the result with reference physics and video.</dd>
-      </div>
-      <div>
         <dt>Trajectories</dt>
-        <dd>Complete agent runs on every task, from the first command to the final patch, with the verifier's result attached.</dd>
+        <dd>Complete agent runs on every task, from the first command to the final design, with the verifier's result attached.</dd>
       </div>
     </dl>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="today-h">
+  <h2 class="label" id="today-h">Where agents stand</h2>
+  <div class="content">
+    <p>On <a href="https://4dcodebench.com/">4DCodeBench</a>, 200 videos to reproduce as simulation code, the best frontier agent scores 0.79 overall and 0.67 on dynamic scenes. That gap is what these environments train.</p>
   </div>
 </section>
 
 <section class="sec" aria-labelledby="quality-h">
   <h2 class="label" id="quality-h">Quality</h2>
   <div class="content">
-    <p>Every task pins its environment and runs its verifier in a separate container without network access. Software tasks must fail on the base commit and pass with the reference patch, and existing tests must keep passing. Science tasks are scored from evidence the verifier checks itself, such as instrument logs, measurement budgets and certified numerical bounds, never from the agent's own report. Simulation tasks are scored by re-running the agent's scene in a clean container and measuring it against reference trajectories and renders.</p>
+    <p>Every task pins its environment and runs its verifier in a separate container without network access, with no LLM judge. Simulation tasks are graded by running the agent's design through the solver and checking every requirement: mass, stress, clearances, impedance. Factory tasks are graded by the measurement from the test rig, against the same requirements. Science tasks are scored from evidence the verifier checks itself, such as instrument logs and measurement budgets, never from the agent's own report. The reference solution passes every verifier before a task ships.</p>
     <p>Tasks ship in the Harbor format, with a task.toml, environment, tests and a reference solution for each one, and trajectories as JSON.</p>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="team-h">
+  <h2 class="label" id="team-h">Team</h2>
+  <div class="content">
+    <p>Talos is founded by Yuxi Xiao, formerly at Google DeepMind and ByteDance Seed. He builds the models that let AI see the physical world in 3D: SpatialTracker, 1.4 million downloads and three CVPR Highlights. He grew up around his parents' electronics factory in Shenzhen, where a new product means weeks of tooling and samples.</p>
   </div>
 </section>
 
 <section class="sec" id="careers" aria-labelledby="careers-h">
   <h2 class="label" id="careers-h">Careers</h2>
   <div class="content">
-    <p>We work with senior software engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:career@talos-ai.org?subject=Careers">career@talos-ai.org</a>.</p>
+    <p>We work with senior mechanical, electrical and aerospace engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:career@talos-ai.org?subject=Careers">career@talos-ai.org</a>.</p>
   </div>
 </section>
 
@@ -933,7 +947,7 @@ function pcbScene() {
 
   return {
     domain: 'Electrical', name: 'FPGA carrier board',
-    spec: { id: 'talos/ee/ddr3-carrier-07', brief: 'Route a 32-bit DDR3 bus to two memory chips: skew ≤ 25 ps, impedance 50 ± 5 Ω.', tools: 'KiCad · openEMS', verifier: 'field solver, then TDR on TC-04' },
+    spec: { id: 'talos/ee/ddr3-carrier-07', brief: 'Route a 32-bit DDR3 bus to two memory chips: skew ≤ 25 ps, impedance 50 ± 5 Ω.', tools: 'KiCad · openEMS', verifier: 'solver, then TDR on TC-04' },
     reward: 0.66, factory: { build: 'PP-01 pick-and-place', test: 'TC-04 flying probe' },
     parts: [board, ...comps.map((c) => c.part), rails, beam, head, probeA, probeB],
     extras: [pulses, contact, contact2],
