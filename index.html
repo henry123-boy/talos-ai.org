@@ -3,20 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for agents in code, science and the physical world.">
+<meta name="description" content="Talos builds RL environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0E0F11">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Talos">
-<meta property="og:description" content="Talos builds reinforcement-learning environments, expert trajectories and evaluations for agents in code, science and the physical world.">
+<meta property="og:title" content="Talos · RL environments for the physical world">
+<meta property="og:description" content="Talos builds RL environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.">
 <meta property="og:url" content="https://talos-ai.org/">
 <meta property="og:image" content="https://talos-ai.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<title>Talos</title>
+<title>Talos · RL environments for the physical world</title>
 <link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<!-- the import map must precede any module load, modulepreload included -->
+<script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js","three/addons/":"/vendor/three/addons/"}}</script>
+<link rel="modulepreload" href="/vendor/three/three.module.min.js">
+<script>
+  // Review option: ?t=<seconds> freezes the hero animation at one moment.
+</script>
 <style>
 @font-face {
   font-family: "Archivo";
@@ -27,7 +33,7 @@
   src: url("/fonts/archivo-variable.ttf") format("truetype");
 }
 /* Layout: a quiet spec sheet. Small labels in a narrow left column, content on the right, hairlines between sections.
-   The first screen sits on slow-moving columns of task files and agent logs, faded toward the text. One typeface; bronze only in the mark and links. */
+   The first screen is the hero: one environment running through design, simulation, manufacture and test. One typeface; bronze for links and for what the factory measured. */
 :root {
   color-scheme: dark;
   --ink: #0E0F11;        /* page ground */
@@ -60,65 +66,6 @@ a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; border-radius: 2px; }
 .wrap { max-width: 1120px; margin-inline: auto; }
 
-/* first screen: full-bleed band with moving task files behind the header and hero */
-.first { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
-.code-bg {
-  position: absolute; inset: 0; z-index: -2;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;
-  padding-inline: var(--gutter);
-  opacity: 0.55; pointer-events: none; user-select: none;
-}
-.code-col { min-width: 0; overflow: hidden; }
-.track {
-  margin: 0; color: var(--muted); font: 12.5px/1.8 var(--code); white-space: pre;
-  animation: scroll-up 120s linear infinite; will-change: transform;
-}
-.track.down { animation-name: scroll-down; }
-.c2 { animation-duration: 150s; }
-.c3 { animation-duration: 100s; }
-.c4 { animation-duration: 135s; }
-.track .k { color: var(--bronze); }
-.track .a { color: var(--paper); }
-@keyframes scroll-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-@keyframes scroll-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-.first::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background:
-    linear-gradient(to bottom, var(--ink) 0%, transparent 24%, transparent 64%, var(--ink) 100%),
-    linear-gradient(to right, var(--ink) 0%, color-mix(in srgb, var(--ink) 80%, transparent) 40%, color-mix(in srgb, var(--ink) 15%, transparent) 100%);
-}
-@media (prefers-reduced-motion: reduce) { .track { animation: none; } }
-
-.site { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; }
-.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--paper); text-decoration: none; }
-.brand svg { width: 24px; height: 24px; flex: none; }
-.brand span { font-size: 15px; font-weight: 600; font-stretch: 125%; letter-spacing: 0.1em; line-height: 1; }
-.site nav { display: flex; gap: 28px; font-size: 14px; }
-.site nav a { color: var(--muted); text-decoration: none; padding-block: 10px; }
-.site nav a:hover { color: var(--paper); }
-
-.arc { fill: none; stroke: var(--paper); stroke-width: 6; stroke-linecap: round; }
-.core { fill: var(--bronze); }
-
-.hero { padding-block: clamp(72px, 13vw, 168px) clamp(80px, 11vw, 144px); }
-h1 {
-  margin: 0;
-  max-width: 15em;
-  color: var(--paper);
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 600;
-  font-stretch: 110%;
-  line-height: 1.08;
-  letter-spacing: -0.012em;
-  text-wrap: balance;
-}
-.lead { margin: 28px 0 0; max-width: 36em; font-size: clamp(17px, 1.4vw, 19px); }
-.btn {
-  display: inline-flex; align-items: center; min-height: 44px; margin-top: 36px; padding: 0 22px;
-  border-radius: 3px; background: var(--paper); color: var(--ink);
-  font-size: 15px; font-weight: 600; text-decoration: none;
-}
-.btn:hover { background: var(--white); color: var(--ink); }
 
 .sec {
   display: grid;
@@ -189,230 +136,282 @@ h1 {
 @media (max-width: 900px) {
   .offer { grid-template-columns: minmax(0, 1fr); max-width: 40em; }
 }
-@media (max-width: 520px) {
-  .site { flex-wrap: wrap; row-gap: 6px; padding-bottom: 12px; }
-  .site nav { width: 100%; gap: 22px; }
-}
 @media (max-width: 760px) {
   .sec { grid-template-columns: minmax(0, 1fr); }
-  .code-bg { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; opacity: 0.4; }
-  .code-col:nth-child(n+3) { display: none; }
-  .track { font-size: 11px; }
   .snippet code { font-size: 12.5px; }
   .diagram .d { display: none; }
   .diagram .m { display: block; }
-  .first::before {
-    background: linear-gradient(to bottom, var(--ink) 0%, color-mix(in srgb, var(--ink) 55%, transparent) 28%, color-mix(in srgb, var(--ink) 55%, transparent) 68%, var(--ink) 100%);
-  }
+}
+
+/* first screen */
+:root {
+  --bg: var(--ink); --line: var(--paper); --mono: var(--code);
+  --hot: #D98A4C;        /* simulated field, high end; what the factory built and measured */
+  --cold: #6F9BD6;       /* simulated field, low end */
+}
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 24px; }
+.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--line); text-decoration: none; }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand span { font-size: 15px; font-weight: 600; font-stretch: 125%; letter-spacing: 0.1em; line-height: 1; }
+.arc { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+.core { fill: var(--bronze); }
+.top nav { display: flex; align-items: center; gap: 28px; font: 12.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--line); }
+.top nav a.cta { color: var(--bg); background: var(--line); padding: 11px 15px; border-radius: 3px; }
+.top nav a.cta:hover { color: var(--bg); background: var(--white); }
+
+.top-screen { min-height: 100vh; min-height: 100svh; min-width: 0; display: flex; flex-direction: column; }
+
+/* first screen: the claim and the product on one row, then a thin band for the factory */
+.hero {
+  flex: 1;
+  display: grid; grid-template-columns: minmax(0, 10fr) minmax(0, 13fr); align-items: center;
+  gap: clamp(24px, 3.6vw, 64px);
+  padding-block: clamp(8px, 2vh, 24px) clamp(20px, 3.5vh, 40px);
+}
+h1 {
+  margin: 0; color: var(--line);
+  font-size: clamp(36px, 3.7vw, 54px); font-weight: 560; font-stretch: 106%;
+  line-height: 1.04; letter-spacing: -0.022em;
+}
+.sub { margin: 24px 0 0; max-width: 32em; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.55; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.btn {
+  display: inline-flex; align-items: stretch; border-radius: 3px;
+  background: var(--line); color: var(--bg); text-decoration: none;
+  font: 13px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.btn span { display: flex; align-items: center; gap: 10px; padding: 16px 18px; }
+.btn .arr { padding-inline: 16px; border-left: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); }
+.btn:hover .arr { opacity: 0.75; }
+.btn.factory { background: transparent; color: var(--line); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hot) 70%, transparent); }
+.btn.factory .arr { border-left-color: color-mix(in srgb, var(--hot) 45%, transparent); }
+.btn.factory i { width: 7px; height: 7px; background: var(--hot); border-radius: 1px; animation: blink 2.4s steps(2, jump-none) infinite; }
+.btn.factory:hover { box-shadow: inset 0 0 0 1px var(--hot); }
+@keyframes blink { 50% { opacity: 0.25; } }
+
+/* the stage is one environment record: id on top, the brief and an instrument at the left, the episode at the right, the loop below */
+.stage {
+  position: relative; display: flex; flex-direction: column;
+  height: clamp(440px, 64vh, 700px);
+  border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+}
+.stage-head {
+  display: flex; justify-content: space-between; gap: 16px; padding: 11px 16px; border-bottom: 1px solid var(--rule);
+  font: 11.5px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--hot);
+}
+.stage-head .id { color: var(--line); text-transform: none; letter-spacing: 0.02em; }
+.view { position: relative; flex: 1; min-height: 0; }
+.view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.spec { position: absolute; left: 16px; top: 12px; max-width: 44%; font: 11.5px/1.6 var(--mono); color: var(--muted); pointer-events: none; }
+.spec p { margin: 0; }
+.spec .brief { color: var(--text); margin-bottom: 8px; }
+.spec .k { display: inline-block; width: 6.5em; }
+.spec b { font-weight: 400; color: var(--text); }
+
+/* the instrument: a drawing, a plot or a program, one per stage, in the column under the brief */
+.inst { position: absolute; left: 16px; top: 104px; width: 42%; height: 240px; overflow: visible; pointer-events: none; }
+.inst text { font: 10px var(--mono); fill: var(--muted); letter-spacing: 0.04em; }
+.inst .it { font-size: 10.5px; letter-spacing: 0.07em; }
+.inst .ink { fill: none; stroke: var(--line); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.inst .thick { fill: none; stroke: var(--line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.inst .thin { fill: none; stroke: var(--muted); stroke-width: 0.8; stroke-linecap: round; }
+.inst .hot { fill: none; stroke: var(--hot); stroke-width: 1.1; stroke-linecap: round; }
+.inst .cold { fill: none; stroke: var(--cold); stroke-width: 1; stroke-linecap: round; }
+.inst .dim { fill: none; stroke: var(--muted); stroke-width: 0.8; stroke-dasharray: 4 4; }
+.inst .cl { fill: none; stroke: var(--muted); stroke-width: 0.7; stroke-dasharray: 10 3 2 3; }
+.inst .fill { fill: var(--bg); stroke: var(--line); stroke-width: 1; stroke-linejoin: round; }
+.inst .hatch { fill: none; stroke: var(--muted); stroke-width: 0.7; }
+.inst .lbl { fill: var(--text); }
+.inst .hl { fill: var(--hot); }
+.inst .pen { fill: var(--hot); }
+.inst .prog text { font-size: 10px; }
+.inst .prog .cur { fill: var(--hot); }
+.inst .prog .done { fill: var(--muted); opacity: 0.55; }
+.inst .prog .todo { fill: var(--text); }
+.inst .prog .hdr { fill: var(--line); }
+.inst > g { opacity: 0; }
+
+.chart {
+  position: absolute; left: 16px; bottom: 14px; width: 42%; margin: 0;
+  padding: 12px 14px 11px; border: 1px solid var(--rule); border-radius: 3px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  font: 10.5px/1.45 var(--mono); letter-spacing: 0.05em; color: var(--muted);
+  opacity: 0; pointer-events: none;
+}
+.chart .ct { color: var(--line); text-transform: uppercase; }
+.chart svg { display: block; width: 100%; height: auto; margin: 8px 0 6px; overflow: visible; }
+.chart .axis { fill: none; stroke: var(--rule); stroke-width: 1; }
+.chart .pred { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.chart .meas { fill: none; stroke: var(--hot); stroke-width: 1.6; }
+.chart .dot { fill: var(--hot); }
+.chart text { fill: var(--muted); font: 9px var(--mono); letter-spacing: 0.04em; }
+.chart .legend { display: flex; gap: 14px; text-transform: uppercase; }
+.chart .legend b { display: inline-block; width: 14px; height: 0; margin-right: 6px; vertical-align: middle; border-top: 1.6px solid var(--hot); }
+.chart .legend .p b { border-top: 1.2px dashed var(--muted); }
+.chart .readout { margin-top: 7px; color: var(--hot); opacity: 0; }
+
+.loop {
+  display: grid; grid-template-columns: 2fr 2fr 1.1fr; gap: 20px;
+  padding: 12px 16px 14px; border-top: 1px solid var(--rule);
+  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.loop .label { display: block; margin-bottom: 10px; font-size: 10.5px; color: var(--muted); }
+.loop .real .label { color: var(--hot); }
+.loop ol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.loop li, .loop .back { position: relative; padding-bottom: 9px; font-size: 12px; color: var(--muted); transition: color 0.3s; }
+.loop li b, .loop .back b { font-weight: 400; opacity: 0.55; margin-right: 7px; }
+.loop li::after, .loop .back::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 1px;
+  width: calc(var(--p, 0) * 100%); background: var(--line);
+}
+.loop .real li::after, .loop .back::after { background: var(--hot); }
+.loop .on { color: var(--line); }
+.loop .done::after { opacity: 0.3; }
+.loop .rv.has { color: var(--hot); }
+
+/* the factory, as a supporting line under the product */
+.fband {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center;
+  gap: 12px clamp(20px, 3vw, 48px); padding: 16px 0 22px; border-top: 1px solid var(--rule);
+  font-size: 14px; line-height: 1.5;
+}
+.flabel { font: 11.5px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--hot); }
+.fband p { margin: 0; max-width: 46em; }
+.live {
+  display: flex; gap: 22px; margin: 0; padding: 0; list-style: none; white-space: nowrap;
+  font: 11.5px/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted);
+}
+.live i { display: inline-block; width: 7px; height: 7px; margin-right: 9px; vertical-align: 1px; border: 1px solid var(--muted); border-radius: 1px; }
+.live .on { color: var(--line); }
+.live .on i { background: var(--hot); border-color: var(--hot); }
+.flink { font: 12.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--line); text-decoration: none; white-space: nowrap; }
+.fband, .fband p { color: var(--text); }
+.flink:hover { color: var(--hot); }
+
+.no-webgl canvas, .no-webgl .chart, .no-webgl .inst { display: none; }
+
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; align-items: start; }
+  .stage { height: clamp(420px, 64vh, 620px); }
+  .fband { grid-template-columns: auto minmax(0, 1fr); }
+  .live, .flink { grid-column: 2; }
+}
+@media (max-width: 760px) {
+  .top nav a:not(.cta) { display: none; }
+}
+@media (max-width: 560px) {
+  h1 { font-size: clamp(30px, 8.6vw, 38px); }
+  .top nav { gap: 16px; }
+  .loop { grid-template-columns: 1fr 1fr; }
+  .loop .grp:last-child { display: none; }
+  .chart, .inst { display: none; }
+  .spec { max-width: 70%; }
+  .live { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn.factory i { animation: none; }
 }
 </style>
 </head>
 <body>
-<header class="first" id="top">
-<div class="code-bg" aria-hidden="true">
-<div class="code-col"><pre class="track"># tasks/feature-1182/task.toml
-schema_version = "1.3"
-artifacts = ["/logs/artifacts/model.patch"]
 
-<span class="k">[task]</span>
-name = "talos/swe/feature-1182"
-keywords = ["python", "feature"]
-
-<span class="k">[metadata]</span>
-language = "python"
-category = "feature"
-base_commit_hash = "4be1c0d27a9f6e3b8c51d0a2f7e94c6b13d8a5e2"
-
-<span class="k">[agent]</span>
-network_mode = "no-network"
-timeout_sec = 5400.0
-
-<span class="k">[environment]</span>
-os = "linux"
-cpus = 2
-memory_mb = 8192
-storage_mb = 20480
-
-<span class="k">[verifier]</span>
-environment_mode = "separate"
-network_mode = "no-network"
-timeout_sec = 1800.0
-
-<span class="k">[[verifier.collect]]</span>
-command = "git diff --binary BASE_COMMIT HEAD &gt; /logs/artifacts/model.patch"
-
-# tests/
-#   fail_to_pass.txt
-#   pass_to_pass.txt
-#   test_files_manifest.txt
-#   test_run.sh
-# solution/
-#   code.patch
-#   solve.sh
-
-# tasks/rigid-body-drop-03/task.toml
-schema_version = "1.4"
-
-<span class="k">[task]</span>
-name = "talos/sim/rigid-body-drop-03"
-description = "Reproduce a reference clip: a ball dropped onto a ramp, simulated and rendered in Blender."
-keywords = ["blender", "rigid-body", "rendering"]
-
-<span class="k">[metadata]</span>
-category = "simulation"
-engine = "blender-4.5"
-
-<span class="k">[environment]</span>
-cpus = 4
-memory_mb = 16384
-gpus = 1
-
-<span class="k">[verifier]</span>
-environment_mode = "separate"
-network_mode = "no-network"
-timeout_sec = 900
-
-# grade.py re-runs /submission/scene.py in a clean container
-#   trajectory error against the reference simulation
-#   frame similarity against the reference renders
-
-</pre></div>
-<div class="code-col"><pre class="track down c2"># tests/test.sh
-#!/usr/bin/env bash
-set -euo pipefail
-mkdir -p /logs/verifier /tmp/run
-cd /testbed
-
-# copy the hidden tests into the repository
-while IFS= read -r relpath; do
-  [ -n "$relpath" ] || continue
-  case "$relpath" in
-    /*|*..*) echo "unsafe test overlay path" &gt;&amp;2; exit 2 ;;
-  esac
-  mkdir -p "$(dirname "$relpath")"
-  cp "/tests/test_files/$relpath" "$relpath"
-done &lt; /tests/test_files_manifest.txt
-
-mapfile -t TARGETS &lt; /tests/test_targets.txt
-bash /tests/test_run.sh "${TARGETS[@]}" \
-  &gt; /logs/verifier/test_output.txt 2&gt;&amp;1
-python /tests/_compute_reward.py
-
-# tests/_compute_reward.py
-fail_to_pass = read_manifest("fail_to_pass.txt")
-pass_to_pass = read_manifest("pass_to_pass.txt")
-targets = fail_to_pass + pass_to_pass
-statuses = parse_results()
-passed = {t for t in targets if statuses.get(t) == "PASSED"}
-<span class="k">reward = 1.0 if len(passed) == len(targets) else 0.0</span>
-
-</pre></div>
-<div class="code-col"><pre class="track c3"># tasks/system-identification-07/task.toml
-schema_version = "1.4"
-
-<span class="k">[task]</span>
-name = "talos/science/system-identification-07"
-description = "Identify an unknown generator from budgeted simulated measurements."
-keywords = ["physics", "system-identification", "experimental-design"]
-
-<span class="k">[metadata]</span>
-category = "physics"
-research_mode = "computational-with-simulated-measurements"
-
-<span class="k">[agent]</span>
-user = "agent"
-timeout_sec = 3600
-
-<span class="k">[environment]</span>
-cpus = 2
-memory_mb = 4096
-
-<span class="k">[verifier]</span>
-timeout_sec = 300
-environment_mode = "separate"
-
-<span class="k">[verifier.environment]</span>
-network_mode = "no-network"
-
-<span class="k">[[artifacts]]</span>
-source = "/evidence"
-service = "instrument"
-
-# grade.py replays /evidence/events.jsonl
-#   sequence numbers are consecutive
-#   instance and spec digests match
-#   measurement budget is respected
-#   final answer matches its recorded digest
-
-</pre></div>
-<div class="code-col"><pre class="track down c4">$ git status
-$ ls src tests
-$ grep -rn "def load_config" src/
-$ sed -n '40,120p' src/app/config.py
-$ grep -rn "ConfigError" src/ tests/
-$ python -m pytest tests/test_config.py -q
-1 failed, 26 passed in 2.41s
-$ sed -n '1,60p' tests/test_config.py
-$ python -m pytest tests/ -q
-312 passed in 41.87s
-$ git diff --stat
- src/app/config.py |  48 +++++++---
- src/app/loader.py |  22 ++++
- 2 files changed, 61 insertions(+), 9 deletions(-)
-$ submit
-verifier  fail_to_pass 12/12  pass_to_pass 31/31
-<span class="k">reward 1.0</span>
-
-$ python -c "from lab_client import LabClient; print(LabClient().status())"
-{"rows_used": 0, "rows_left": 480, "time_left_us": 180.0}
-$ python design.py --rows 448 --time-budget 160
-$ python infer.py rows.jsonl
-max_abs_error 0.031   relative_l2 0.044
-$ python submit.py final.json
-verifier  evidence replayed, digests match
-<span class="k">reward 1.0</span>
-
-$ blender -b -P scene.py -- --frames 1-120
-Fra:120 Mem:412.8M | Time:00:41.27 | Rendering 64 / 64 samples
-$ python check_trajectory.py out/trajectory.json
-bounce_heights 1.82 1.21 0.80   ref 1.80 1.20 0.79
-$ submit
-verifier  trajectory_rmse 0.012   frame_psnr 34.6 dB
-<span class="k">reward 0.94</span>
-
-</pre></div>
-</div>
-
-<div class="wrap">
-  <div class="site">
-    <a class="brand" href="#top" aria-label="Talos home">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
-        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
-        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
-        <circle class="core" cx="50" cy="50" r="9"></circle>
-      </svg>
-      <span>TALOS</span>
-    </a>
-    <nav aria-label="Sections">
-      <a href="#platform">Platform</a>
-      <a href="/workflows/">Workflows</a>
-      <a href="#careers">Careers</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
-
-  <div class="hero">
-    <h1>Data and environments for training agents.</h1>
-    <p class="lead">Talos builds reinforcement-learning environments, trajectories and evaluations for teams training frontier agents. Tasks come from real open-source pull requests, computational science and physical simulation, and every one is graded by tests the agent never sees.</p>
-    <a class="btn" href="#contact">Contact us</a>
-  </div>
-</div>
+<div class="top-screen" id="top">
+<header class="top">
+  <a class="brand" href="#" aria-label="Talos home">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+      <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+      <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+      <circle class="core" cx="50" cy="50" r="9"></circle>
+    </svg>
+    <span>TALOS</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="#environments">Environments</a>
+    <a href="#platform">Platform</a>
+    <a href="/workflows/">Workflows</a>
+    <a href="#careers">Careers</a>
+    <a class="cta" href="#contact">Contact</a>
+  </nav>
 </header>
+
+  <section class="hero">
+    <div class="copy">
+      <h1>RL environments<br>for the physical world.</h1>
+      <p class="sub">Talos builds environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task is graded by a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.</p>
+      <div class="actions">
+        <a class="btn" href="mailto:sales@talos-ai.org?subject=Data%20sample"><span>Get a sample</span><span class="arr" aria-hidden="true">→</span></a>
+        <!-- swap the mailto for a booking link (Cal.com, Calendly) once there is one -->
+        <a class="btn factory" href="mailto:sales@talos-ai.org?subject=Factory%20time"><span><i aria-hidden="true"></i>Book factory time</span><span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="stage" role="img" aria-label="One environment at a time: an FPGA carrier board, an axial turbine stage and a six-axis robot arm. The agent's design is drawn, simulated, manufactured in our factory and tested, and the measured result becomes the reward.">
+      <div class="stage-head" aria-hidden="true"><span class="id">talos/ee/ddr3-carrier-07</span><span class="dom">Electrical</span></div>
+      <div class="view">
+        <canvas id="hero-canvas"></canvas>
+        <div class="spec" aria-hidden="true">
+          <p class="brief"></p>
+          <p><span class="k">tools</span><b class="tools"></b></p>
+          <p><span class="k">verifier</span><b class="verifier"></b></p>
+        </div>
+
+        <svg class="inst" viewBox="0 0 300 240" preserveAspectRatio="xMinYMin meet" aria-hidden="true">
+          <text class="it" x="0" y="9"></text>
+          <g class="g-design"></g>
+          <g class="g-sim"></g>
+          <g class="g-build prog"></g>
+        </svg>
+
+        <figure class="chart" aria-hidden="true">
+          <div class="ct"></div>
+          <svg viewBox="0 0 260 112">
+            <defs><clipPath id="chart-reveal"><rect x="0" y="0" width="0" height="112"></rect></clipPath></defs>
+            <path class="axis" d="M30 8V92H250"></path>
+            <text class="yl" x="0" y="12"></text>
+            <text class="xl" x="250" y="108" text-anchor="end"></text>
+            <g clip-path="url(#chart-reveal)">
+              <path class="pred"></path>
+              <path class="meas"></path>
+            </g>
+            <circle class="dot" r="2.6" cx="-10" cy="-10"></circle>
+          </svg>
+          <div class="legend"><span class="m"><b></b>Measured</span><span class="p"><b></b>Simulated</span></div>
+          <div class="readout"></div>
+        </figure>
+      </div>
+
+      <div class="loop" aria-hidden="true">
+        <div class="grp"><span class="label">In simulation</span>
+          <ol><li data-stage="design"><b>01</b>Design</li><li data-stage="simulate"><b>02</b>Simulate</li></ol>
+        </div>
+        <div class="grp real"><span class="label">In our factory</span>
+          <ol><li data-stage="build"><b>03</b>Manufacture</li><li data-stage="test"><b>04</b>Test</li></ol>
+        </div>
+        <div class="grp real"><span class="label">Reward</span>
+          <div class="back" data-stage="feedback"><b>↺</b><span class="rv">—</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fband" id="factory" aria-label="Our factory">
+    <span class="flabel">Our factory</span>
+    <p>Most tasks are graded by solvers. Where a solver is not enough, our factory builds the agent's design and measures it, and the measurement is the reward.</p>
+    <ul class="live" aria-hidden="true">
+      <li data-k="build"><i></i><span></span></li>
+      <li data-k="test"><i></i><span></span></li>
+    </ul>
+    <a class="flink" href="mailto:sales@talos-ai.org?subject=Factory">Talk to the factory team →</a>
+  </section>
+</div>
 
 <div class="wrap">
 <main>
-<section class="sec" aria-labelledby="build-h">
+<section class="sec" id="environments" aria-labelledby="build-h">
   <h2 class="label" id="build-h">What we build</h2>
   <div class="content">
     <dl class="offer">
@@ -498,19 +497,1229 @@ showStep();
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   setInterval(() => { step = (step + 1) % STEPS; showStep(); }, 2500);
 }
-// Each column scrolls by half its height, so it holds two identical halves.
-// A half repeats the snippet until it is taller than the first screen, so no column ever runs out of code.
-const band = document.querySelector('.first');
-document.querySelectorAll('.track').forEach((track) => {
-  const snippet = track.innerHTML;
-  let half = snippet;
-  // Hidden columns (phone layout) measure 0 and skip the loop; the cap guards against odd layouts.
-  for (let i = 0; i < 8 && track.offsetHeight > 0 && track.offsetHeight < band.offsetHeight + 40; i++) {
-    half += snippet;
-    track.innerHTML = half;
+</script>
+
+<script type="module">
+// The hero runs one environment per domain through the whole loop. Each stage has its own picture:
+// design draws the 2D sheet at the left and the 3D model at the right; simulate puts physics on both;
+// manufacture brings in the machine (a pick-and-place gantry, a 5-axis spindle, an assembly cell);
+// test brings in the rig and the measured curve. Everything is generated here; nothing is loaded but three.js.
+// Task briefs, station names, program lines, curves and rewards are illustrative placeholders. Replace them before this goes live.
+import * as THREE from 'three';
+import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js';
+
+// colours are written to the screen exactly as the CSS gives them, so the canvas matches the page
+THREE.ColorManagement.enabled = false;
+
+const query = new URLSearchParams(location.search);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TAU = Math.PI * 2;
+const DEG = Math.PI / 180;
+
+const STAGES = [
+  { key: 'design', dur: 4.2 },
+  { key: 'simulate', dur: 3.6 },
+  { key: 'build', dur: 4.6 },
+  { key: 'test', dur: 4.8 },
+  { key: 'feedback', dur: 1.2 },
+];
+const SCENE_T = STAGES.reduce((s, x) => s + x.dur, 0);
+const START = {};
+{ let a = 0; for (const s of STAGES) { START[s.key] = a; a += s.dur; } }
+// a frozen moment: ?t= wins; reduced motion shows the first environment under test
+const FIXED_T = query.has('t') ? Number(query.get('t')) : REDUCED ? START.test + 4.4 : null;
+
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
+const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const signed = (x, digits) => (x < 0 ? '−' : '+') + Math.abs(x).toFixed(digits);
+const ease = (x) => { x = clamp01(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const lerp = (a, b, t) => a + (b - a) * t;
+const mod = (a, n) => ((a % n) + n) % n;
+function rng(seed) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = Math.imul(s ^ (s >>> 15), s | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// ---------------------------------------------------------------- shared state
+
+const css = getComputedStyle(document.documentElement);
+const cssColor = (name) => new THREE.Color(css.getPropertyValue(name).trim());
+const U = {
+  uBg: { value: cssColor('--bg') },
+  uInk: { value: cssColor('--line') },
+  uHot: { value: cssColor('--hot') },
+  uCold: { value: cssColor('--cold') },
+  uDark: { value: 1 },
+  uReveal: { value: 0 },     // how much of the drawing is drawn, by stroke order
+  uSim: { value: 0 },        // sweep of the simulated field, left to right
+  uSimA: { value: 0 },
+  uXMin: { value: -1 },
+  uXMax: { value: 1 },
+  uScan: { value: 0 },
+  uPointA: { value: 0 },
+  uShade: { value: 0 },
+  uPx: { value: 1 },
+};
+const F = { plain: 0, gear: 1, pcb: 2, joint: 3 };
+
+// ---------------------------------------------------------------- shaders
+
+const FILL_VERT = /* glsl */ `
+varying vec3 vLocal;
+varying vec3 vWorld;
+varying vec3 vN;
+void main() {
+  vLocal = position;
+  vec4 w = modelMatrix * vec4(position, 1.0);
+  vWorld = w.xyz;
+  vN = normalize(mat3(modelMatrix) * normal);
+  gl_Position = projectionMatrix * viewMatrix * w;
+}`;
+
+// The fill hides lines behind the part and carries the simulated field.
+const FILL_FRAG = /* glsl */ `
+uniform vec3 uBg, uInk, uHot, uCold;
+uniform float uDark, uSim, uSimA, uXMin, uXMax, uShade;
+uniform float uFieldType, uSimOn, uVis;
+uniform vec4 uP;
+varying vec3 vLocal;
+varying vec3 vWorld;
+varying vec3 vN;
+
+// stress at the root of a ring of teeth or blades: uP = (root radius, count, band width, phase)
+float fieldGear(vec3 p) {
+  float r = length(p.xz);
+  float ang = atan(-p.z, p.x);
+  float d = (r - uP.x) / uP.z;
+  float gap = 0.5 - 0.5 * cos(uP.y * (ang - uP.w));
+  return exp(-d * d) * (0.35 + 0.65 * gap) + 0.16 * (1.0 - smoothstep(0.0, uP.x, r));
+}
+// board temperature: two hot spots on the top face, uP = (x1, z1, x2, z2)
+float fieldPcb(vec3 p) {
+  vec2 d1 = p.xz - uP.xy, d2 = p.xz - uP.zw;
+  return 0.95 * exp(-dot(d1, d1) / 2.2) + 0.55 * exp(-dot(d2, d2) / 1.0) + 0.1;
+}
+// load at a joint: hot at the pivot, uP = (x, y, z, radius squared)
+float fieldJoint(vec3 p) {
+  vec3 d = p - uP.xyz;
+  return 0.9 * exp(-dot(d, d) / uP.w) + 0.15;
+}
+float field(vec3 p) {
+  if (uFieldType < 0.5) return 0.1 + 0.06 * sin(p.y * 0.5 + p.x * 0.2);
+  if (uFieldType < 1.5) return fieldGear(p);
+  if (uFieldType < 2.5) return fieldPcb(p);
+  return fieldJoint(p);
+}
+// thin lines at every integer of v, faded out where they would crowd below a pixel
+float gridLine(float v, float px) {
+  float w = fwidth(v);
+  if (w < 1e-5) return 0.0;
+  float d = abs(fract(v - 0.5) - 0.5);
+  return (1.0 - smoothstep(0.0, w * px, d)) * (1.0 - smoothstep(0.22, 0.45, w));
+}
+void main() {
+  if (uVis < 0.01) discard;
+  vec3 n = normalize(gl_FrontFacing ? vN : -vN);
+  float lambert = clamp(dot(n, normalize(vec3(-0.4, 0.8, 0.45))), 0.0, 1.0);
+  vec3 col = mix(uBg, uInk, uShade * (uDark > 0.5 ? lambert : 1.0 - lambert));
+  if (uSimOn > 0.5 && uSimA > 0.0) {
+    float xN = (vWorld.x - uXMin) / (uXMax - uXMin);
+    float f = clamp(field(vLocal), 0.0, 1.0);
+    float s = uSim * 1.25;
+    float amt = (1.0 - smoothstep(s - 0.25, s, xN)) * uSimA;
+    vec3 ramp = mix(uCold, uHot, smoothstep(0.2, 0.85, f));
+    col = mix(col, ramp, amt * (0.08 + 0.22 * f + 0.7 * gridLine(f * 9.0, 1.3)));
   }
-  track.innerHTML = half + half;
-});
+  gl_FragColor = vec4(col, 1.0);
+}`;
+
+const LINE_VERT = /* glsl */ `
+attribute float key;
+varying float vKey;
+void main() {
+  vKey = key;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`;
+
+// Lines appear in stroke order with a hot pen tip.
+const LINE_FRAG = /* glsl */ `
+uniform vec3 uInk, uHot;
+uniform float uReveal, uVis, uAlpha;
+varying float vKey;
+void main() {
+  if (vKey > uReveal) discard;
+  vec3 c = mix(uInk, uHot, smoothstep(uReveal - 0.05, uReveal, vKey) * step(uReveal, 1.0));
+  gl_FragColor = vec4(c, uAlpha * uVis);
+}`;
+
+const PTS_VERT = /* glsl */ `
+attribute float dev;
+attribute float key;
+uniform float uScan, uPx;
+varying float vDev;
+varying float vOn;
+void main() {
+  vDev = dev;
+  vOn = step(key, uScan);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_PointSize = 2.0 * uPx * vOn;
+}`;
+
+// scan points: ink where the built part matches the design, hot or cold where it deviates
+const PTS_FRAG = /* glsl */ `
+uniform vec3 uInk, uHot, uCold;
+uniform float uPointA;
+varying float vDev;
+varying float vOn;
+void main() {
+  if (vOn < 0.5) discard;
+  vec2 q = gl_PointCoord - 0.5;
+  if (dot(q, q) > 0.25) discard;
+  float m = abs(vDev);
+  vec3 c = mix(uInk, vDev > 0.0 ? uHot : uCold, smoothstep(0.12, 0.6, m));
+  gl_FragColor = vec4(c, uPointA * (0.18 + 0.82 * smoothstep(0.1, 0.6, m)));
+}`;
+
+// ---------------------------------------------------------------- geometry helpers
+
+const v2 = (x, y) => new THREE.Vector2(x, y);
+const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+const circle = (r, n, cx = 0, cy = 0) =>
+  Array.from({ length: n }, (_, i) => new THREE.Vector2(cx + r * Math.cos((i / n) * TAU), cy + r * Math.sin((i / n) * TAU)));
+
+// A 2D outline with holes, extruded along y. The outline's (x, y) becomes (x, -z).
+function extrudeY(outline, holes, depth, y0 = -depth / 2) {
+  const shape = new THREE.Shape(outline);
+  shape.holes = holes.map((h) => new THREE.Path(h));
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 1 });
+  g.rotateX(-Math.PI / 2);
+  g.translate(0, y0, 0);
+  return g;
+}
+const cyl = (r, y0, y1, seg = 32, x = 0, z = 0) => new THREE.CylinderGeometry(r, r, y1 - y0, seg, 1).translate(x, (y0 + y1) / 2, z);
+const cylZ = (r, len, seg = 32, x = 0, y = 0, z = 0) => new THREE.CylinderGeometry(r, r, len, seg, 1).rotateX(Math.PI / 2).translate(x, y, z);
+const box = (w, h, d, x, y, z) => new THREE.BoxGeometry(w, h, d).translate(x, y, z);
+function prep(g) {
+  if (g.index) g = g.toNonIndexed();
+  for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'normal') g.deleteAttribute(k);
+  if (!g.attributes.normal) g.computeVertexNormals();
+  return g;
+}
+const merge = (list) => mergeGeometries(list.map(prep), false);
+
+// A closed airfoil of unit chord, centred on the chord: trailing edge → upper side → leading edge → lower side → trailing edge.
+function airfoil(n = 14, m = 0.12, p = 0.45, tt = 0.1) {
+  const up = [], lo = [];
+  for (let i = 0; i <= n; i++) {
+    const x = 0.5 * (1 - Math.cos((i / n) * Math.PI));
+    const yt = 5 * tt * (0.2969 * Math.sqrt(x) - 0.126 * x - 0.3516 * x * x + 0.2843 * x ** 3 - 0.1036 * x ** 4);
+    const yc = x < p ? (m / (p * p)) * (2 * p * x - x * x) : (m / ((1 - p) ** 2)) * ((1 - 2 * p) + 2 * p * x - x * x);
+    const dyc = x < p ? ((2 * m) / (p * p)) * (p - x) : ((2 * m) / ((1 - p) ** 2)) * (p - x);
+    const th = Math.atan(dyc);
+    up.push([x - yt * Math.sin(th) - 0.5, yc + yt * Math.cos(th)]);
+    lo.push([x + yt * Math.sin(th) - 0.5, yc - yt * Math.cos(th)]);
+  }
+  return [...up.reverse(), ...lo.slice(1)];
+}
+
+// One turbine blade at angle theta around the y axis, from just inside the hub to the tip, twisting on the way out.
+function bladeGeometry(theta, { rh, rt, c0, nr = 9, g0 = 28 * DEG, g1 = 52 * DEG }) {
+  const prof = airfoil(12), M = prof.length, sec = [];
+  for (let j = 0; j <= nr; j++) {
+    const f = j / nr, r = rh - 0.06 + (rt - rh + 0.06) * f, c = c0 * (1 - 0.3 * f), g = g0 + (g1 - g0) * f;
+    sec.push(prof.map(([u, v]) => {
+      const a = (u * Math.cos(g) - v * Math.sin(g)) * c;   // axial
+      const b = (u * Math.sin(g) + v * Math.cos(g)) * c;   // tangential
+      return [r * Math.cos(theta) - b * Math.sin(theta), a, r * Math.sin(theta) + b * Math.cos(theta)];
+    }));
+  }
+  const tri = [];
+  const push = (q) => tri.push(q[0], q[1], q[2]);
+  for (let j = 0; j < nr; j++) for (let i = 0; i < M - 1; i++) {
+    const a = sec[j][i], b = sec[j][i + 1], c = sec[j + 1][i + 1], d = sec[j + 1][i];
+    push(a); push(b); push(c); push(a); push(c); push(d);
+  }
+  const top = sec[nr], cx = top.reduce((s, q) => s + q[0], 0) / M, cy = top.reduce((s, q) => s + q[1], 0) / M, cz = top.reduce((s, q) => s + q[2], 0) / M;
+  for (let i = 0; i < M - 1; i++) { push([cx, cy, cz]); push(top[i + 1]); push(top[i]); }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(tri, 3));
+  g.computeVertexNormals();
+  return g;
+}
+
+// Edges of a mesh: creases and open edges are drawn always; the rest are candidates for the silhouette.
+function analyse(geometry, creaseDeg) {
+  const g0 = new THREE.BufferGeometry();
+  g0.setAttribute('position', geometry.getAttribute('position'));
+  const g = mergeVertices(g0, 1e-4);
+  const pos = g.getAttribute('position').array, idx = g.index.array;
+  const nv = pos.length / 3, nt = idx.length / 3;
+  const fn = new Float32Array(nt * 3), fc = new Float32Array(nt * 3), ok = new Uint8Array(nt);
+  for (let t = 0; t < nt; t++) {
+    const a = idx[3 * t] * 3, b = idx[3 * t + 1] * 3, c = idx[3 * t + 2] * 3;
+    const ux = pos[b] - pos[a], uy = pos[b + 1] - pos[a + 1], uz = pos[b + 2] - pos[a + 2];
+    const vx = pos[c] - pos[a], vy = pos[c + 1] - pos[a + 1], vz = pos[c + 2] - pos[a + 2];
+    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    const len = Math.hypot(nx, ny, nz);
+    if (len < 1e-12) continue;
+    ok[t] = 1;
+    fn[3 * t] = nx / len; fn[3 * t + 1] = ny / len; fn[3 * t + 2] = nz / len;
+    fc[3 * t] = (pos[a] + pos[b] + pos[c]) / 3;
+    fc[3 * t + 1] = (pos[a + 1] + pos[b + 1] + pos[c + 1]) / 3;
+    fc[3 * t + 2] = (pos[a + 2] + pos[b + 2] + pos[c + 2]) / 3;
+  }
+  const map = new Map(), ea = [], eb = [], fa = [], fb = [];
+  for (let t = 0; t < nt; t++) {
+    if (!ok[t]) continue;
+    for (let i = 0; i < 3; i++) {
+      let p = idx[3 * t + i], q = idx[3 * t + ((i + 1) % 3)];
+      if (p > q) [p, q] = [q, p];
+      const key = p * nv + q, e = map.get(key);
+      if (e === undefined) { map.set(key, ea.length); ea.push(p); eb.push(q); fa.push(t); fb.push(-1); }
+      else if (fb[e] === -1) fb[e] = t;
+      else fb[e] = -2;
+    }
+  }
+  const cosT = Math.cos(creaseDeg * DEG);
+  const st = [], ca = [], cb = [], cta = [], ctb = [];
+  for (let e = 0; e < ea.length; e++) {
+    const ta = fa[e], tb = fb[e];
+    if (tb < 0) { st.push(ea[e], eb[e]); continue; }
+    const d = fn[3 * ta] * fn[3 * tb] + fn[3 * ta + 1] * fn[3 * tb + 1] + fn[3 * ta + 2] * fn[3 * tb + 2];
+    if (d < cosT) st.push(ea[e], eb[e]);
+    else if (d < 0.99995) { ca.push(ea[e]); cb.push(eb[e]); cta.push(ta); ctb.push(tb); }
+  }
+  return {
+    pos, fn, fc, statics: Uint32Array.from(st),
+    ca: Uint32Array.from(ca), cb: Uint32Array.from(cb), cta: Uint32Array.from(cta), ctb: Uint32Array.from(ctb), n: ca.length,
+  };
+}
+
+// One rigid part: its fill, its fixed lines, its silhouette (rebuilt every frame) and optional detail lines.
+// show: 'always' for the design itself, 'build' for the machine, 'test' for the rig.
+function makePart(geometry, o = {}) {
+  geometry = prep(geometry);
+  const show = o.show ?? 'always';
+  const own = {
+    uFieldType: { value: o.field ?? F.plain },
+    uP: { value: new THREE.Vector4().fromArray(o.P ?? [0, 0, 1, 0]) },
+    uSimOn: { value: o.sim === false ? 0 : 1 },
+    uVis: { value: show === 'always' ? 1 : 0 },
+  };
+  const fill = new THREE.ShaderMaterial({
+    uniforms: { ...U, ...own }, vertexShader: FILL_VERT, fragmentShader: FILL_FRAG,
+    side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+  });
+  const lineMat = (alpha) => new THREE.ShaderMaterial({
+    uniforms: { ...U, uVis: own.uVis, uAlpha: { value: alpha } },
+    vertexShader: LINE_VERT, fragmentShader: LINE_FRAG, transparent: true, depthWrite: false,
+  });
+  const lineGeo = (positions) => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    g.setAttribute('key', new THREE.BufferAttribute(new Float32Array(positions.length / 3), 1));
+    return g;
+  };
+  const mesh = new THREE.Mesh(geometry, fill);
+  const A = analyse(geometry, o.crease ?? 35);
+
+  const sp = new Float32Array(A.statics.length * 3);
+  for (let i = 0; i < A.statics.length; i++) {
+    const v = A.statics[i] * 3;
+    sp[3 * i] = A.pos[v]; sp[3 * i + 1] = A.pos[v + 1]; sp[3 * i + 2] = A.pos[v + 2];
+  }
+  const material = lineMat(o.alpha ?? 0.92);
+  const lines = new THREE.LineSegments(lineGeo(sp), material);
+
+  const silPos = new Float32Array(Math.max(1, A.n) * 6), silKey = new Float32Array(Math.max(1, A.n) * 2);
+  const dg = new THREE.BufferGeometry();
+  dg.setAttribute('position', new THREE.BufferAttribute(silPos, 3).setUsage(THREE.DynamicDrawUsage));
+  dg.setAttribute('key', new THREE.BufferAttribute(silKey, 1).setUsage(THREE.DynamicDrawUsage));
+  dg.setDrawRange(0, 0);
+  const sil = new THREE.LineSegments(dg, material);
+
+  const detail = o.detail ? new THREE.LineSegments(lineGeo(o.detail), lineMat(o.detailAlpha ?? 0.4)) : null;
+  for (const l of [lines, sil, detail]) if (l) { l.frustumCulled = false; l.renderOrder = 1; mesh.add(l); }
+  return { mesh, own, A, lines, sil, silPos, silKey, candKey: new Float32Array(A.n), detail, show };
+}
+
+// Silhouette edges: one face towards the camera, the other away. cam is in the part's own coordinates.
+function updateSilhouette(part, cam, reveal) {
+  const { pos, fn, fc, ca, cb, cta, ctb, n } = part.A;
+  const out = part.silPos, okey = part.silKey, ck = part.candKey;
+  let m = 0;
+  for (let e = 0; e < n; e++) {
+    if (ck[e] > reveal) continue;
+    const a = cta[e] * 3, b = ctb[e] * 3;
+    const da = fn[a] * (cam.x - fc[a]) + fn[a + 1] * (cam.y - fc[a + 1]) + fn[a + 2] * (cam.z - fc[a + 2]);
+    const db = fn[b] * (cam.x - fc[b]) + fn[b + 1] * (cam.y - fc[b + 1]) + fn[b + 2] * (cam.z - fc[b + 2]);
+    if ((da > 0) === (db > 0)) continue;
+    const p = ca[e] * 3, q = cb[e] * 3, o = m * 6;
+    out[o] = pos[p]; out[o + 1] = pos[p + 1]; out[o + 2] = pos[p + 2];
+    out[o + 3] = pos[q]; out[o + 4] = pos[q + 1]; out[o + 5] = pos[q + 2];
+    okey[2 * m] = okey[2 * m + 1] = ck[e];
+    m++;
+  }
+  const g = part.sil.geometry;
+  g.attributes.position.needsUpdate = true;
+  g.attributes.key.needsUpdate = true;
+  g.setDrawRange(0, m * 2);
+}
+
+// Integrates a speed profile over one scene, so a frozen ?t= shows the same angle as the running loop.
+function spinTable(speed) {
+  const dt = 1 / 120, n = Math.ceil(SCENE_T / dt) + 2, tab = new Float32Array(n);
+  for (let i = 1; i < n; i++) tab[i] = tab[i - 1] + speed((i - 0.5) * dt) * dt;
+  return (l) => {
+    const x = l / dt, i = Math.min(n - 2, Math.max(0, Math.floor(x)));
+    return tab[i] + (tab[i + 1] - tab[i]) * (x - i);
+  };
+}
+
+// hot helper lines (tool paths, rays, guides): a Line or LineLoop whose opacity the scene drives
+function hotLine(pts, loop = false, dashed = false) {
+  const g = new THREE.BufferGeometry().setFromPoints(pts);
+  const m = dashed
+    ? new THREE.LineDashedMaterial({ color: U.uHot.value, dashSize: 0.12, gapSize: 0.08, transparent: true, opacity: 0, depthWrite: false })
+    : new THREE.LineBasicMaterial({ color: U.uHot.value, transparent: true, opacity: 0, depthWrite: false });
+  const l = loop ? new THREE.LineLoop(g, m) : new THREE.Line(g, m);
+  if (dashed) l.computeLineDistances();
+  l.frustumCulled = false;
+  l.renderOrder = 2;
+  return l;
+}
+// a polyline on a flat face, as detail-line segments
+function polySegs(polys, y) {
+  const out = [];
+  for (const pl of polys) for (let i = 0; i < pl.length - 1; i++) out.push(pl[i][0], y, pl[i][1], pl[i + 1][0], y, pl[i + 1][1]);
+  return new Float32Array(out);
+}
+function polyLength(pl) { let L = 0; for (let i = 1; i < pl.length; i++) L += Math.hypot(pl[i][0] - pl[i - 1][0], pl[i][1] - pl[i - 1][1]); return L; }
+function polyAt(pl, s) {
+  for (let i = 1; i < pl.length; i++) {
+    const d = Math.hypot(pl[i][0] - pl[i - 1][0], pl[i][1] - pl[i - 1][1]);
+    if (s <= d) { const u = d > 0 ? s / d : 0; return [pl[i - 1][0] + (pl[i][0] - pl[i - 1][0]) * u, pl[i - 1][1] + (pl[i][1] - pl[i - 1][1]) * u]; }
+    s -= d;
+  }
+  return pl[pl.length - 1];
+}
+
+// ---------------------------------------------------------------- 2D helpers (the instrument is a 300 × 240 sheet)
+
+const f1 = (x) => (+x).toFixed(1);
+const PL = (pts) => pts.map((q, i) => (i ? 'L' : 'M') + f1(q[0]) + ' ' + f1(q[1])).join('');
+const circ = (cx, cy, r) => `M${f1(cx + r)} ${f1(cy)}A${r} ${r} 0 1 0 ${f1(cx - r)} ${f1(cy)}A${r} ${r} 0 1 0 ${f1(cx + r)} ${f1(cy)}`;
+const rect = (x, y, w, h) => `M${f1(x)} ${f1(y)}H${f1(x + w)}V${f1(y + h)}H${f1(x)}Z`;
+const arc = (cx, cy, r, a0, a1) => `M${f1(cx + r * Math.cos(a0))} ${f1(cy + r * Math.sin(a0))}A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${f1(cx + r * Math.cos(a1))} ${f1(cy + r * Math.sin(a1))}`;
+// dimension lines with arrowheads and extension lines
+const dimH = (x0, x1, y, ext) => `M${f1(x0)} ${f1(y - ext)}V${f1(y + 3)}M${f1(x1)} ${f1(y - ext)}V${f1(y + 3)}M${f1(x0)} ${f1(y)}H${f1(x1)}M${f1(x0 + 6)} ${f1(y - 2.2)}L${f1(x0)} ${f1(y)}L${f1(x0 + 6)} ${f1(y + 2.2)}M${f1(x1 - 6)} ${f1(y - 2.2)}L${f1(x1)} ${f1(y)}L${f1(x1 - 6)} ${f1(y + 2.2)}`;
+const dimV = (y0, y1, x, ext) => `M${f1(x - ext)} ${f1(y0)}H${f1(x + 3)}M${f1(x - ext)} ${f1(y1)}H${f1(x + 3)}M${f1(x)} ${f1(y0)}V${f1(y1)}M${f1(x - 2.2)} ${f1(y0 + 6)}L${f1(x)} ${f1(y0)}L${f1(x + 2.2)} ${f1(y0 + 6)}M${f1(x - 2.2)} ${f1(y1 - 6)}L${f1(x)} ${f1(y1)}L${f1(x + 2.2)} ${f1(y1 - 6)}`;
+// an airfoil as a path: chord c, stagger g (radians, nose down for positive), centred at (cx, cy)
+function airfoilPath(cx, cy, c, g, m = 0.12, p = 0.45, tt = 0.1) {
+  const pts = airfoil(14, m, p, tt).map(([u, v]) => [cx + (u * Math.cos(g) - v * Math.sin(g)) * c, cy - (u * Math.sin(g) + v * Math.cos(g)) * c]);
+  return PL(pts) + 'Z';
+}
+
+// ---------------------------------------------------------------- the three environments
+
+// FPGA carrier board: 10 × 7 board, components on the top face at y = 0.08, traces drawn on the face.
+function pcbScene() {
+  const BW = 10, BD = 7, Y = 0.08;
+  const COMPS = [
+    { ref: 'U1', pkg: 'BGA-484', x: -1.6, z: 0.2, w: 2.2, d: 2.2, h: 0.22, kind: 'bga' },
+    { ref: 'U2', pkg: 'FBGA-96', x: 1.4, z: 1.6, w: 1.2, d: 2.0, h: 0.14, kind: 'box' },
+    { ref: 'U3', pkg: 'FBGA-96', x: 2.9, z: 1.6, w: 1.2, d: 2.0, h: 0.14, kind: 'box' },
+    { ref: 'U4', pkg: 'QFP-64', x: 2.4, z: -1.6, w: 1.4, d: 1.4, h: 0.2, kind: 'qfp' },
+    { ref: 'L1', pkg: 'IND-1008', x: -3.8, z: 0.0, w: 0.9, d: 0.9, h: 0.5, kind: 'box' },
+    { ref: 'Y1', pkg: 'XTAL-3225', x: -0.2, z: -2.3, w: 0.5, d: 0.3, h: 0.15, kind: 'box' },
+    { ref: 'C1', pkg: 'CAP-D8', x: -3.0, z: 2.6, r: 0.35, h: 0.75, kind: 'cyl' },
+    { ref: 'C2', pkg: 'CAP-D8', x: -1.8, z: 2.6, r: 0.35, h: 0.75, kind: 'cyl' },
+    { ref: 'C3', pkg: 'CAP-D8', x: -0.6, z: 2.6, r: 0.35, h: 0.75, kind: 'cyl' },
+    { ref: 'J1', pkg: 'HDR-2x10', x: -3.9, z: -2.2, w: 1.6, d: 0.9, h: 0.7, kind: 'box' },
+    { ref: 'J2', pkg: 'USB-C', x: -4.5, z: 1.5, w: 0.9, d: 0.9, h: 0.35, kind: 'box' },
+    { ref: 'C10-15', pkg: '0402', pts: Array.from({ length: 6 }, (_, i) => [-2.5 + 0.35 * i, -1.35]), kind: 'passives' },
+    { ref: 'R20-25', pkg: '0402', pts: Array.from({ length: 6 }, (_, i) => [-2.4 + 0.33 * i, 1.65]), kind: 'passives' },
+    { ref: 'R30-34', pkg: '0402', pts: Array.from({ length: 5 }, (_, i) => [2.1 + 0.32 * i, -0.3]), kind: 'passives' },
+  ];
+  const ORDER = ['C10-15', 'R20-25', 'R30-34', 'Y1', 'U4', 'U2', 'U3', 'U1', 'L1', 'C1', 'C2', 'C3', 'J2', 'J1'];
+
+  // traces: a 16-line DDR fly-by bus, four differential pairs from the header, six lines from the QFP, the USB pair, power
+  const traces = [];
+  for (let i = 0; i < 16; i++) {
+    const z0 = -0.75 + 0.1 * i, zt = 0.7 + 0.12 * i, xj = 0.0 + 0.025 * i;
+    traces.push([[-0.5, z0], [xj, z0], [xj + (zt - z0), zt], [0.8, zt]]);
+    traces.push([[2.0, zt], [2.3, zt]]);
+  }
+  for (let i = 0; i < 8; i++) {
+    const z0 = -2.55 + 0.09 * i, zt = -0.8 + 0.1 * i, xj = -3.0 + 0.025 * i;
+    traces.push([[-3.1, z0], [xj, z0], [xj + (zt - z0), zt], [-2.7, zt]]);
+  }
+  for (let i = 0; i < 6; i++) {
+    const zq = -2.05 + 0.13 * i, xf = -1.0 - 0.15 * i, d = 0.35;
+    traces.push([[1.7, zq], [xf + d, zq], [xf, zq + d], [xf, -0.9]]);
+  }
+  traces.push([[-4.05, 1.35], [-3.6, 1.35], [-3.35, 1.1], [-2.7, 1.1]], [[-4.05, 1.55], [-3.5, 1.55], [-3.2, 1.25], [-2.7, 1.25]]);
+  traces.push([[-3.35, 0.0], [-2.7, 0.0]]);
+  const testPts = [traces[0][3], traces[10][3], traces[30][3], traces[33][3], traces[42][3], traces[44][3]];
+
+  const PP = { field: F.pcb, P: [-1.6, 0.2, 2.4, -1.6] };
+  const holes = [[-4.5, -3.0], [4.5, -3.0], [4.5, 3.0], [-4.5, 3.0]].map(([x, z]) => circle(0.16, 24, x, -z));
+  const board = makePart(extrudeY([v2(-5, 3.5), v2(5, 3.5), v2(5, -3.5), v2(-5, -3.5)], holes, 0.16), { ...PP, detail: polySegs(traces, Y + 0.005), detailAlpha: 0.42 });
+  const compGeo = (c) => {
+    if (c.kind === 'bga') return merge([box(c.w, c.h, c.d, c.x, Y + c.h / 2, c.z), box(c.w * 0.5, 0.06, c.d * 0.5, c.x, Y + c.h + 0.03, c.z)]);
+    if (c.kind === 'box') return box(c.w, c.h, c.d, c.x, Y + c.h / 2, c.z);
+    if (c.kind === 'cyl') return cyl(c.r, Y, Y + c.h, 24, c.x, c.z);
+    if (c.kind === 'passives') return merge(c.pts.map(([x, z]) => box(0.2, 0.08, 0.1, x, Y + 0.04, z)));
+    const g = [box(c.w, c.h, c.d, c.x, Y + c.h / 2, c.z)];   // qfp: body and eight pins a side
+    for (let i = 0; i < 8; i++) {
+      const o = -0.56 + 0.16 * i;
+      g.push(box(0.26, 0.04, 0.07, c.x - c.w / 2 - 0.1, Y + 0.02, c.z + o), box(0.26, 0.04, 0.07, c.x + c.w / 2 + 0.1, Y + 0.02, c.z + o));
+      g.push(box(0.07, 0.04, 0.26, c.x + o, Y + 0.02, c.z - c.d / 2 - 0.1), box(0.07, 0.04, 0.26, c.x + o, Y + 0.02, c.z + c.d / 2 + 0.1));
+    }
+    return merge(g);
+  };
+  const comps = COMPS.map((c) => ({ ...c, part: makePart(compGeo(c), PP) }));
+  const byRef = Object.fromEntries(comps.map((c) => [c.ref, c]));
+  const slotPos = (ref) => { const c = byRef[ref]; return c.pts ? [c.pts[Math.floor(c.pts.length / 2)][0], c.pts[0][1]] : [c.x, c.z]; };
+
+  // the pick-and-place gantry: two rails, a beam that runs along x, a head that runs along the beam
+  const rails = makePart(merge([box(10.8, 0.12, 0.16, 0, 1.55, -3.95), box(10.8, 0.12, 0.16, 0, 1.55, 3.95), box(0.3, 1.6, 0.3, -5.25, 0.8, -3.95), box(0.3, 1.6, 0.3, -5.25, 0.8, 3.95), box(0.3, 1.6, 0.3, 5.25, 0.8, -3.95), box(0.3, 1.6, 0.3, 5.25, 0.8, 3.95)]), { show: 'build', sim: false });
+  const beam = makePart(box(0.32, 0.18, 8.2, 0, 1.64, 0), { show: 'build', sim: false });
+  const head = makePart(merge([box(0.5, 0.5, 0.5, 0, 1.2, 0), cyl(0.05, 0.42, 0.95, 12)]), { show: 'build', sim: false });
+
+  // two flying probes, one from each side of the board
+  const probeGeo = () => merge([cyl(0.035, 0, 0.8, 10), cyl(0.16, 0.8, 1.6, 16), box(0.28, 0.28, 2.4, 0, 1.7, 1.2)]);
+  const probeA = makePart(probeGeo(), { show: 'test', sim: false }), probeB = makePart(probeGeo(), { show: 'test', sim: false });
+  probeB.mesh.rotation.y = Math.PI;
+  const contact = hotLine(circle(0.12, 24).map((q) => v3(q.x, Y + 0.02, q.y)), true);
+  const contact2 = hotLine(circle(0.12, 24).map((q) => v3(q.x, Y + 0.02, q.y)), true);
+
+  // signal pulses racing along the traces during simulation
+  const NP = traces.length * 2, pulseGeo = new THREE.BufferGeometry();
+  pulseGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(NP * 3), 3).setUsage(THREE.DynamicDrawUsage));
+  const pulses = new THREE.Points(pulseGeo, new THREE.PointsMaterial({ color: U.uHot.value, size: 3.5, sizeAttenuation: false, transparent: true, opacity: 0, depthWrite: false }));
+  pulses.frustumCulled = false;
+  const traceLen = traces.map(polyLength);
+
+  const moveProbe = (part, ring, pt, lift) => {
+    part.mesh.position.set(pt[0], Y + lift, pt[1]);
+    ring.position.set(pt[0], 0, pt[1]);
+    ring.material.opacity = lift < 0.01 ? 0.9 : 0;
+  };
+
+  return {
+    domain: 'Electrical', name: 'FPGA carrier board',
+    spec: { id: 'talos/ee/ddr3-carrier-07', brief: 'Route a 32-bit DDR3 bus to two memory chips: skew ≤ 25 ps, impedance 50 ± 5 Ω.', tools: 'KiCad · openEMS', verifier: 'field solver, then TDR on TC-04' },
+    reward: 0.66, factory: { build: 'PP-01 pick-and-place', test: 'TC-04 flying probe' },
+    parts: [board, ...comps.map((c) => c.part), rails, beam, head, probeA, probeB],
+    extras: [pulses, contact, contact2],
+    elev: 0.95, zoom: 0.8, keyMode: 'x', seed: 7, spin0: 0.3, yaw: 0.03,
+    update(l, st, p, t, ctx) {
+      // components: placed one by one during manufacture, present otherwise
+      const n = ORDER.length, slot = Math.min(n - 1, Math.floor(p * n)), loc = p * n - slot;
+      for (const c of comps) {
+        const k = ORDER.indexOf(c.ref);
+        c.part.own.uVis.value = st !== 'build' ? 1 : k < slot || (k === slot && loc > 0.62) ? 1 : 0;
+      }
+      if (st === 'build') {
+        const prev = slotPos(ORDER[Math.max(0, slot - 1)]), cur = slotPos(ORDER[slot]);
+        const u = ease(smooth(0, 0.5, loc)), x = lerp(slot ? prev[0] : -5.2, cur[0], u), z = lerp(slot ? prev[1] : 0, cur[1], u);
+        const dip = 0.55 * (smooth(0.5, 0.62, loc) - smooth(0.75, 0.95, loc));
+        beam.mesh.position.x = x;
+        head.mesh.position.set(x, -dip, z);
+      }
+      // pulses along the traces
+      pulses.material.opacity = st === 'simulate' ? 0.9 * smooth(0.05, 0.3, p) : 0;
+      if (st === 'simulate') {
+        const a = pulseGeo.attributes.position.array;
+        for (let i = 0; i < NP; i++) {
+          const ti = i >> 1, L = traceLen[ti], s = mod((i & 1 ? 0.5 * L : 0) + t * 1.4 + ti * 0.37, L);
+          const q = polyAt(traces[ti], s);
+          a[3 * i] = q[0]; a[3 * i + 1] = Y + 0.03; a[3 * i + 2] = q[1];
+        }
+        pulseGeo.attributes.position.needsUpdate = true;
+      }
+      // flying probes: six test points, the two probes alternate
+      const vis = ctx.testVis;
+      if (vis > 0) {
+        const k = Math.min(5, Math.floor(p * 6)), lk = p * 6 - k;
+        const ia = k - (k % 2), ib = Math.min(5, ia + 1);
+        const liftA = k % 2 === 0 ? 0.5 * (1 - smooth(0.1, 0.45, lk)) : 0, liftB = k % 2 === 1 ? 0.5 * (1 - smooth(0.1, 0.45, lk)) : 0.5;
+        moveProbe(probeA, contact, testPts[ia], liftA);
+        moveProbe(probeB, contact2, testPts[ib], k % 2 === 1 ? liftB : 0.5);
+        contact.material.opacity *= vis; contact2.material.opacity *= vis;
+      } else { contact.material.opacity = contact2.material.opacity = 0; }
+    },
+    chart: {
+      title: 'TDR · DQ3 impedance', xl: 'position along trace', yl: 'Ω', xr: [0, 1], yr: [40, 60],
+      pred: (x) => 50 + 0.6 * Math.sin(x * 9),
+      meas: (x) => 50.4 + 0.5 * Math.sin(x * 11) - 5.5 * Math.exp(-(((x - 0.32) / 0.04) ** 2)) - 3.8 * Math.exp(-(((x - 0.64) / 0.04) ** 2)) + 2.2 * smooth(0.85, 1, x),
+      readout: (c) => `Impedance ${signed(c.meas(0.32) - c.pred(0.32), 1)} Ω at via 2 vs simulation`,
+    },
+    titles: { design: 'Drawing · layout, top layer', simulate: 'SI · eye diagram, DQ3 @ 1.6 Gb/s', build: 'PP-01 · placement program' },
+    drawing() {
+      const X = (x) => 20 + (x + 5) * 26, Z = (z) => 26 + (z + 3.5) * 26, S = 26;
+      const paths = [], texts = [];
+      paths.push({ d: rect(X(-5), Z(-3.5), BW * S, BD * S), c: 'ink' });
+      for (const [x, z] of [[-4.5, -3], [4.5, -3], [4.5, 3], [-4.5, 3]]) paths.push({ d: circ(X(x), Z(z), 4), c: 'thin' });
+      for (const c of COMPS) {
+        if (c.kind === 'passives') { paths.push({ d: c.pts.map(([x, z]) => rect(X(x) - 2.6, Z(z) - 1.3, 5.2, 2.6)).join(''), c: 'thin' }); continue; }
+        if (c.kind === 'cyl') { paths.push({ d: circ(X(c.x), Z(c.z), c.r * S) + `M${f1(X(c.x) - 3)} ${f1(Z(c.z))}h6M${f1(X(c.x))} ${f1(Z(c.z) - 3)}v6`, c: 'ink' }); continue; }
+        paths.push({ d: rect(X(c.x) - (c.w * S) / 2, Z(c.z) - (c.d * S) / 2, c.w * S, c.d * S), c: 'ink' });
+        if (c.kind === 'bga') { let d = ''; for (let i = 1; i < 6; i++) { const o = (c.w * S * i) / 6; d += `M${f1(X(c.x) - (c.w * S) / 2 + o)} ${f1(Z(c.z) - (c.d * S) / 2)}v${f1(c.d * S)}M${f1(X(c.x) - (c.w * S) / 2)} ${f1(Z(c.z) - (c.d * S) / 2 + o)}h${f1(c.w * S)}`; } paths.push({ d, c: 'thin' }); paths.push({ d: circ(X(c.x) - (c.w * S) / 2 + 5, Z(c.z) - (c.d * S) / 2 + 5, 1.6), c: 'ink' }); }
+        if (c.kind === 'qfp') { let d = ''; for (let i = 0; i < 8; i++) { const o = (-0.56 + 0.16 * i) * S; d += `M${f1(X(c.x) - (c.w * S) / 2)} ${f1(Z(c.z) + o)}h-6M${f1(X(c.x) + (c.w * S) / 2)} ${f1(Z(c.z) + o)}h6M${f1(X(c.x) + o)} ${f1(Z(c.z) - (c.d * S) / 2)}v-6M${f1(X(c.x) + o)} ${f1(Z(c.z) + (c.d * S) / 2)}v6`; } paths.push({ d, c: 'thin' }); }
+      }
+      for (const tr of traces) paths.push({ d: PL(tr.map(([x, z]) => [X(x), Z(z)])), c: 'thin' });
+      paths.push({ d: dimH(X(-5), X(5), Z(3.5) + 14, 10), c: 'thin' });
+      paths.push({ d: dimV(Z(-3.5), Z(3.5), X(5) + 12, 8), c: 'thin' });
+      texts.push({ x: X(0), y: Z(3.5) + 24, s: '100.0', anchor: 'middle', at: 0.93 });
+      texts.push({ x: X(5) + 16, y: Z(0) + 3, s: '70.0', at: 0.96 });
+      texts.push({ x: X(-5), y: 236, s: 'DDR3-CARRIER-07 · REV B · 8 LAYERS · 1:2', at: 0.98, c: 'hl' });
+      return { paths, texts };
+    },
+    sim: { kind: 'eye' },
+    program: {
+      header: (p) => `PP-01 · PLACE ${Math.min(ORDER.length, Math.floor(p * ORDER.length) + 1)} / ${ORDER.length} · NOZZLE 2`,
+      lines: ORDER.map((ref) => { const c = byRef[ref], q = slotPos(ref); return `${ref.padEnd(7)} ${c.pkg.padEnd(10)} X${((q[0] + 5) * 10).toFixed(1).padStart(5)}  Y${((q[1] + 3.5) * 10).toFixed(1).padStart(5)}  R0`; }),
+    },
+  };
+}
+
+// Axial turbine stage: hub, 20 twisted blades, a partial casing; axis along x so the flow runs left to right.
+function turbineScene() {
+  const rh = 1.0, rt = 2.1, NB = 20, c0 = 0.56;
+  const AX = new THREE.Euler(0, 0, -Math.PI / 2, 'ZYX');   // geometry y → world x
+  const spinEuler = (s) => new THREE.Euler(0, s, -Math.PI / 2, 'ZYX');
+  const TP = { field: F.gear, P: [rh, NB, 0.3, 0] };
+
+  const ring = new THREE.LatheGeometry([v2(0.3, -0.32), v2(1.02, -0.32), v2(1.02, 0.32), v2(0.3, 0.32), v2(0.3, -0.32)], 96);
+  const spinner = [v2(0.3, 0.32), v2(0.68, 0.32)];
+  for (let i = 1; i <= 10; i++) { const a = (i / 10) * (Math.PI / 2); spinner.push(v2(Math.max(0.001, 0.08 + 0.6 * Math.cos(a)), 0.32 + 0.85 * Math.sin(a))); }
+  const hub = makePart(merge([ring, new THREE.LatheGeometry(spinner, 72), cyl(0.3, -1.9, 1.9, 32)]), TP);
+  const blades = Array.from({ length: NB }, (_, k) => makePart(bladeGeometry((k / NB) * TAU, { rh, rt, c0 }), TP));
+  const casing = makePart(new THREE.LatheGeometry([v2(2.16, -0.34), v2(2.28, -0.34), v2(2.28, 0.34), v2(2.16, 0.34), v2(2.16, -0.34)], 96, 0.35 * Math.PI, 1.3 * Math.PI), { sim: false });
+  casing.mesh.rotation.copy(AX);
+
+  // the 5-axis spindle, its tool path and the blank it starts from
+  const spindle = makePart(merge([cyl(0.16, 0.55, 1.9, 24), cyl(0.045, 0.05, 0.55, 10), new THREE.SphereGeometry(0.05, 12, 8)]), { show: 'build', sim: false });
+  const toolPath = hotLine([v3(0, 0, 0), v3(0, 0, 0)]);
+  const blank = hotLine(circle(rt, 120).map((q) => v3(q.x, 0, q.y)), true, true);
+  const blank2 = hotLine(circle(rh, 72).map((q) => v3(q.x, 0, q.y)), true, true);
+  blank.rotation.copy(AX); blank2.rotation.copy(AX);
+
+  // the spin rig: pedestals, bearing caps, base plate, a displacement sensor above the tip
+  const rig = makePart(merge([
+    box(0.5, 2.0, 0.7, -1.6, -1.3, 0), box(0.5, 2.0, 0.7, 1.6, -1.3, 0),
+    new THREE.CylinderGeometry(0.46, 0.46, 0.5, 32).rotateZ(Math.PI / 2).translate(-1.6, 0, 0),
+    new THREE.CylinderGeometry(0.46, 0.46, 0.5, 32).rotateZ(Math.PI / 2).translate(1.6, 0, 0),
+    box(4.6, 0.16, 1.6, 0, -2.38, 0), box(0.26, 0.26, 0.26, 0, rt + 0.5, 0), box(0.06, 0.4, 0.06, 0, rt + 0.83, 0),
+  ]), { show: 'test', sim: false });
+  const ray = hotLine([v3(0, rt + 0.37, 0), v3(0, rt + 0.02, 0)]);
+
+  // streamlines: stateless particles, so a frozen frame shows the same flow as the running loop
+  const NS = 380, r = rng(21), seeds = [];
+  for (let i = 0; i < NS; i++) seeds.push({ x0: -2.6 + 5.2 * r(), r: rh + 0.08 + (rt - rh - 0.16) * r(), phi: r() * TAU });
+  const flowGeo = new THREE.BufferGeometry();
+  flowGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(NS * 6), 3).setUsage(THREE.DynamicDrawUsage));
+  flowGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(NS * 6), 3).setUsage(THREE.DynamicDrawUsage));
+  const flow = new THREE.LineSegments(flowGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0, depthWrite: false }));
+  flow.frustumCulled = false;
+  const swirl = (x) => 1.3 * smooth(-0.35, 0.3, x) + 0.5 * Math.max(0, x - 0.3);
+  const cold = U.uCold.value, hot = U.uHot.value;
+
+  const tb = START.build, tt = START.test, tf = START.feedback;
+  const spin = spinTable((l) => 0.35 * (1 - smooth(tb - 0.4, tb, l)) + 9 * smooth(tt + 0.3, tt + 2.6, l) * (1 - smooth(tf, tf + 1.0, l)));
+  const bladePoint = (k, f) => { const th = (k / NB) * TAU, rr = rh + (rt - rh) * f; return v3(rr * Math.cos(th), 0, rr * Math.sin(th)); };
+
+  return {
+    domain: 'Aerospace', name: 'Axial turbine stage',
+    spec: { id: 'talos/aero/axial-turbine-03', brief: 'Design a single-stage axial turbine: pressure ratio 1.8 at 22,000 rpm, tip speed ≤ 420 m/s.', tools: 'CadQuery · OpenFOAM', verifier: 'CFD, then spin rig TC-05' },
+    reward: 0.74, factory: { build: 'CNC-01 5-axis mill', test: 'TC-05 spin rig' },
+    parts: [hub, ...blades, casing, spindle, rig],
+    extras: [toolPath, blank, blank2, ray, flow],
+    elev: 0.4, zoom: 0.92, keyMix: [0.85, 0.15], seed: 11, spin0: 0.6, yaw: 0.012,
+    update(l, st, p, t, ctx) {
+      const s = spin(l), e = spinEuler(s);
+      hub.mesh.rotation.copy(e);
+      for (const b of blades) b.mesh.rotation.copy(e);
+      // milling: the blank fades as blades are cut one by one, the spindle runs root to tip on each
+      const k = Math.min(NB - 1, Math.floor(p * NB)), lk = p * NB - k;
+      for (let i = 0; i < NB; i++) blades[i].own.uVis.value = st !== 'build' ? 1 : i < k || (i === k && lk > 0.55) ? 1 : 0;
+      casing.own.uVis.value = st !== 'build' ? 1 : p > 0.97 ? 1 : 0;
+      const bv = ctx.buildVis;
+      blank.material.opacity = blank2.material.opacity = 0.7 * bv * (1 - p);
+      if (bv > 0) {
+        const f = smooth(0.05, 0.55, lk), tip = bladePoint(k, f).applyEuler(e), root = bladePoint(k, 0).applyEuler(e);
+        const radial = tip.clone().setX(0).normalize();
+        spindle.mesh.position.copy(tip);
+        spindle.mesh.quaternion.setFromUnitVectors(v3(0, 1, 0), radial);
+        toolPath.geometry.setFromPoints([root, tip]);
+        toolPath.material.opacity = 0.9 * bv;
+      } else toolPath.material.opacity = 0;
+      ray.material.opacity = 0.8 * ctx.testVis * (0.6 + 0.4 * Math.sin(t * 30));
+      // flow
+      flow.material.opacity = st === 'simulate' ? 0.85 * smooth(0.05, 0.3, p) : 0;
+      if (st === 'simulate') {
+        const P = flowGeo.attributes.position.array, C = flowGeo.attributes.color.array;
+        for (let i = 0; i < NS; i++) {
+          const sd = seeds[i], x = mod(sd.x0 + t * 1.6 + 2.6, 5.2) - 2.6, xb = x - 0.34;
+          const ph = sd.phi + swirl(x), pb = sd.phi + swirl(xb), m = 0.85 * smooth(-0.35, 0.3, x);
+          P[6 * i] = x; P[6 * i + 1] = sd.r * Math.cos(ph); P[6 * i + 2] = sd.r * Math.sin(ph);
+          P[6 * i + 3] = xb; P[6 * i + 4] = sd.r * Math.cos(pb); P[6 * i + 5] = sd.r * Math.sin(pb);
+          for (let j = 0; j < 2; j++) { C[6 * i + 3 * j] = lerp(cold.r, hot.r, m); C[6 * i + 3 * j + 1] = lerp(cold.g, hot.g, m); C[6 * i + 3 * j + 2] = lerp(cold.b, hot.b, m); }
+        }
+        flowGeo.attributes.position.needsUpdate = true; flowGeo.attributes.color.needsUpdate = true;
+      }
+    },
+    chart: {
+      title: 'Rig test · stage map', xl: 'mass flow, kg/s', yl: 'PR', xr: [4, 9], yr: [1.0, 2.0],
+      pred: (x) => 1.86 - 0.028 * (x - 4) ** 2,
+      meas: (x) => 1.8 - 0.03 * (x - 4) ** 2 + 0.01 * Math.sin(x * 7) - 0.5 * smooth(8.3, 8.9, x),
+      readout(c) { let mp = 0, mm = 0; for (let i = 0; i <= 100; i++) { const x = 4 + (5 * i) / 100; mp = Math.max(mp, c.pred(x)); mm = Math.max(mm, c.meas(x)); } return `Peak pressure ratio ${signed((mm / mp - 1) * 100, 1)} % vs simulation`; },
+    },
+    titles: { design: 'Drawing · meridional view and sections', simulate: 'CFD · midspan cascade, M 0.62', build: 'CNC-01 · 5-axis program' },
+    drawing() {
+      const paths = [], texts = [];
+      // meridional view at the left: axis, hub, casing and the blade between them, flow arrows at the inlet
+      const ax = 142, yh = 106, yt = 50, x0 = 16, x1 = 136;
+      paths.push({ d: `M${x0 - 6} ${ax}H${x1 + 6}`, c: 'cl' });
+      paths.push({ d: `M${x0} ${yh}H${x1}`, c: 'ink' });
+      paths.push({ d: `M${x0} ${yt - 6}H${x1}M${x0} ${yt - 12}H${x1}`, c: 'ink' });
+      paths.push({ d: `M60 ${yh}L54 ${yt}M86 ${yh}L96 ${yt}`, c: 'ink' });
+      paths.push({ d: `M${x0 + 8} ${yh - 8}h14M${x0 + 8} ${yh - 24}h14M${x0 + 8} ${yh - 40}h14M${x0 + 18} ${yh - 11}l4 3l-4 3M${x0 + 18} ${yh - 27}l4 3l-4 3M${x0 + 18} ${yh - 43}l4 3l-4 3`, c: 'hot' });
+      let hatch = ''; for (let i = 0; i < 12; i++) hatch += `M${x0 + 10 * i} ${yt - 12}l5 -5`; paths.push({ d: hatch, c: 'hatch' });
+      paths.push({ d: dimV(yt, ax, x1 + 16, 10), c: 'thin' });
+      paths.push({ d: dimH(54, 96, yt - 22, 8), c: 'thin' });
+      texts.push({ x: x1 + 20, y: 100, s: 'R 220', at: 0.5 });
+      texts.push({ x: 75, y: yt - 26, s: 'c 56', anchor: 'middle', at: 0.55 });
+      // three sections at the right, root to tip, with growing stagger
+      [[0.3, 'r 110'], [0.6, 'r 165'], [1.0, 'r 220']].forEach(([f, lab], i) => {
+        const cy = 56 + 68 * i, cx = 228, g = (28 + 24 * f) * DEG, c = 84 * (1 - 0.3 * f);
+        paths.push({ d: `M${cx - 50} ${cy}H${cx + 50}`, c: 'cl' });
+        paths.push({ d: airfoilPath(cx, cy, c, g), c: 'ink' });
+        paths.push({ d: `M${f1(cx - (c / 2) * Math.cos(g))} ${f1(cy + (c / 2) * Math.sin(g))}L${f1(cx + (c / 2) * Math.cos(g))} ${f1(cy - (c / 2) * Math.sin(g))}`, c: 'dim' });
+        texts.push({ x: cx + 54, y: cy + 3, s: lab, at: 0.6 + 0.12 * i });
+      });
+      texts.push({ x: 16, y: 236, s: 'AXIAL-TURBINE-03 · 20 BLADES · Ø 440 · 1:4', at: 0.98, c: 'hl' });
+      return { paths, texts };
+    },
+    sim: { kind: 'cascade' },
+    program: {
+      header: (p) => `CNC-01 · BLADE ${Math.min(NB, Math.floor(p * NB) + 1)} / ${NB} · T3 Ø6 BALL`,
+      lines: (() => { const r = rng(5), out = []; for (let i = 0; i < 40; i++) { const a = (i / 40) * 1.2; out.push(`N${(120 + 10 * i).toString().padStart(4, '0')} G1 X${(42 * Math.cos(a) + r()).toFixed(3).padStart(7)} Y${(42 * Math.sin(a) + r()).toFixed(3).padStart(7)} Z${(8.25 - 0.3 * i).toFixed(2).padStart(6)} A${(-14.2 + 0.8 * i).toFixed(1).padStart(5)}`); } return out; })(),
+    },
+  };
+}
+
+// Six-axis arm: nested parts so every link moves with its parent. Link lengths in metres.
+function armScene() {
+  const L1 = 1.0, L2 = 0.85;
+  const JP = (r2) => ({ field: F.joint, P: [0, 0, 0, r2] });
+  const base = makePart(merge([cyl(0.5, 0, 0.14, 48), cyl(0.34, 0.14, 0.5, 40)]), { field: F.plain });
+  const turret = makePart(merge([cyl(0.3, 0, 0.3, 36), box(0.36, 0.34, 0.5, 0, 0.47, 0)]), JP(0.08));
+  const upper = makePart(merge([cylZ(0.2, 0.46, 32), box(0.22, L1 - 0.1, 0.18, 0, L1 / 2 + 0.05, 0)]), JP(0.1));
+  const fore = makePart(merge([cylZ(0.17, 0.4, 32), box(0.18, L2 - 0.08, 0.16, 0, L2 / 2 + 0.04, 0)]), JP(0.09));
+  const wrist = makePart(merge([cylZ(0.12, 0.28, 24), box(0.16, 0.22, 0.14, 0, 0.17, 0)]), JP(0.04));
+  const grip = makePart(merge([box(0.22, 0.06, 0.14, 0, 0.03, 0), box(0.03, 0.18, 0.1, -0.08, 0.15, 0), box(0.03, 0.18, 0.1, 0.08, 0.15, 0)]), { field: F.plain });
+  base.mesh.add(turret.mesh); turret.mesh.add(upper.mesh); upper.mesh.add(fore.mesh); fore.mesh.add(wrist.mesh); wrist.mesh.add(grip.mesh);
+  const links = [base, turret, upper, fore, wrist, grip];
+  const home = [[0, 0, 0], [0, 0.5, 0], [0, 0.6, 0], [0, L1, 0], [0, L2, 0], [0, 0.26, 0]];
+  const DESIGN = [2.6, 0.7, 0.8, 1.1, 0];
+
+  const pose = (q, off = []) => {
+    links.forEach((pt, i) => pt.mesh.position.set(home[i][0], home[i][1] + (off[i] ?? 0), home[i][2]));
+    turret.mesh.rotation.y = q[0];
+    upper.mesh.rotation.z = q[1];
+    fore.mesh.rotation.z = q[2];
+    wrist.mesh.rotation.set(0, q[4], q[3], 'ZYX');
+  };
+  // where the tool point is, in the arm's own frame, for a pose
+  const tcp = (q) => {
+    const m = new THREE.Matrix4(), e = new THREE.Matrix4();
+    m.makeTranslation(0, 0.5, 0).multiply(e.makeRotationY(q[0]));
+    m.multiply(e.makeTranslation(0, 0.6, 0)).multiply(e.makeRotationZ(q[1]));
+    m.multiply(e.makeTranslation(0, L1, 0)).multiply(e.makeRotationZ(q[2]));
+    m.multiply(e.makeTranslation(0, L2, 0)).multiply(e.makeRotationZ(q[3])).multiply(e.makeRotationY(q[4]));
+    m.multiply(e.makeTranslation(0, 0.26 + 0.3, 0));
+    return v3(0, 0, 0).applyMatrix4(m);
+  };
+  const motion = (u) => [2.6 + 0.8 * Math.sin(TAU * u), 0.7 + 0.3 * Math.sin(TAU * u + 1), 0.8 + 0.35 * Math.sin(2 * TAU * u), 1.1 - 0.3 * Math.sin(TAU * u), TAU * u];
+  const torque = (u) => { const q = motion(u); return [10 * Math.sin(2 * TAU * u), 48 * Math.cos(q[1]) + 22 * Math.cos(q[1] + q[2]), 22 * Math.cos(q[1] + q[2])]; };
+  const APPROACH = [[3.15, 0.4, 1.0, 1.2, 0.6], [2.05, 0.9, 0.5, 1.3, -0.5], [2.6, 0.3, 0.6, 0.9, 1.2], [2.95, 0.95, 1.1, 1.2, 0], [2.25, 0.6, 0.9, 1.0, -1.0]];
+
+  // the tool-point trace during simulation, the guide and the seating ring during assembly, the target and gauge on test
+  const trace = new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 121 }, () => v3(0, 0, 0))), new THREE.LineBasicMaterial({ color: U.uHot.value, transparent: true, opacity: 0, depthWrite: false }));
+  trace.frustumCulled = false; trace.renderOrder = 2;
+  const guide = hotLine([v3(0, 0, 0), v3(0, 1, 0)], false, true);
+  const seat = hotLine(circle(0.34, 48).map((q) => v3(q.x, 0, q.y)), true);
+  const T = tcp(DESIGN);
+  const target = makePart(merge([box(0.3, 0.02, 0.02, T.x, T.y, T.z), box(0.02, 0.3, 0.02, T.x, T.y, T.z), box(0.02, 0.02, 0.3, T.x, T.y, T.z)]), { show: 'test', sim: false });
+  const gauge = makePart(merge([cyl(0.03, 0, T.y - 0.1, 12, T.x + 0.45, T.z), cyl(0.12, T.y - 0.1, T.y - 0.06, 24, T.x + 0.45, T.z), box(0.4, 0.02, 0.02, T.x + 0.25, T.y - 0.08, T.z), box(0.4, 0.02, 0.5, T.x + 0.45, 0.01, T.z)]), { show: 'test', sim: false });
+
+  return {
+    domain: 'Robotics', name: '6-axis arm',
+    spec: { id: 'talos/robotics/arm-6dof-05', brief: 'Design a 6-axis arm: 1.2 m reach, 5 kg payload, repeatability ≤ 30 µm, mass ≤ 40 kg.', tools: 'CadQuery · MuJoCo', verifier: 'dynamics, then laser tracker TC-06' },
+    reward: 0.38, factory: { build: 'AS-01 assembly cell', test: 'TC-06 laser tracker' },
+    parts: [...links, target, gauge],
+    extras: [trace, guide, seat],
+    elev: 0.3, zoom: 0.96, keyMode: 'up', seed: 3, spin0: 0.55, yaw: 0.025, lift: -0.1,
+    update(l, st, p, t, ctx) {
+      let q = DESIGN, off = [];
+      if (st === 'simulate') q = motion(p);
+      if (st === 'test') { const k = Math.min(4, Math.floor(p * 5)), lk = p * 5 - k, w = 1 - Math.abs(2 * smooth(0.1, 0.9, lk) - 1); q = DESIGN.map((v, i) => lerp(APPROACH[k][i], v, ease(w))); }
+      // assembly: one link per slot, each sliding onto its pivot from above
+      const n = links.length, slot = Math.min(n - 1, Math.floor(p * n)), lk = p * n - slot;
+      for (let i = 0; i < n; i++) {
+        links[i].own.uVis.value = st !== 'build' ? 1 : i < slot || (i === slot && lk > 0.04) ? 1 : 0;
+        off[i] = st === 'build' && i === slot ? 0.9 * (1 - ease(smooth(0.04, 0.78, lk))) : 0;
+      }
+      pose(q, off);
+      if (st === 'build') {
+        links[slot].mesh.updateWorldMatrix(true, false);
+        const wp = links[slot].mesh.getWorldPosition(v3(0, 0, 0)), inner = links[0].mesh.parent;
+        inner.worldToLocal(wp);
+        guide.position.copy(wp); guide.scale.y = 1.2; guide.material.opacity = 0.7 * (1 - smooth(0.7, 0.85, lk));
+        seat.position.copy(wp); seat.material.opacity = Math.sin(Math.PI * clamp01((lk - 0.78) / 0.22)) * 0.9;
+      } else { guide.material.opacity = 0; seat.material.opacity = 0; }
+      // tool-point trace, drawn from the start of the simulation up to now
+      trace.material.opacity = st === 'simulate' ? 0.9 : st === 'build' ? 0.9 * (1 - smooth(0, 0.2, p)) : 0;
+      if (st === 'simulate') {
+        const P = trace.geometry.attributes.position.array;
+        for (let i = 0; i <= 120; i++) { const v = tcp(motion((p * i) / 120)); P[3 * i] = v.x; P[3 * i + 1] = v.y; P[3 * i + 2] = v.z; }
+        trace.geometry.attributes.position.needsUpdate = true;
+      }
+    },
+    chart: {
+      title: 'Laser tracker · repeatability', xl: 'cycle', yl: 'µm', xr: [1, 20], yr: [0, 80],
+      pred: (x) => 18 + 2 * Math.sin(x * 1.3),
+      meas: (x) => 36 + 12 * Math.sin(x * 2.1) + 7 * Math.sin(x * 0.7 + 1),
+      readout(c) { let mp = 0, mm = 0; for (let i = 0; i <= 100; i++) { const x = 1 + (19 * i) / 100; mp = Math.max(mp, c.pred(x)); mm = Math.max(mm, c.meas(x)); } return `Repeatability ${Math.round(mm)} µm vs ${Math.round(mp)} µm simulated`; },
+    },
+    titles: { design: 'Drawing · kinematics, side view', simulate: 'Dynamics · joint torque, 5 kg payload', build: 'AS-01 · assembly sequence' },
+    drawing() {
+      const paths = [], texts = [];
+      const bx = 78, gy = 214, J2 = [bx, 176], E = [150, 94], W = [236, 126], TP = [262, 136];
+      let hatch = ''; for (let i = 0; i < 9; i++) hatch += `M${36 + 10 * i} ${gy}l6 6`;
+      paths.push({ d: `M30 ${gy}H130`, c: 'ink' }, { d: hatch, c: 'hatch' });
+      paths.push({ d: rect(bx - 22, gy - 20, 44, 20), c: 'ink' }, { d: circ(bx, gy - 28, 7), c: 'ink' });
+      paths.push({ d: PL([J2, E]), c: 'thick' }, { d: circ(J2[0], J2[1], 6), c: 'fill' }, { d: circ(E[0], E[1], 6), c: 'fill' });
+      paths.push({ d: PL([E, W]), c: 'thick' }, { d: circ(W[0], W[1], 5), c: 'fill' });
+      paths.push({ d: PL([W, TP]) + `M${TP[0] - 4} ${TP[1] - 8}l10 4M${TP[0] - 4} ${TP[1] + 8}l10 -4`, c: 'ink' });
+      paths.push({ d: arc(J2[0], J2[1], 186, -1.62, 0.35), c: 'dim' });
+      paths.push({ d: `M${f1(J2[0] + 14)} ${f1(J2[1] - 14)}L${f1(E[0] + 14)} ${f1(E[1] - 14)}`, c: 'thin' });
+      paths.push({ d: dimH(E[0], W[0], 72, 8), c: 'thin' });
+      paths.push({ d: `M${TP[0]} ${TP[1] + 16}v22M${TP[0] - 3} ${TP[1] + 32}l3 6l3 -6`, c: 'hot' });
+      paths.push({ d: arc(J2[0], J2[1], 26, -Math.PI / 2, -0.85), c: 'thin' });
+      texts.push({ x: 104, y: 124, s: 'L1 1,000', at: 0.72 });
+      texts.push({ x: 193, y: 68, s: 'L2 850', anchor: 'middle', at: 0.8 });
+      texts.push({ x: TP[0] + 8, y: TP[1] + 34, s: '5 kg', at: 0.9, c: 'hl' });
+      texts.push({ x: bx + 30, y: J2[1] - 24, s: 'θ₂', at: 0.94 });
+      texts.push({ x: 160, y: 36, s: 'REACH 1,200', anchor: 'middle', at: 0.6 });
+      texts.push({ x: 16, y: 236, s: 'ARM-6DOF-05 · 6 AXES · 1:12', at: 0.98, c: 'hl' });
+      return { paths, texts };
+    },
+    sim: { kind: 'scope', torque },
+    program: {
+      header: (p) => `AS-01 · STEP ${Math.min(6, Math.floor(p * 6) + 1)} / 6 · TORQUE WRENCH`,
+      lines: ['01  BASE          4× M12    80 N·m', '02  TURRET  J1    8× M8     25 N·m', '03  UPPER ARM  J2 6× M10    45 N·m', '04  FOREARM  J3   6× M8     25 N·m', '05  WRIST  J4 J5  4× M6     10 N·m', '06  GRIPPER       4× M5      6 N·m'],
+    },
+  };
+}
+
+// ---------------------------------------------------------------- scene assembly
+
+const POINTS = 3200;
+
+// Fits a scene into a unit sphere, orders its strokes, samples the scan points and adds the scan bar.
+function finalize(sc) {
+  const inner = new THREE.Group();
+  for (const p of sc.parts) if (!p.mesh.parent) inner.add(p.mesh);
+  for (const x of sc.extras ?? []) inner.add(x);
+  sc.update(0, 'design', 0, 0, { buildVis: 0, testVis: 0 });
+  inner.updateMatrixWorld(true);
+
+  const bb = new THREE.Box3();
+  const main = sc.parts.filter((p) => p.show === 'always');
+  for (const p of main) {
+    p.mesh.geometry.computeBoundingBox();
+    bb.union(p.mesh.geometry.boundingBox.clone().applyMatrix4(p.mesh.matrixWorld));
+  }
+  const size = bb.getSize(new THREE.Vector3()), c = bb.getCenter(new THREE.Vector3());
+  const radius = size.length() / 2, s = sc.zoom / radius, lift = sc.lift ?? 0;
+  Object.assign(sc, { inner, bb, size, xMin: (bb.min.x - c.x) * s, xMax: (bb.max.x - c.x) * s });
+
+  const rand = rng(sc.seed);
+  const strokeKey = (v) => {
+    const ang = (Math.atan2(v.z - c.z, v.x - c.x) + Math.PI) / TAU;
+    const up = (v.y - bb.min.y) / size.y;
+    let k;
+    if (sc.keyMode === 'x') k = (v.x - bb.min.x) / size.x;
+    else if (sc.keyMode === 'up') k = 0.85 * up + 0.15 * ang;
+    else { const [wa, wh] = sc.keyMix; k = (wa * ang + wh * (1 - up)) / (wa + wh); }
+    return clamp01(k + 0.03 * (rand() - 0.5));
+  };
+  const tmp = new THREE.Vector3();
+  for (const p of sc.parts) {
+    const M = p.mesh.matrixWorld;
+    for (const l of [p.lines, p.detail]) {
+      if (!l) continue;
+      const P = l.geometry.attributes.position.array, K = l.geometry.attributes.key.array;
+      for (let i = 0; i < K.length; i += 2) {
+        tmp.set((P[3 * i] + P[3 * i + 3]) / 2, (P[3 * i + 1] + P[3 * i + 4]) / 2, (P[3 * i + 2] + P[3 * i + 5]) / 2).applyMatrix4(M);
+        K[i] = K[i + 1] = p.show === 'always' ? strokeKey(tmp) : 0;
+      }
+    }
+    const { pos, ca, cb, n } = p.A;
+    for (let e = 0; e < n; e++) {
+      const a = ca[e] * 3, b = cb[e] * 3;
+      tmp.set((pos[a] + pos[b]) / 2, (pos[a + 1] + pos[b + 1]) / 2, (pos[a + 2] + pos[b + 2]) / 2).applyMatrix4(M);
+      p.candKey[e] = p.show === 'always' ? strokeKey(tmp) : 0;
+    }
+  }
+
+  // scan points, coloured by how far the built part is from the design: a few smooth bumps and some noise
+  const samplers = main.map((p) => {
+    const sm = new MeshSurfaceSampler(new THREE.Mesh(p.mesh.geometry)).setRandomGenerator(rand).build();
+    return { p, sm, area: sm.distribution[sm.distribution.length - 1] };
+  });
+  const total = samplers.reduce((x, y) => x + y.area, 0);
+  const nrm = new THREE.Vector3();
+  const pick = () => { let r = rand() * total; for (const x of samplers) { if ((r -= x.area) <= 0) return x; } return samplers[0]; };
+  const blobs = Array.from({ length: 6 }, (_, i) => {
+    const x = pick();
+    x.sm.sample(tmp, nrm);
+    return { v: tmp.clone().applyMatrix4(x.p.mesh.matrixWorld), amp: (i % 2 ? -1 : 1) * (0.8 + 0.3 * rand()) };
+  });
+  const sigma2 = (0.15 * radius) ** 2;
+  const dev = (v) => {
+    let d = (rand() - 0.5) * 0.16;
+    for (const bl of blobs) d += bl.amp * Math.exp(-v.distanceToSquared(bl.v) / sigma2);
+    return Math.max(-1, Math.min(1, d));
+  };
+  const ptsMat = new THREE.ShaderMaterial({ uniforms: { ...U }, vertexShader: PTS_VERT, fragmentShader: PTS_FRAG, transparent: true, depthWrite: false });
+  for (const { p, sm, area } of samplers) {
+    const count = Math.round((POINTS * area) / total);
+    if (count < 2) continue;
+    const P = new Float32Array(count * 3), D = new Float32Array(count), K = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      sm.sample(tmp, nrm);
+      tmp.addScaledVector(nrm, 0.004 * radius);
+      P[3 * i] = tmp.x; P[3 * i + 1] = tmp.y; P[3 * i + 2] = tmp.z;
+      const g = tmp.clone().applyMatrix4(p.mesh.matrixWorld);
+      K[i] = (g.x - bb.min.x) / size.x;
+      D[i] = dev(g);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(P, 3));
+    geo.setAttribute('dev', new THREE.BufferAttribute(D, 1));
+    geo.setAttribute('key', new THREE.BufferAttribute(K, 1));
+    const pts = new THREE.Points(geo, ptsMat);
+    pts.frustumCulled = false;
+    pts.renderOrder = 2;
+    p.mesh.add(pts);
+  }
+
+  // the scan bar
+  const pad = 0.08, y0 = bb.min.y - size.y * pad, y1 = bb.max.y + size.y * pad, z0 = bb.min.z - size.z * pad, z1 = bb.max.z + size.z * pad;
+  sc.scanbar = hotLine([v3(0, y0, z0), v3(0, y1, z0), v3(0, y1, z1), v3(0, y0, z1)], true);
+  inner.add(sc.scanbar);
+
+  inner.scale.setScalar(s);
+  inner.position.set(-c.x * s, -c.y * s + lift, -c.z * s);
+  sc.pivot = new THREE.Group();
+  sc.pivot.add(inner);
+  return sc;
+}
+
+// ---------------------------------------------------------------- the instruments (2D, left column)
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const svgText = (s, attrs, parent) => { const e = svgEl('text', attrs, parent); e.textContent = s; return e; };
+
+const SIM = {
+  // an eye diagram: bit sequences through a slow channel, drawn one after another, with the mask in hot
+  eye(g) {
+    const r = rng(17), traces = [], x0 = 20, x1 = 280, yc = 118, A = 68, UI = (x1 - x0) / 2;
+    const pulse = (u) => (Math.abs(u) < 1.3 ? 0.5 * (1 + Math.cos((Math.PI * u) / 1.3)) : 0);   // wider than a bit: intersymbol interference
+    svgEl('path', { d: `M${x0} ${yc}H${x1}M${x0 + UI} ${yc - A - 8}V${yc + A + 8}`, class: 'thin', 'stroke-dasharray': '2 4' }, g);
+    for (let i = 0; i < 30; i++) {
+      const bits = [0, 1, 2, 3].map(() => (r() < 0.5 ? -1 : 1)), jit = 0.14 * (r() - 0.5), amp = 0.86 + 0.12 * (r() - 0.5), pts = [];
+      for (let k = 0; k <= 60; k++) {
+        const t = 0.5 + (2 * k) / 60, v = bits.reduce((s, b, j) => s + b * pulse(t - j + jit), 0) * amp;
+        pts.push([x0 + (t - 0.5) * UI, yc - A * v]);
+      }
+      traces.push(svgEl('path', { d: PL(pts), class: 'thin', opacity: 0 }, g));
+    }
+    const mask = svgEl('path', { d: PL([[x0 + UI - 30, yc], [x0 + UI - 12, yc - 26], [x0 + UI + 12, yc - 26], [x0 + UI + 30, yc], [x0 + UI + 12, yc + 26], [x0 + UI - 12, yc + 26]]) + 'Z', class: 'hot', 'stroke-dasharray': '3 3', opacity: 0 }, g);
+    const l1 = svgText('1 UI = 625 ps', { x: x0 + UI, y: yc + A + 24, 'text-anchor': 'middle', opacity: 0 }, g);
+    const l2 = svgText('eye height 312 mV · jitter 41 ps', { x: x0, y: 236, class: 'hl', opacity: 0 }, g);
+    return (p) => {
+      const n = p * 34;
+      traces.forEach((e, i) => e.setAttribute('opacity', i < n ? 0.75 : 0));
+      mask.setAttribute('opacity', smooth(0.75, 0.85, p)); l1.setAttribute('opacity', smooth(0.3, 0.4, p)); l2.setAttribute('opacity', smooth(0.88, 0.95, p));
+    };
+  },
+  // a 2D cascade: three blades and the streamlines that bend through them; the flow animates along the dashes
+  cascade(g) {
+    const pitch = 66, cx = 150, c = 70, gam = 40 * DEG, xLE = cx - (c / 2) * Math.cos(gam), xTE = cx + (c / 2) * Math.cos(gam);
+    // the camber-line deflection every streamline follows: flat in, turned by the blade, straight out
+    const defl = (x) => { if (x < xLE) return 0; if (x > xTE) return defl(xTE) + (x - xTE) * Math.tan(gam) * 0.9; const u = (x - xLE) / (xTE - xLE); return (xTE - xLE) * Math.tan(gam) * 0.9 * u * u * (3 - 2 * u) * 0.78 + 8 * Math.sin(Math.PI * u); };
+    const id = 'cas-' + Math.round(Math.random() * 1e6);
+    const clip = svgEl('rect', { x: 0, y: 0, width: 0, height: 240 }, svgEl('clipPath', { id }, svgEl('defs', {}, g)));
+    const inner = svgEl('g', { 'clip-path': `url(#${id})` }, g);
+    const lines = [];
+    for (let k = -1; k <= 3; k++) for (const [fr, cls] of [[0.26, 'hot'], [0.5, 'thin'], [0.74, 'cold']]) {
+      const yb = 58 + pitch * k + fr * pitch, pts = [];
+      for (let i = 0; i <= 56; i++) { const x = 8 + (284 * i) / 56; pts.push([x, yb + defl(x) - defl(xLE)]); }
+      lines.push(svgEl('path', { d: PL(pts), class: cls, 'stroke-dasharray': '5 7' }, inner));
+    }
+    for (let k = 0; k < 3; k++) svgEl('path', { d: airfoilPath(cx, 58 + pitch * k + 18, c, gam), class: 'fill' }, inner);
+    svgText('inlet · M 0.62', { x: 10, y: 236 }, g);
+    svgText('ΔP 1.78 · turning 58°', { x: 290, y: 236, 'text-anchor': 'end', class: 'hl' }, g);
+    return (p, t) => {
+      clip.setAttribute('width', (300 * smooth(0, 0.55, p)).toFixed(1));
+      const off = (-(t * 36) % 12).toFixed(1);
+      for (const l of lines) l.setAttribute('stroke-dashoffset', off);
+    };
+  },
+  // a scope: three joint torques over the simulated motion, drawn as it runs
+  scope(g, sc) {
+    const x0 = 24, x1 = 290, y0 = 28, y1 = 200, ym = (y0 + y1) / 2;
+    svgEl('path', { d: `M${x0} ${y0}V${y1}H${x1}M${x0} ${ym}H${x1}`, class: 'thin' }, g);
+    svgText('+80', { x: 0, y: y0 + 3 }, g); svgText('−80', { x: 0, y: y1 + 3 }, g); svgText('N·m', { x: 0, y: ym + 3 }, g);
+    svgText('t, s', { x: x1, y: y1 + 14, 'text-anchor': 'end' }, g);
+    const cls = ['cold', 'hot', 'ink'], paths = cls.map((cl) => svgEl('path', { d: '', class: cl }, g));
+    ['J1', 'J2', 'J3'].forEach((n, i) => svgText(n, { x: 200 + 30 * i, y: 236, class: i === 1 ? 'hl' : 'lbl' }, g));
+    const tq = sc.sim.torque;
+    return (p) => {
+      const n = Math.max(1, Math.round(p * 90)), pts = [[], [], []];
+      for (let i = 0; i <= n; i++) { const u = i / 90, v = tq(u); for (let j = 0; j < 3; j++) pts[j].push([x0 + (x1 - x0) * u, ym - ((y1 - y0) / 2) * (v[j] / 80)]); }
+      paths.forEach((e, j) => e.setAttribute('d', PL(pts[j])));
+    };
+  },
+};
+
+function programInst(g, prog) {
+  const hdr = svgText('', { x: 0, y: 28, class: 'hdr' }, g);
+  const LH = 13.5, VIS = 13, clipId = 'prog-' + Math.round(Math.random() * 1e6);
+  svgEl('rect', { x: 0, y: 40, width: 300, height: LH * VIS }, svgEl('clipPath', { id: clipId }, svgEl('defs', {}, g)));
+  const wrap = svgEl('g', { 'clip-path': `url(#${clipId})` }, g), rows = svgEl('g', {}, wrap);
+  const lines = prog.lines.map((s, i) => svgText(s, { x: 0, y: 50 + LH * i, class: 'todo' }, rows));
+  return (p) => {
+    const idx = Math.min(lines.length - 1, Math.floor(p * lines.length));
+    hdr.textContent = prog.header(p);
+    rows.setAttribute('transform', `translate(0 ${(-Math.max(0, idx - 6) * LH).toFixed(1)})`);
+    lines.forEach((e, i) => e.setAttribute('class', i < idx ? 'done' : i === idx ? 'cur' : 'todo'));
+    lines.forEach((e, i) => { if (i < idx && !e.textContent.endsWith('✓')) e.textContent += '  ✓'; if (i >= idx && e.textContent.endsWith('✓')) e.textContent = e.textContent.slice(0, -3); });
+  };
+}
+
+// ---------------------------------------------------------------- page
+
+const stage = document.querySelector('.stage');
+const canvas = document.getElementById('hero-canvas');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+} catch (err) {
+  stage.classList.add('no-webgl');
+  throw err;
+}
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+renderer.setClearColor(U.uBg.value, 1);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(24, 1, 0.1, 50);
+
+const scenes = [pcbScene(), turbineScene(), armScene()].map(finalize);
+for (const sc of scenes) { sc.pivot.visible = false; scene.add(sc.pivot); }
+
+const head = { id: stage.querySelector('.stage-head .id'), dom: stage.querySelector('.stage-head .dom') };
+const spec = { brief: stage.querySelector('.spec .brief'), tools: stage.querySelector('.spec .tools'), verifier: stage.querySelector('.spec .verifier') };
+const rewardEl = stage.querySelector('.loop .rv');
+const live = [...document.querySelectorAll('.fband .live li')];
+const instEl = stage.querySelector('.inst');
+const instTitle = instEl.querySelector('.it');
+const gDesign = instEl.querySelector('.g-design'), gSim = instEl.querySelector('.g-sim'), gBuild = instEl.querySelector('.g-build');
+const inst = { design: () => {}, sim: () => {}, build: () => {} };
+const specEl = stage.querySelector('.spec');
+const placeInst = () => {
+  const top = specEl.offsetTop + specEl.offsetHeight + 14;
+  instEl.style.top = top + 'px';
+  instEl.style.height = Math.max(120, canvas.clientHeight - top - 10) + 'px';   // fits the width or the height, whichever is tighter
+};
+
+const chartEl = stage.querySelector('.chart');
+const chart = {
+  title: chartEl.querySelector('.ct'), xl: chartEl.querySelector('.xl'), yl: chartEl.querySelector('.yl'),
+  pred: chartEl.querySelector('.pred'), meas: chartEl.querySelector('.meas'), dot: chartEl.querySelector('.dot'),
+  clip: chartEl.querySelector('clipPath rect'), readout: chartEl.querySelector('.readout'),
+};
+const PX0 = 30, PX1 = 250, PY0 = 92, PY1 = 8;
+const plotY = (c, x) => PY0 - (PY0 - PY1) * clamp01((c(x) - cur.chart.yr[0]) / (cur.chart.yr[1] - cur.chart.yr[0]));
+const stripItems = [...stage.querySelectorAll('.loop [data-stage]')];
+
+let cur = null;
+function show(sc) {
+  for (const s of scenes) s.pivot.visible = s === sc;
+  cur = sc;
+  U.uXMin.value = sc.xMin; U.uXMax.value = sc.xMax;
+  head.id.textContent = sc.spec.id;
+  head.dom.textContent = sc.domain;
+  spec.brief.textContent = sc.spec.brief;
+  spec.tools.textContent = sc.spec.tools;
+  spec.verifier.textContent = sc.spec.verifier;
+  for (const li of live) li.querySelector('span').textContent = sc.factory[li.dataset.k];
+  placeInst();
+
+  const c = sc.chart, path = (fn) => {
+    let d = '';
+    for (let k = 0; k <= 90; k++) {
+      const u = k / 90, x = c.xr[0] + (c.xr[1] - c.xr[0]) * u;
+      d += (k ? 'L' : 'M') + (PX0 + (PX1 - PX0) * u).toFixed(1) + ' ' + plotY(fn, x).toFixed(1);
+    }
+    return d;
+  };
+  chart.title.textContent = c.title;
+  chart.xl.textContent = c.xl;
+  chart.yl.textContent = c.yl;
+  chart.pred.setAttribute('d', path(c.pred));
+  chart.meas.setAttribute('d', path(c.meas));
+  chart.readout.textContent = c.readout(c);
+
+  // the instruments: the drawing with its stroke order, the simulation plot, the program
+  for (const g of [gDesign, gSim, gBuild]) g.replaceChildren();
+  const dr = sc.drawing();
+  const paths = dr.paths.map(({ d, c: cls }) => svgEl('path', { d, class: cls }, gDesign));
+  const lens = paths.map((p) => p.getTotalLength()), cum = [];
+  let acc = 0;
+  for (const L of lens) { cum.push(acc); acc += L; }
+  paths.forEach((p, i) => { p.setAttribute('stroke-dasharray', `${lens[i]} ${lens[i]}`); p.setAttribute('stroke-dashoffset', lens[i]); });
+  const texts = dr.texts.map((t) => ({ e: svgText(t.s, { x: t.x, y: t.y, class: t.c ?? 'lbl', 'text-anchor': t.anchor ?? 'start', opacity: 0 }, gDesign), at: t.at ?? 1 }));
+  const pen = svgEl('circle', { r: 2.2, class: 'pen', cx: -10, cy: -10 }, gDesign);
+  inst.design = (p) => {
+    const s = p * acc;
+    let on = -1;
+    paths.forEach((el, i) => {
+      const loc = clamp01((s - cum[i]) / lens[i]);
+      el.setAttribute('stroke-dashoffset', (lens[i] * (1 - loc)).toFixed(1));
+      if (loc > 0 && loc < 1) on = i;
+    });
+    for (const t of texts) t.e.setAttribute('opacity', p >= t.at ? 1 : 0);
+    if (on >= 0 && p < 1) { const q = paths[on].getPointAtLength(s - cum[on]); pen.setAttribute('cx', q.x.toFixed(1)); pen.setAttribute('cy', q.y.toFixed(1)); }
+    else pen.setAttribute('cx', -10);
+  };
+  inst.sim = SIM[sc.sim.kind](gSim, sc);
+  inst.build = programInst(gBuild, sc.program);
+}
+
+function stageAt(l) {
+  let a = 0;
+  for (let i = 0; i < STAGES.length; i++) {
+    if (l < a + STAGES[i].dur || i === STAGES.length - 1) return { i, key: STAGES[i].key, p: clamp01((l - a) / STAGES[i].dur) };
+    a += STAGES[i].dur;
+  }
+}
+
+function frame(t) {
+  const k = Math.floor(t / SCENE_T), si = ((k % scenes.length) + scenes.length) % scenes.length, l = t - k * SCENE_T;
+  const sc = scenes[si];
+  if (sc !== cur) show(sc);
+  const { i: stIdx, key: st, p } = stageAt(l);
+
+  let reveal = 1.02, sim = 1, simA = 0, scan = 0, pointA = 0, testVis = 0, buildVis = 0, chartA = 0, chartP = 0, shade = 1, scanBar = 0;
+  switch (st) {
+    case 'design': reveal = 1.02 * ease(p); shade = smooth(0.3, 1, p); break;
+    case 'simulate': sim = ease(p); simA = 1; break;
+    case 'build': simA = 1 - smooth(0, 0.2, p); buildVis = smooth(0, 0.1, p) * (1 - smooth(0.93, 1, p)); break;
+    case 'test':
+      testVis = smooth(0, 0.12, p); scan = 1.02 * smooth(0.02, 0.6, p); pointA = smooth(0, 0.08, p);
+      scanBar = smooth(0, 0.05, p) * (1 - smooth(0.55, 0.62, p));
+      chartA = smooth(0.04, 0.14, p); chartP = smooth(0.12, 0.88, p); break;
+    case 'feedback':
+      reveal = 1.02 * (1 - ease(p)); scan = 1.02; pointA = 1 - smooth(0, 0.45, p); testVis = 1 - smooth(0, 0.35, p);
+      chartA = 1 - smooth(0, 0.4, p); chartP = 1; shade = 1 - smooth(0, 0.6, p); break;
+  }
+  U.uReveal.value = reveal; U.uSim.value = sim; U.uSimA.value = simA;
+  U.uScan.value = scan; U.uPointA.value = pointA; U.uShade.value = 0.07 * shade;
+  for (const part of sc.parts) part.own.uVis.value = part.show === 'build' ? buildVis : part.show === 'test' ? testVis : 1;
+  sc.update(l, st, p, t, { buildVis, testVis });
+  sc.pivot.rotation.y = sc.spin0 + l * sc.yaw;
+
+  // the part sits in the right part of the view, clear of the instrument column
+  const fovV = camera.fov * DEG, fovH = 2 * Math.atan(Math.tan(fovV / 2) * camera.aspect);
+  const D = 1.04 / Math.sin(Math.min(fovV, fovH) / 2);
+  const narrow = canvas.clientWidth < 520;
+  const xoff = narrow ? 0 : 0.44 * D * Math.tan(fovH / 2);
+  camera.position.set(0, D * Math.sin(sc.elev), D * Math.cos(sc.elev));
+  camera.lookAt(-xoff, 0.04, 0);
+  scene.updateMatrixWorld();
+
+  for (const part of sc.parts) {
+    if (part.own.uVis.value <= 0) continue;
+    updateSilhouette(part, part.mesh.worldToLocal(camera.position.clone()), reveal);
+  }
+  sc.scanbar.position.x = sc.bb.min.x + sc.size.x * clamp01(scan);
+  sc.scanbar.material.opacity = 0.75 * scanBar;
+
+  // instruments and chart
+  const dA = st === 'design' ? 1 : st === 'simulate' ? 1 - smooth(0, 0.2, p) : 0;
+  const sA = st === 'simulate' ? smooth(0, 0.2, p) : st === 'build' ? 1 - smooth(0, 0.15, p) : 0;
+  const bA = st === 'build' ? smooth(0, 0.15, p) : st === 'test' ? 1 - smooth(0, 0.1, p) : 0;
+  gDesign.style.opacity = dA.toFixed(3); gSim.style.opacity = sA.toFixed(3); gBuild.style.opacity = bA.toFixed(3);
+  const title = dA > 0.5 ? sc.titles.design : sA > 0.5 ? sc.titles.simulate : bA > 0.5 ? sc.titles.build : '';
+  if (instTitle.textContent !== title.toUpperCase()) instTitle.textContent = title.toUpperCase();
+  instTitle.style.opacity = Math.max(dA, sA, bA).toFixed(3);
+  if (st === 'design') inst.design(p); else if (st === 'simulate') { inst.design(1); inst.sim(p, t); } else if (st === 'build') { inst.sim(1, t); inst.build(p); } else if (st === 'test') inst.build(1);
+
+  chartEl.style.opacity = chartA.toFixed(3);
+  const c = sc.chart, x = c.xr[0] + (c.xr[1] - c.xr[0]) * chartP;
+  chart.clip.setAttribute('width', (PX0 + (PX1 - PX0) * chartP).toFixed(1));
+  chart.dot.setAttribute('cx', (PX0 + (PX1 - PX0) * chartP).toFixed(1));
+  chart.dot.setAttribute('cy', plotY(c.meas, x).toFixed(1));
+  chart.readout.style.opacity = smooth(0.8, 1, chartP).toFixed(3);
+
+  stripItems.forEach((el, i) => {
+    el.classList.toggle('on', i === stIdx);
+    el.classList.toggle('done', i < stIdx);
+    el.style.setProperty('--p', i === stIdx ? p.toFixed(3) : i < stIdx ? '1' : '0');
+  });
+  const showReward = st === 'feedback' || (st === 'test' && chartP > 0.85);
+  rewardEl.textContent = showReward ? sc.reward.toFixed(2) : '—';
+  rewardEl.classList.toggle('has', showReward);
+  for (const li of live) li.classList.toggle('on', li.dataset.k === st);
+
+  renderer.render(scene, camera);
+}
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  const pr = Math.min(devicePixelRatio || 1, 2);
+  renderer.setPixelRatio(pr);
+  renderer.setSize(w, h, false);
+  U.uPx.value = pr;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+const t0 = performance.now();
+const now = () => (FIXED_T ?? (performance.now() - t0) / 1000);
+new ResizeObserver(() => { resize(); placeInst(); if (FIXED_T !== null) frame(now()); }).observe(canvas);
+resize();
+if (FIXED_T !== null) frame(now());
+else renderer.setAnimationLoop(() => frame(now()));
 </script>
 </body>
 </html>

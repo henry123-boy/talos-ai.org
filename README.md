@@ -20,8 +20,15 @@ Talos 官网，单页静态网站，部署在自己的服务器上，由 nginx �
    以后改了网页，在服务器上更新仓库后再执行一次 `sudo deploy/deploy.sh` 即可。证书由 certbot 的定时任务自动续期。
 4. 服务器如果在中国大陆，网站必须先做 ICP 备案才能用 80/443 端口访问。选香港或海外的服务器就不需要备案。
 
+## 首屏动画
+首屏右侧是一条环境的运行记录：一个 agent 的设计（FPGA 载板、涡轮级、六轴机械臂轮播）依次经过 Design、Simulate、Manufacture、Test，最后落到 reward。左栏按阶段切换：工程图纸、仿真图（眼图、叶栅流线、关节力矩）、设备程序（贴片、G 代码、装配）、测试曲线。全部由 `index.html` 里的脚本用 three.js 和 SVG 现场生成，不加载任何图片。
+- 任务 brief、工具、verifier、工位编号、程序行、曲线和 reward 数值都是示意的占位内容，等有了真实任务和工厂再替换。
+- 调试：在地址后加 `?t=秒数` 可以把动画定格在某一刻（每个环境 18.4 秒，三个环境共 55.2 秒）。
+- three.js 自托管在 `vendor/three/`（r170，MIT），不依赖 CDN。
+
 ## 文件说明
 - `index.html`：首页，样式和脚本都写在里面
+- `vendor/three/`：首屏动画用的 three.js 及其两个 addon
 - `workflows/`：Workflows 子页（/workflows/），介绍我们的开发流程和三个工具。`index.html` 是总览，`claude-x/`、`talos-sky/`、`easy-harbor/` 各是一个工具的子页；四个页面共用 `workflows.css` 和 `workflows.js`（分步动画图）。新增页面或文件时，记得同时加进 `deploy/deploy.sh` 的文件清单
 - `favicon.*`、`apple-touch-icon.png`、`icon-*.png`、`site.webmanifest`：网站图标，来自 `talos-brand/web/`
 - `og-image.png`：在微信、Slack、X 里分享链接时显示的预览图
