@@ -12,9 +12,9 @@ AVAILABLE="/etc/nginx/sites-available/talos-ai.org.conf"
 ENABLED="/etc/nginx/sites-enabled/talos-ai.org.conf"
 
 install -d -o root -g root -m 0755 "$WEBROOT" "$WEBROOT/fonts" "$WEBROOT/workflows" \
-  "$WEBROOT/workflows/claude-x" "$WEBROOT/workflows/talos-sky" "$WEBROOT/workflows/easy-harbor" \
+  "$WEBROOT/workflows/claude-x" "$WEBROOT/workflows/talos-sky" "$WEBROOT/workflows/easy-harbor" "$WEBROOT/environments" \
   "$WEBROOT/vendor/three/addons/utils" "$WEBROOT/vendor/three/addons/math"
-for item in index.html workflows/index.html workflows/workflows.css workflows/workflows.js \
+for item in index.html environments/index.html workflows/index.html workflows/workflows.css workflows/workflows.js \
   workflows/claude-x/index.html workflows/talos-sky/index.html workflows/easy-harbor/index.html \
   vendor/three/three.module.min.js vendor/three/addons/utils/BufferGeometryUtils.js \
   vendor/three/addons/math/MeshSurfaceSampler.js vendor/three/LICENSE \

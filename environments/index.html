@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="RL environments, trajectories and evals for agents in engineering, manufacturing and science. Every task has a brief, a sandbox with the tools of the trade, and a verifier the agent never sees: a solver, or a test rig in our own factory.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0E0F11">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Environments · Talos">
+<meta property="og:description" content="RL environments, trajectories and evals for agents that design, build and test, graded by solvers and by our own factory.">
+<meta property="og:url" content="https://talos-ai.org/environments/">
+<meta property="og:image" content="https://talos-ai.org/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>Environments · Talos</title>
+<link rel="preload" href="/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/workflows/workflows.css">
+<style>
+/* this page reuses the Workflows stylesheet; only the buttons and the stage list are its own */
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.btn {
+  display: inline-flex; align-items: stretch; border-radius: 3px; text-decoration: none;
+  background: var(--paper); color: var(--ink);
+  font: 13px/1 var(--code); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.btn span { display: flex; align-items: center; gap: 10px; padding: 16px 18px; }
+.btn .arr { padding-inline: 16px; border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); }
+.btn.factory { background: transparent; color: var(--paper); box-shadow: inset 0 0 0 1px color-mix(in srgb, #D98A4C 70%, transparent); }
+.btn.factory .arr { border-left-color: color-mix(in srgb, #D98A4C 45%, transparent); }
+.btn.factory i { width: 7px; height: 7px; background: #D98A4C; border-radius: 1px; }
+.btn:hover .arr { opacity: 0.75; }
+.stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px 28px; margin: 0; padding: 0; list-style: none; }
+.stages li { min-width: 0; padding-top: 14px; border-top: 1px solid var(--rule); }
+.stages .n { display: block; color: var(--muted); font: 12.5px/1 var(--code); letter-spacing: 0.04em; }
+.stages .real .n { color: #D98A4C; }
+.stages b { display: block; margin-top: 12px; color: var(--paper); font-size: 18px; font-weight: 600; font-stretch: 105%; }
+.stages span:last-child { display: block; margin-top: 6px; font-size: 15px; line-height: 1.55; }
+.files { margin: 0; }
+.files div { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 0 24px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.files dt { color: var(--paper); font: 14px/1.6 var(--code); }
+.files dd { margin: 0; font-size: 16px; }
+@media (max-width: 900px) { .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .files div { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+</head>
+<body>
+<header class="wrap" id="top">
+  <div class="site">
+    <a class="brand" href="/" aria-label="Talos home">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path class="arc" d="M65.56 34.44A22 22 0 1 1 34.44 34.44"></path>
+        <path class="arc" d="M58.28 80.91A32 32 0 1 1 80.91 41.72"></path>
+        <path class="arc" d="M9.43 39.13A42 42 0 1 1 39.13 90.57"></path>
+        <circle class="core" cx="50" cy="50" r="9"></circle>
+      </svg>
+      <span>TALOS</span>
+    </a>
+    <nav aria-label="Site">
+      <a href="/environments/" aria-current="page">Environments</a>
+      <a href="/workflows/">Workflows</a>
+      <a href="/#careers">Careers</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+<div class="hero">
+  <p class="kicker">Environments</p>
+  <h1>Environments where agents design, build and test.</h1>
+  <p class="lead">Talos builds RL environments, trajectories and evals for teams training frontier agents on engineering, manufacturing and science. Every task has a brief written by an engineer, a sandbox with the tools of the trade, and a verifier the agent never sees: a solver in simulation, or a test rig in our own factory.</p>
+  <div class="actions">
+    <a class="btn" href="mailto:sales@talos-ai.org?subject=Data%20sample"><span>Get a sample</span><span class="arr" aria-hidden="true">→</span></a>
+    <a class="btn factory" href="mailto:sales@talos-ai.org?subject=Factory%20time"><span><i aria-hidden="true"></i>Book factory time</span><span class="arr" aria-hidden="true">→</span></a>
+  </div>
+</div>
+
+<section class="sec" aria-labelledby="build-h">
+  <h2 class="label" id="build-h">What we build</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Engineering</dt>
+        <dd>CAD and CAE tasks from real briefs: model the part, mesh it, run the solver, report the numbers or change the design. Graded by running the solver on what the agent submits and checking every requirement.</dd>
+      </div>
+      <div>
+        <dt>Manufacturing</dt>
+        <dd>Tasks where the agent's design is built in our factory, printed, machined or assembled, then measured on a test rig. The measurement is the reward.</dd>
+      </div>
+      <div>
+        <dt>Science</dt>
+        <dd>Research problems with simulated instruments and measurement budgets, from Hamiltonian learning to quantum error correction, scored against a private ground truth.</dd>
+      </div>
+      <div>
+        <dt>Trajectories</dt>
+        <dd>Complete agent runs on every task, from the first command to the final design, with the verifier's result attached.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="loop-h">
+  <h2 class="label" id="loop-h">One episode</h2>
+  <div class="content">
+    <p class="claim">The agent designs. The solver, or the factory, decides.</p>
+    <p>An episode runs the agent's design through the same loop an engineer would: draw it, simulate it, and where a solver is not enough, build it and test it. The verifier's result is the reward.</p>
+  </div>
+  <div class="wide">
+    <ol class="stages">
+      <li><span class="n">01 · in simulation</span><b>Design</b><span>The agent reads the brief and builds the part in CAD, or routes the board, or writes the simulation.</span></li>
+      <li><span class="n">02 · in simulation</span><b>Simulate</b><span>It runs the solver on its own design, FEA, CFD, a field solver or dynamics, and iterates before it submits.</span></li>
+      <li class="real"><span class="n">03 · in our factory</span><b>Manufacture</b><span>For factory tasks, the submitted design is printed, machined or assembled, from the agent's files.</span></li>
+      <li class="real"><span class="n">04 · in our factory</span><b>Test</b><span>The part goes on a rig: a dyno, a flying probe, a load frame, a spin rig. The measurement is compared with the brief.</span></li>
+      <li class="real"><span class="n">↺</span><b>Reward</b><span>A number from the verifier, never from an LLM judge, and never from the agent's own report.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="grade-h">
+  <h2 class="label" id="grade-h">How tasks are graded</h2>
+  <div class="content">
+    <ul class="points">
+      <li>Every task pins its environment and runs its verifier in a separate container without network access.</li>
+      <li>Simulation tasks: the agent's design goes through the solver and every requirement is checked, such as mass, stress, clearances, impedance.</li>
+      <li>Factory tasks: the measurement from the test rig is checked against the same requirements.</li>
+      <li>Science tasks: scored from evidence the verifier checks itself, such as instrument logs and measurement budgets.</li>
+      <li>No LLM judge anywhere in the grading.</li>
+      <li>The reference solution passes every verifier before a task ships.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="ship-h">
+  <h2 class="label" id="ship-h">What a task ships with</h2>
+  <div class="content">
+    <p>Tasks ship in the Harbor format, so they run in any harness that reads it. Trajectories ship as JSON.</p>
+    <dl class="files">
+      <div><dt>instruction.md</dt><dd>The brief: geometry, materials, loads, constraints, and the exact quantities to report.</dd></div>
+      <div><dt>task.toml</dt><dd>Name, domain, agent timeout, CPU, memory and storage limits, network off, verifier in its own environment.</dd></div>
+      <div><dt>environment/</dt><dd>The sandbox image: CAD and meshing tools, the solver, Python.</dd></div>
+      <div><dt>tests/</dt><dd>The verifier, what it grades and the tolerance on each value, with a mesh-convergence study behind the tolerances.</dd></div>
+      <div><dt>solution/</dt><dd>The reference solution and the solver deck that produced it.</dd></div>
+      <div><dt>trajectories/</dt><dd>Agent runs on the task, each with its verifier result.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="access-h">
+  <h2 class="label" id="access-h">Access</h2>
+  <div class="content">
+    <dl class="offer">
+      <div>
+        <dt>Evaluate</dt>
+        <dd>Run your model on a held-out set under the same conditions. Held-out tasks are never licensed for training. <a href="mailto:sales@talos-ai.org?subject=Evaluation">Ask about evaluation</a></dd>
+      </div>
+      <div>
+        <dt>Train</dt>
+        <dd>Environments and trajectories for post-training and RL, in the Harbor format. <a href="mailto:sales@talos-ai.org?subject=Data%20sample">Get a sample</a></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <span>© 2026 Talos</span>
+  <a href="/">talos-ai.org</a>
+</footer>
+</div>
+</body>
+</html>

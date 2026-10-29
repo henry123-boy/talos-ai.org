@@ -29,6 +29,7 @@ Talos 官网，单页静态网站，部署在自己的服务器上，由 nginx �
 ## 文件说明
 - `index.html`：首页，样式和脚本都写在里面
 - `vendor/three/`：首屏动画用的 three.js 及其两个 addon
+- `environments/`：产品页（/environments/）：四类数据、一个 episode 的流程、判分方式、任务包内容、Evaluate / Train 入口。样式复用 `workflows/workflows.css`
 - `workflows/`：Workflows 子页（/workflows/），介绍我们的开发流程和三个工具。`index.html` 是总览，`claude-x/`、`talos-sky/`、`easy-harbor/` 各是一个工具的子页；四个页面共用 `workflows.css` 和 `workflows.js`（分步动画图）。新增页面或文件时，记得同时加进 `deploy/deploy.sh` 的文件清单
 - `favicon.*`、`apple-touch-icon.png`、`icon-*.png`、`site.webmanifest`：网站图标，来自 `talos-brand/web/`
 - `og-image.png`：在微信、Slack、X 里分享链接时显示的预览图
