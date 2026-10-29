@@ -32,6 +32,6 @@ Talos 官网，单页静态网站，部署在自己的服务器上，由 nginx �
 - `workflows/`：Workflows 子页（/workflows/），介绍我们的开发流程和三个工具。`index.html` 是总览，`claude-x/`、`talos-sky/`、`easy-harbor/` 各是一个工具的子页；四个页面共用 `workflows.css` 和 `workflows.js`（分步动画图）。新增页面或文件时，记得同时加进 `deploy/deploy.sh` 的文件清单
 - `favicon.*`、`apple-touch-icon.png`、`icon-*.png`、`site.webmanifest`：网站图标，来自 `talos-brand/web/`
 - `og-image.png`：在微信、Slack、X 里分享链接时显示的预览图
-- `fonts/`：Archivo 字体（自托管，不依赖 Google Fonts）及其 OFL 许可
-- `deploy/`：部署脚本和 nginx 配置
+- `fonts/`：Archivo 字体（自托管，不依赖 Google Fonts）及其 OFL 许可。网页用 `archivo-variable.woff2`（189 KB）；`.ttf` 是源文件，不部署
+- `deploy/`：部署脚本和 nginx 配置。`gzip.conf` 装到 `/etc/nginx/conf.d/`，给 JS/CSS 开压缩；站点配置里给字体、脚本和图片加了一周缓存
 - `CNAME`：只在用 GitHub Pages 时才需要，部署到自己的服务器时可以忽略

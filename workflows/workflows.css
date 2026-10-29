@@ -4,7 +4,7 @@
   font-weight: 100 900;
   font-stretch: 100% 125%;
   font-display: swap;
-  src: url("/fonts/archivo-variable.ttf") format("truetype");
+  src: url("/fonts/archivo-variable.woff2") format("woff2");
 }
 /* Workflows: an overview page and one page per tool, on the home page's spec sheet.
    Diagrams are boxes and wires laid out with CSS grid, so they stack into one column on phones.

@@ -21,12 +21,13 @@ for item in index.html workflows/index.html workflows/workflows.css workflows/wo
   favicon.ico favicon.svg apple-touch-icon.png icon-192.png icon-512.png og-image.png site.webmanifest; do
   install -o root -g root -m 0644 "$SITE_DIR/$item" "$WEBROOT/$item"
 done
-install -o root -g root -m 0644 "$SITE_DIR/fonts/archivo-variable.ttf" "$WEBROOT/fonts/archivo-variable.ttf"
+install -o root -g root -m 0644 "$SITE_DIR/fonts/archivo-variable.woff2" "$WEBROOT/fonts/archivo-variable.woff2"
 install -o root -g root -m 0644 "$SITE_DIR/fonts/OFL.txt" "$WEBROOT/fonts/OFL.txt"
 
 if [[ -e "$AVAILABLE" && ! -L "$AVAILABLE" ]]; then
   cp -a "$AVAILABLE" "$AVAILABLE.bak.$(date -u +%Y%m%dT%H%M%SZ)"
 fi
+install -o root -g root -m 0644 "$(dirname -- "$0")/gzip.conf" /etc/nginx/conf.d/talos-gzip.conf
 install -o root -g root -m 0644 "$(dirname -- "$0")/talos-ai.org.nginx.conf" "$AVAILABLE"
 ln -sfn "$AVAILABLE" "$ENABLED"
 

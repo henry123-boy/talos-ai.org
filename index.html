@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://talos-ai.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>Talos · RL environments for the physical world</title>
-<link rel="preload" href="/fonts/archivo-variable.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 <!-- the import map must precede any module load, modulepreload included -->
 <script type="importmap">{"imports":{"three":"/vendor/three/three.module.min.js","three/addons/":"/vendor/three/addons/"}}</script>
 <link rel="modulepreload" href="/vendor/three/three.module.min.js">
@@ -30,7 +30,7 @@
   font-weight: 100 900;
   font-stretch: 100% 125%;
   font-display: swap;
-  src: url("/fonts/archivo-variable.ttf") format("truetype");
+  src: url("/fonts/archivo-variable.woff2") format("woff2");
 }
 /* Layout: a quiet spec sheet. Small labels in a narrow left column, content on the right, hairlines between sections.
    The first screen is the hero: one environment running through design, simulation, manufacture and test. One typeface; bronze for links and for what the factory measured. */
@@ -1632,8 +1632,10 @@ function resize() {
   camera.updateProjectionMatrix();
 }
 
+// the page opens on the turbine's CFD, the strongest frame; the loop runs on from there
+const T0 = SCENE_T + START.simulate + 0.3;
 const t0 = performance.now();
-const now = () => (FIXED_T ?? (performance.now() - t0) / 1000);
+const now = () => (FIXED_T ?? T0 + (performance.now() - t0) / 1000);
 new ResizeObserver(() => { resize(); placeInst(); if (FIXED_T !== null) frame(now()); }).observe(canvas);
 resize();
 if (FIXED_T !== null) frame(now());
