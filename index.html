@@ -67,35 +67,13 @@ a:hover { text-decoration-thickness: 2px; }
 .wrap { max-width: 1120px; margin-inline: auto; }
 
 
-.sec {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-  gap: 16px 48px;
-  padding-block: clamp(48px, 7vw, 88px);
-  border-top: 1px solid var(--rule);
+.foot {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 18px 22px;
+  border-top: 1px solid var(--rule); color: var(--muted); font: 12.5px/1.4 var(--code); letter-spacing: 0.05em; text-transform: uppercase;
 }
-.label { margin: 0; color: var(--muted); font-size: 14px; font-weight: 400; letter-spacing: 0.02em; }
-.content { min-width: 0; }
-.content > p { margin: 0; max-width: 40em; }
-.content > p + p { margin-top: 16px; }
-
-.offer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 40px; margin: 0; }
-.offer div { min-width: 0; }
-.offer dt { color: var(--paper); font-size: 18px; font-weight: 600; font-stretch: 105%; }
-.offer dd { margin: 8px 0 0; }
-
-.email { font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; font-stretch: 105%; overflow-wrap: anywhere; }
-
-.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 32px 48px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 14px; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .foot a { color: var(--muted); text-decoration: none; }
 .foot a:hover { color: var(--paper); }
-
-@media (max-width: 900px) {
-  .offer { grid-template-columns: minmax(0, 1fr); max-width: 40em; }
-}
-@media (max-width: 760px) {
-  .sec { grid-template-columns: minmax(0, 1fr); }
-}
 
 /* first screen */
 :root {
@@ -226,32 +204,14 @@ h1 {
 .loop .done::after { opacity: 0.3; }
 .loop .rv.has { color: var(--hot); }
 
-/* the factory, as a supporting line under the product */
-.fband {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center;
-  gap: 12px clamp(20px, 3vw, 48px); padding: 16px 0 22px; border-top: 1px solid var(--rule);
-  font-size: 14px; line-height: 1.5;
-}
-.flabel { font: 11.5px/1.4 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--hot); }
-.fband p { margin: 0; max-width: 46em; }
-.live {
-  display: flex; gap: 22px; margin: 0; padding: 0; list-style: none; white-space: nowrap;
-  font: 11.5px/1.4 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted);
-}
-.live i { display: inline-block; width: 7px; height: 7px; margin-right: 9px; vertical-align: 1px; border: 1px solid var(--muted); border-radius: 1px; }
-.live .on { color: var(--line); }
-.live .on i { background: var(--hot); border-color: var(--hot); }
-.flink { font: 12.5px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--line); text-decoration: none; white-space: nowrap; }
-.fband, .fband p { color: var(--text); }
-.flink:hover { color: var(--hot); }
-
 .no-webgl canvas, .no-webgl .chart, .no-webgl .inst { display: none; }
 
 @media (max-width: 980px) {
-  .hero { grid-template-columns: 1fr; align-items: start; }
-  .stage { height: clamp(420px, 64vh, 620px); }
-  .fband { grid-template-columns: auto minmax(0, 1fr); }
-  .live, .flink { grid-column: 2; }
+  .hero { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  /* the stage keeps its desktop layout at 760 × 540 and is scaled to the width available (see fitStage);
+     the wrapper must not let the unscaled width widen the page */
+  .stage-wrap { position: relative; width: 100%; overflow: hidden; }
+  .stage { width: 760px; height: 540px; transform-origin: 0 0; }
 }
 @media (max-width: 760px) {
   .top nav a:not(.cta) { display: none; }
@@ -259,14 +219,7 @@ h1 {
 @media (max-width: 560px) {
   h1 { font-size: clamp(30px, 8.6vw, 38px); }
   .top nav { gap: 16px; }
-  .loop { grid-template-columns: 1fr 1fr; }
-  .loop .grp:last-child { display: none; }
-  .loop { gap: 14px; }
-  .loop ol { gap: 10px; }
-  .loop li { font-size: 11.5px; letter-spacing: 0.04em; }
-  .chart, .inst { display: none; }
-  .spec { max-width: 70%; }
-  .live { display: none; }
+  .foot { justify-content: flex-start; }
 }
 @media (prefers-reduced-motion: reduce) {
   .btn.factory i { animation: none; }
@@ -289,8 +242,8 @@ h1 {
   <nav aria-label="Main">
     <a href="/environments/">Environments</a>
     <a href="/workflows/">Workflows</a>
-    <a href="#careers">Careers</a>
-    <a class="cta" href="#contact">Contact</a>
+    <a href="mailto:career@talos-ai.org?subject=Careers">Careers</a>
+    <a class="cta" href="mailto:sales@talos-ai.org">Contact</a>
   </nav>
 </header>
 
@@ -305,6 +258,7 @@ h1 {
       </div>
     </div>
 
+    <div class="stage-wrap">
     <div class="stage" role="img" aria-label="One environment at a time: an FPGA carrier board, an axial turbine stage and a six-axis robot arm. The agent's design is drawn, simulated, manufactured in our factory and tested, and the measured result becomes the reward.">
       <div class="stage-head" aria-hidden="true"><span class="id">talos/ee/ddr3-carrier-07</span><span class="dom">Electrical</span></div>
       <div class="view">
@@ -352,47 +306,18 @@ h1 {
         </div>
       </div>
     </div>
+    </div>
   </section>
 
-  <section class="fband" id="factory" aria-label="Our factory">
-    <span class="flabel">Our factory</span>
-    <p>Most tasks are graded by solvers. Where a solver is not enough, our factory builds the agent's design and measures it, and the measurement is the reward.</p>
-    <ul class="live" aria-hidden="true">
-      <li data-k="build"><i></i><span></span></li>
-      <li data-k="test"><i></i><span></span></li>
-    </ul>
-    <a class="flink" href="mailto:sales@talos-ai.org?subject=Factory">Talk to the factory team →</a>
-  </section>
-</div>
-
-<div class="wrap">
-<main>
-<section class="sec" id="environments" aria-labelledby="env-h">
-  <h2 class="label" id="env-h">Environments</h2>
-  <div class="content">
-    <p>RL environments, trajectories and evals for engineering, manufacturing and science. Each task comes with a brief, a sandbox with the tools of the trade, and a verifier the agent never sees. <a href="/environments/">See the environments</a></p>
-  </div>
-</section>
-
-<section class="sec" id="careers" aria-labelledby="careers-h">
-  <h2 class="label" id="careers-h">Careers</h2>
-  <div class="content">
-    <p>We work with senior mechanical, electrical and aerospace engineers and computational scientists to write tasks that today's agents cannot solve. Send your GitHub to <a href="mailto:career@talos-ai.org?subject=Careers">career@talos-ai.org</a>.</p>
-  </div>
-</section>
-
-<section class="sec" id="contact" aria-labelledby="contact-h">
-  <h2 class="label" id="contact-h">Contact</h2>
-  <div class="content">
-    <a class="email" href="mailto:sales@talos-ai.org">sales@talos-ai.org</a>
-  </div>
-</section>
-</main>
-
-<footer class="foot">
-  <span>© 2026 Talos</span>
-  <a href="#top">talos-ai.org</a>
-</footer>
+  <footer class="foot">
+    <span>© 2026 Talos</span>
+    <nav aria-label="Footer">
+      <a href="/environments/">Environments</a>
+      <a href="/workflows/">Workflows</a>
+      <a href="mailto:career@talos-ai.org?subject=Careers">Careers</a>
+      <a href="mailto:sales@talos-ai.org">sales@talos-ai.org</a>
+    </nav>
+  </footer>
 </div>
 
 <script type="module">
@@ -1444,7 +1369,7 @@ for (const sc of scenes) { sc.pivot.visible = false; scene.add(sc.pivot); }
 const head = { id: stage.querySelector('.stage-head .id'), dom: stage.querySelector('.stage-head .dom') };
 const spec = { brief: stage.querySelector('.spec .brief'), tools: stage.querySelector('.spec .tools'), verifier: stage.querySelector('.spec .verifier') };
 const rewardEl = stage.querySelector('.loop .rv');
-const live = [...document.querySelectorAll('.fband .live li')];
+const live = [];
 const instEl = stage.querySelector('.inst');
 const instTitle = instEl.querySelector('.it');
 const gDesign = instEl.querySelector('.g-design'), gSim = instEl.querySelector('.g-sim'), gBuild = instEl.querySelector('.g-build');
@@ -1614,7 +1539,20 @@ function resize() {
 const T0 = SCENE_T + START.simulate + 0.3;
 const t0 = performance.now();
 const now = () => (FIXED_T ?? T0 + (performance.now() - t0) / 1000);
-new ResizeObserver(() => { resize(); placeInst(); if (FIXED_T !== null) frame(now()); }).observe(canvas);
+const stageWrap = document.querySelector('.stage-wrap');
+function fitStage() {
+  if (matchMedia('(max-width: 980px)').matches) {
+    const k = stageWrap.clientWidth / 760;
+    stage.style.transform = `scale(${k.toFixed(4)})`;
+    stageWrap.style.height = Math.round(540 * k) + 'px';
+  } else {
+    stage.style.transform = '';
+    stageWrap.style.height = '';
+  }
+}
+fitStage();
+new ResizeObserver(() => { fitStage(); resize(); placeInst(); if (FIXED_T !== null) frame(now()); }).observe(canvas);
+new ResizeObserver(fitStage).observe(stageWrap);
 resize();
 if (FIXED_T !== null) frame(now());
 else renderer.setAnimationLoop(() => frame(now()));
